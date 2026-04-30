@@ -75,7 +75,7 @@ export default function PaymentChannels() {
             href="/checkout"
             className="inline-block bg-[#eab308] text-black font-bold text-base py-4 px-12 rounded-full hover:bg-yellow-400 hover:scale-[1.03] active:scale-[0.98] transition-all duration-200 shadow-[0_4px_20px_rgba(234,179,8,0.25)]"
           >
-            สมัครเรียนเลย — 4,900 บาท
+            สมัครเรียนเลย — 5,900 บาท
           </a>
           <p className="text-[#6b6b6b] text-sm mt-4">เลือกช่องทางชำระได้ในขั้นตอนถัดไป</p>
         </div>

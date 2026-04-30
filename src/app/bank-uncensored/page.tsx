@@ -359,7 +359,7 @@ export default function BankUncensoredPage() {
           {/* Mid CTA */}
           <div className="w-full bg-black py-8 text-center">
             <a href="#pricing" className="inline-flex items-center gap-3 bg-[#00B900] hover:bg-[#00d100] text-white font-bold py-4 px-10 rounded-full text-lg transition-all hover:scale-105 shadow-lg animate-glass-shine relative overflow-hidden">
-              <span className="relative z-10 flex items-center gap-2">สมัครเลย Insider Price 4,900.- <img src="/images/LINE.webp" alt="LINE" className="w-6 h-6" /></span>
+              <span className="relative z-10 flex items-center gap-2">สมัครเลย Early Bird 5,900.- <img src="/images/LINE.webp" alt="LINE" className="w-6 h-6" /></span>
             </a>
           </div>
         </div>
@@ -607,33 +607,22 @@ export default function BankUncensoredPage() {
             <p className="text-gray-400 text-lg">ยิ่งตัดสินใจเร็ว ยิ่งได้ราคาพิเศษกว่า</p>
           </div>
           {/* Pricing Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-14">
-            {/* Insider */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-14">
+            {/* Early Bird — ตัวเด่น */}
             <div className="bg-zinc-900 border-2 border-yellow-500/50 rounded-2xl p-6 text-center relative shadow-[0_0_30px_-10px_rgba(250,204,21,0.3)] lg:col-span-2">
-              <div className="absolute -top-4 inset-x-0 flex justify-center"><span className="bg-yellow-500 text-black font-bold py-1.5 px-6 rounded-full text-sm tracking-wide uppercase shadow-[0_4px_10px_rgba(234,179,8,0.4)]">&#x2605; Insider Price 30 คนแรกเท่านั้น &#x2605;</span></div>
+              <div className="absolute -top-4 inset-x-0 flex justify-center"><span className="bg-yellow-500 text-black font-bold py-1.5 px-6 rounded-full text-sm tracking-wide uppercase shadow-[0_4px_10px_rgba(234,179,8,0.4)]">&#x2605; Early Bird ราคาพิเศษ &#x2605;</span></div>
               <div className="mt-6 bg-black/60 rounded-xl p-5 border border-zinc-800">
-                <p className="text-gray-400 mb-1">30 คนแรกที่ติดตาม</p>
-                <p className="text-5xl font-black text-yellow-400 tracking-tight">4,900</p>
+                <p className="text-gray-400 mb-1">ราคาพิเศษช่วงนี้เท่านั้น</p>
+                <p className="text-5xl font-black text-yellow-400 tracking-tight">5,900</p>
                 <p className="text-gray-400 text-base mt-1">บาท</p>
                 <p className="text-gray-600 text-sm line-through mt-2">ราคาเต็ม 15,900 บาท</p>
               </div>
-              <a href="https://page.line.me/591xftzn?openQrModal=true" target="_blank" rel="noopener noreferrer" className="mt-5 block w-full py-4 bg-[#00B900] hover:bg-[#00d100] text-white font-bold rounded-xl transition-all hover:scale-105 shadow-lg animate-glass-shine relative overflow-hidden">
+              <a href="/checkout" className="mt-5 block w-full py-4 bg-[#00B900] hover:bg-[#00d100] text-white font-bold rounded-xl transition-all hover:scale-105 shadow-lg animate-glass-shine relative overflow-hidden">
                 <span className="relative z-10 flex flex-col items-center gap-0.5">
-                  <span className="flex items-center gap-2 text-base md:text-lg">สมัครเลย Insider <img src="/images/LINE.webp" alt="LINE" className="w-5 h-5" /></span>
-                  <span className="text-white/80 text-xs font-normal">รับราคาพิเศษ 30 ท่านแรก | จากปกติ <span className="line-through">15,900</span></span>
+                  <span className="flex items-center gap-2 text-base md:text-lg">สมัครเลย Early Bird 5,900.-</span>
+                  <span className="text-white/80 text-xs font-normal">จากปกติ <span className="line-through">15,900</span></span>
                 </span>
               </a>
-            </div>
-            {/* Early Bird */}
-            <div className="bg-zinc-900 border border-zinc-700 rounded-2xl p-6 text-center relative">
-              <div className="absolute -top-4 inset-x-0 flex justify-center"><span className="bg-zinc-700 text-white font-bold py-1.5 px-4 rounded-full text-sm tracking-wide uppercase">Early Bird</span></div>
-              <div className="mt-6 bg-black/60 rounded-xl p-5 border border-zinc-800">
-                <p className="text-gray-400 text-sm mb-1">1-30 เม.ย. 2569</p>
-                <p className="text-4xl font-black text-white tracking-tight">5,900</p>
-                <p className="text-gray-400 text-sm mt-1">บาท</p>
-                <p className="text-gray-600 text-xs line-through mt-2">ราคาเต็ม 15,900 บาท</p>
-              </div>
-              <a href="https://page.line.me/591xftzn?openQrModal=true" target="_blank" rel="noopener noreferrer" className="mt-5 block w-full py-3 bg-zinc-700 hover:bg-zinc-600 text-white font-bold rounded-xl transition-all text-sm">สมัคร Early Bird</a>
             </div>
             {/* Regular */}
             <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 text-center opacity-70 relative">
@@ -657,7 +646,7 @@ export default function BankUncensoredPage() {
             <h3 className="text-xl md:text-2xl font-bold text-white mb-6 text-center">ราคาที่ต้องจ่ายถ้ายังเดาใจแบงก์</h3>
             <div className="rounded-2xl overflow-hidden border border-zinc-800">
               <div className="grid grid-cols-2 bg-zinc-900"><div className="p-4 border-b border-zinc-800"><p className="text-gray-400 font-medium text-sm">รายการ</p></div><div className="p-4 border-b border-l border-zinc-800"><p className="text-gray-400 font-medium text-sm">ค่าใช้จ่าย</p></div></div>
-              <div className="grid grid-cols-2 bg-zinc-900/50"><div className="p-4 border-b border-zinc-800"><p className="text-white text-sm font-medium">คอร์ส Bank Uncensored Online (Insider Price)</p></div><div className="p-4 border-b border-l border-zinc-800"><p className="text-yellow-400 font-bold text-sm">4,900 บาท</p></div></div>
+              <div className="grid grid-cols-2 bg-zinc-900/50"><div className="p-4 border-b border-zinc-800"><p className="text-white text-sm font-medium">คอร์ส Bank Uncensored Online (Insider Price)</p></div><div className="p-4 border-b border-l border-zinc-800"><p className="text-yellow-400 font-bold text-sm">5,900 บาท</p></div></div>
               <div className="grid grid-cols-2 bg-zinc-900/30"><div className="p-4 border-b border-zinc-800"><p className="text-gray-300 text-sm">ค่าเสียหายจากการกู้ไม่ผ่านสักรอบ</p></div><div className="p-4 border-b border-l border-zinc-800"><p className="text-red-400 font-medium text-sm">หลักแสน – ล้านบาท</p></div></div>
               <div className="grid grid-cols-2 bg-zinc-900/50"><div className="p-4 border-b border-zinc-800"><p className="text-gray-300 text-sm">ค่าดอกเบี้ยที่จ่ายแพงกว่าจำเป็น</p></div><div className="p-4 border-b border-l border-zinc-800"><p className="text-red-400 font-medium text-sm">หลักหมื่น – แสน/ปี</p></div></div>
               <div className="grid grid-cols-2 bg-zinc-900/30"><div className="p-4"><p className="text-gray-300 text-sm">เวลาที่เสียไปจากการยื่นแล้วโดนปฏิเสธ</p></div><div className="p-4 border-l border-zinc-800"><p className="text-red-400 font-medium text-sm">3-6 เดือน ที่ได้คืนไม่ได้</p></div></div>
@@ -749,7 +738,7 @@ export default function BankUncensoredPage() {
           </div>
           {/* Final CTA */}
           <a href="https://page.line.me/591xftzn?openQrModal=true" target="_blank" rel="noopener noreferrer" className="group relative inline-flex items-center justify-center gap-4 px-8 py-5 md:px-12 text-xl md:text-2xl font-bold rounded-full bg-[#00B900] text-white transition-all hover:scale-105 hover:bg-[#009b00] hover:shadow-[0_0_30px_-5px_rgba(0,185,0,0.5)] shadow-xl w-full sm:w-auto mb-4">
-            <span>สมัครเลย Insider Price 4,900 บาท</span>
+            <span>สมัครเลย Early Bird 5,900 บาท</span>
             <img src="/images/LINE.webp" alt="LINE" className="w-8 h-8 transition-transform group-hover:rotate-12 object-contain" />
           </a>
           <p className="text-gray-500 text-sm mb-12">30 คนแรกเท่านั้น | โปรโมชั่น 1-30 เมษายน 2569</p>
@@ -761,7 +750,7 @@ export default function BankUncensoredPage() {
               <p>แต่วินรู้แน่ๆ ว่า การกู้แล้วโดนปฏิเสธ มันเจ็บกว่า<br/><span className="text-gray-400">เจ็บที่เสียเวลา เจ็บที่เสียโอกาส เจ็บที่เริ่มสงสัยในตัวเอง</span></p>
             </div>
             <div className="border-l-4 border-yellow-500 pl-5 py-2 mb-5">
-              <p className="text-white font-semibold">4,900 บาท กับ 4 ชั่วโมง</p>
+              <p className="text-white font-semibold">5,900 บาท กับ 4 ชั่วโมง</p>
               <p className="text-gray-200 text-base mt-1">แลกกับการรู้ว่าธุรกิจคุณพร้อมแค่ไหน ก่อนเสียเวลายื่นจริง</p>
             </div>
             <p className="text-gray-400 text-base">วินจะรอเจอคุณในคลาสค่ะ</p>

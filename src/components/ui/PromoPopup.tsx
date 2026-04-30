@@ -56,17 +56,17 @@ export default function PromoPopup() {
           </div>
 
           <p className="text-yellow-400 text-sm font-semibold uppercase tracking-widest mb-3">
-            Insider Price
+            Early Bird
           </p>
 
           <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 leading-tight">
             ราคาพิเศษ<br />
-            <span className="text-yellow-400">30 ท่านแรก</span>เท่านั้น
+            <span className="text-yellow-400">Early Bird</span> เท่านั้น
           </h2>
 
           <div className="flex items-center justify-center gap-3 mb-4">
             <span className="text-gray-500 line-through text-lg">15,900.-</span>
-            <span className="text-yellow-400 text-4xl font-black">4,900.-</span>
+            <span className="text-yellow-400 text-4xl font-black">5,900.-</span>
           </div>
 
           <p className="text-gray-400 text-sm mb-6 leading-relaxed">

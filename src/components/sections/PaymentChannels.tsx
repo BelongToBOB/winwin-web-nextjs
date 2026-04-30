@@ -53,7 +53,7 @@ export default function PaymentChannels() {
             </div>
           </div>
 
-          {/* Installment */}
+          {/* Installment — ซ่อนไว้ก่อน
           <div className="bg-[#111111] border border-[#2a2a2a] rounded-2xl p-6 flex items-start gap-4">
             <div className="w-12 h-12 rounded-xl bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center flex-shrink-0">
               <svg className="w-6 h-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -65,6 +65,7 @@ export default function PaymentChannels() {
               <p className="text-[#6b6b6b] text-sm leading-relaxed">3, 6, 10 เดือน · KBank · KTC · SCB · กรุงศรี · First Choice</p>
             </div>
           </div>
+          */}
 
         </div>
 

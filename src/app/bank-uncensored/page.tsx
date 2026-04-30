@@ -3,6 +3,7 @@ import FAQAccordion from "@/components/ui/FAQAccordion";
 import PaymentChannels from "@/components/sections/PaymentChannels";
 import ContactCTA from "@/components/sections/ContactCTA";
 import HeroSlider from "@/components/ui/HeroSlider";
+import PromoPopup from "@/components/ui/PromoPopup";
 
 export const metadata: Metadata = {
   title: "Bank Uncensored Online — ความลับที่แบงก์ไม่เคยบอก | WinWin Wealth",
@@ -27,6 +28,7 @@ export default function BankUncensoredPage() {
 
   return (
     <main className="bg-black min-h-screen text-gray-50 flex flex-col selection:bg-yellow-400/30">
+      <PromoPopup />
 
       {/* ═══════════════════════════════════════════════════════ */}
       {/* S1: HeroSection */}

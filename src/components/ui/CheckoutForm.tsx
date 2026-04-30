@@ -198,7 +198,7 @@ export default function CheckoutForm({
   const VISIBLE_CHANNELS = new Set([
     "bank_qrcode", "creditcard",
     "payplus_kbank", "mobilebank_scb", "mobilebank_bay", "mobilebank_bbl",
-    "installment_kbank",
+    // "installment_kbank", // ผ่อนชำระ — เปิดทีหลัง
   ]);
 
   // Group channels

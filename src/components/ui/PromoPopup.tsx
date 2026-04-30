@@ -21,7 +21,7 @@ export default function PromoPopup() {
   const handleCTA = () => {
     setShow(false);
     localStorage.setItem("buc-promo-dismissed", "1");
-    document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth" });
+    document.querySelector(".payment-channels-section")?.scrollIntoView({ behavior: "smooth" });
   };
 
   if (!show) return null;
@@ -52,7 +52,7 @@ export default function PromoPopup() {
         {/* Content */}
         <div className="text-center">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-yellow-500/10 border border-yellow-500/30 mb-5">
-            <span className="text-3xl">🔥</span>
+            <span className="text-yellow-400 text-2xl font-black">★</span>
           </div>
 
           <p className="text-yellow-400 text-sm font-semibold uppercase tracking-widest mb-3">

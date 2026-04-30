@@ -1,6 +1,6 @@
 export default function PaymentChannels() {
   return (
-    <section className="w-full bg-[#0a0a0a] py-16 md:py-24 border-t border-yellow-500/10">
+    <section className="payment-channels-section w-full bg-[#0a0a0a] py-16 md:py-24 border-t border-yellow-500/10">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header */}

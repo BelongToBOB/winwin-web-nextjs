@@ -21,13 +21,13 @@ interface Props {
 const CHANNEL_LABELS: Record<string, { label: string; group: string }> = {
   bank_qrcode: { label: "QR PromptPay", group: "scan" },
   creditcard: { label: "บัตรเครดิต / เดบิต", group: "card" },
-  mobilebank_kplus: { label: "K PLUS", group: "mobile" },
+  payplus_kbank: { label: "K PLUS", group: "mobile" },
   mobilebank_scb: { label: "SCB Easy", group: "mobile" },
-  mobilebank_kma: { label: "KMA", group: "mobile" },
-  mobilebank_bualuang: { label: "Bualuang mBanking", group: "mobile" },
-  mobilebank_ktbnext: { label: "Krungthai NEXT", group: "mobile" },
+  mobilebank_bay: { label: "KMA", group: "mobile" },
+  mobilebank_bbl: { label: "Bualuang mBanking", group: "mobile" },
+  mobilebank_ktb: { label: "Krungthai NEXT", group: "mobile" },
   installment_kbank: { label: "KBank ผ่อนชำระ", group: "installment" },
-  installment_ktc: { label: "KTC ผ่อนชำระ", group: "installment" },
+  installment_ktc_flexi: { label: "KTC ผ่อนชำระ", group: "installment" },
   installment_scb: { label: "SCB ผ่อนชำระ", group: "installment" },
   installment_krungsri: { label: "กรุงศรี ผ่อนชำระ", group: "installment" },
   installment_firstchoice: { label: "First Choice ผ่อนชำระ", group: "installment" },
@@ -35,7 +35,7 @@ const CHANNEL_LABELS: Record<string, { label: string; group: string }> = {
 
 const INSTALLMENT_MONTHS: Record<string, number[]> = {
   installment_kbank: [3, 4, 6, 10],
-  installment_ktc: [3, 4, 6, 10],
+  installment_ktc_flexi: [3, 4, 6, 10],
   installment_scb: [3, 4, 6, 10],
   installment_krungsri: [3, 6, 9, 10],
   installment_firstchoice: [3, 6, 10, 12, 24, 36],
@@ -197,7 +197,7 @@ export default function CheckoutForm({
   // Channels shown in UI (subset — others kept in CHANNEL_LABELS for future use)
   const VISIBLE_CHANNELS = new Set([
     "bank_qrcode", "creditcard",
-    "mobilebank_kplus",
+    "payplus_kbank", "mobilebank_scb", "mobilebank_bay", "mobilebank_bbl",
     "installment_kbank",
   ]);
 

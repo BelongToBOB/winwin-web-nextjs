@@ -639,7 +639,7 @@ export default function BankUncensoredPage() {
           {/* Promotion Urgency */}
           <div className="bg-red-900/10 border border-red-500/20 rounded-2xl p-5 md:p-6 text-center mb-12">
             <p className="text-white font-bold text-lg">&#x26A1; PROMOTION: 1-30 เมษายน เท่านั้น</p>
-            <p className="text-gray-300 text-base mt-1">สิทธิพิเศษสำหรับ 30 ท่านแรกมีจำนวนจำกัด</p>
+            <p className="text-gray-300 text-base mt-1">สิทธิพิเศษมีจำนวนจำกัด</p>
           </div>
           {/* Cost Comparison */}
           <div className="max-w-3xl mx-auto mb-14">
@@ -741,7 +741,7 @@ export default function BankUncensoredPage() {
             <span>สมัครเลย Early Bird 5,900 บาท</span>
             <img src="/images/LINE.webp" alt="LINE" className="w-8 h-8 transition-transform group-hover:rotate-12 object-contain" />
           </a>
-          <p className="text-gray-500 text-sm mb-12">30 คนแรกเท่านั้น | โปรโมชั่น 1-30 เมษายน 2569</p>
+          <p className="text-gray-500 text-sm mb-12">ราคาพิเศษ Early Bird มีจำนวนจำกัด</p>
           {/* Personal Letter */}
           <div className="border border-zinc-800 rounded-2xl p-6 md:p-8 text-left max-w-2xl mx-auto mb-8 bg-zinc-900/40">
             <p className="text-yellow-400 text-sm font-bold uppercase tracking-widest mb-4">จากวินถึงคุณ</p>

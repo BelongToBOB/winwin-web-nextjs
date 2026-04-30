@@ -8,7 +8,7 @@ import PromoPopup from "@/components/ui/PromoPopup";
 export const metadata: Metadata = {
   title: "Bank Uncensored Online — ความลับที่แบงก์ไม่เคยบอก | WinWin Wealth",
   description:
-    "คลาสออนไลน์ 4 ชั่วโมง สอนโดยอดีต RM ธนาคาร 7 ปี เรียนจบ เช็คตัวเองได้ทันทีว่าพร้อมกู้แค่ไหน",
+    "คลาสออนไลน์ 3 ชั่วโมง สอนโดยอดีต RM ธนาคาร 7 ปี เรียนจบ เช็คตัวเองได้ทันทีว่าพร้อมกู้แค่ไหน",
 };
 
 export default function BankUncensoredPage() {
@@ -50,7 +50,7 @@ export default function BankUncensoredPage() {
               ในสายตาธนาคาร
             </h1>
             <p className="text-gray-300 text-lg leading-relaxed mb-3">
-              คลาสออนไลน์ 4 ชั่วโมง สอนโดยอดีต RM ธนาคารกสิกร 7 ปี<br className="hidden md:block" />
+              คลาสออนไลน์ 3 ชั่วโมง สอนโดยอดีต RM ธนาคารกสิกร 7 ปี<br className="hidden md:block" />
               ที่ปัจจุบันเป็นเจ้าของธุรกิจ ใช้สินเชื่อธนาคาร ลงทุนเป็นร้อยล้าน
             </p>
             <p className="text-gray-400 text-base">
@@ -223,7 +223,7 @@ export default function BankUncensoredPage() {
 
             {/* Course Intro */}
             <div className="border-l-4 border-yellow-500 pl-6 py-2">
-              <p className="text-xl md:text-2xl font-bold text-yellow-400 leading-snug mb-3">Bank Uncensored Online คลาส 4 ชั่วโมง ที่จะทำให้คุณเช็คตัวเองได้ ก่อนเดินเข้าธนาคาร</p>
+              <p className="text-xl md:text-2xl font-bold text-yellow-400 leading-snug mb-3">Bank Uncensored Online คลาส 3 ชั่วโมง ที่จะทำให้คุณเช็คตัวเองได้ ก่อนเดินเข้าธนาคาร</p>
               <p className="text-lg text-gray-300 leading-relaxed mb-2">ไม่ใช่คลาสสอน &quot;เคล็ดลับให้กู้ผ่าน&quot; เพราะไม่มีใครรับประกันได้</p>
               <p className="text-base text-gray-400 leading-relaxed">แต่เป็นคลาสที่จะทำให้คุณเข้าใจว่าธนาคารดูอะไร คิดอะไร และคุณอยู่ตรงไหนในสายตาเขา เรียนจบแล้ว คุณจะไม่ถามว่า &quot;กู้ได้ไหม&quot; อีกต่อไป คุณจะรู้ว่า &quot;ต้องทำอะไรต่อ ก่อนวันที่พร้อมจริงๆ&quot;</p>
             </div>
@@ -258,7 +258,7 @@ export default function BankUncensoredPage() {
             {/* Format info */}
             <div className="bg-zinc-900/80 border border-zinc-800 rounded-2xl p-6">
               <h4 className="text-lg md:text-xl font-bold text-white leading-tight mb-2">Zoom สด + วิดีโอบันทึก</h4>
-              <p className="text-sm md:text-base text-gray-400">4 PART / 12+ บทเรียน / ~4 ชั่วโมง</p>
+              <p className="text-sm md:text-base text-gray-400">4 PART / 12+ บทเรียน / ~3 ชั่วโมง</p>
               <p className="text-sm md:text-base text-gray-300 mt-1">&#x1F4C5; วันที่สด: <strong className="text-white">20 พ.ค. 69 / 19:00-21:00 น.</strong> &nbsp;|&nbsp; Recap Q&amp;A: <strong className="text-white">25 มิ.ย. 69</strong></p>
             </div>
           </div>
@@ -652,7 +652,7 @@ export default function BankUncensoredPage() {
               <div className="grid grid-cols-2 bg-zinc-900/30"><div className="p-4"><p className="text-gray-300 text-sm">เวลาที่เสียไปจากการยื่นแล้วโดนปฏิเสธ</p></div><div className="p-4 border-l border-zinc-800"><p className="text-red-400 font-medium text-sm">3-6 เดือน ที่ได้คืนไม่ได้</p></div></div>
             </div>
             <div className="mt-6 border-l-4 border-yellow-500 pl-6 py-2">
-              <p className="text-xl md:text-2xl font-bold text-yellow-400 leading-snug">คุณจะลงทุน 4 ชั่วโมง เพื่อเช็คตัวเองก่อน<br className="hidden sm:block" /> หรือจะเสียอีกปีเพื่อรู้ทีหลัง?</p>
+              <p className="text-xl md:text-2xl font-bold text-yellow-400 leading-snug">คุณจะลงทุน 3 ชั่วโมง เพื่อเช็คตัวเองก่อน<br className="hidden sm:block" /> หรือจะเสียอีกปีเพื่อรู้ทีหลัง?</p>
             </div>
           </div>
         </div>
@@ -695,7 +695,7 @@ export default function BankUncensoredPage() {
       {/* ═══════════════════════════════════════════════════════ */}
       <section className="w-full bg-[#0a0a0a] py-16 md:py-24 border-t border-yellow-500/10">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-6 leading-tight">4 ชั่วโมงนี้<br className="hidden sm:block"/>จะเปลี่ยนคำถามในหัวคุณไปตลอด</h2>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-6 leading-tight">3 ชั่วโมงนี้<br className="hidden sm:block"/>จะเปลี่ยนคำถามในหัวคุณไปตลอด</h2>
           <p className="text-gray-400 text-lg mb-10">ถ้าวันนี้คุณยังถามตัวเองว่า...<br/><span className="text-gray-300">&quot;ธุรกิจเรากู้ได้ไหม?&quot; &quot;เขาจะมองเรายังไง?&quot; &quot;เตรียมอะไรถึงจะพอ?&quot;</span></p>
           <p className="text-white font-bold text-lg mb-6">หลังจบคลาสนี้ คำถามเหล่านั้นจะหายไป</p>
           <div className="text-left space-y-4 mb-10 max-w-2xl mx-auto">
@@ -731,9 +731,9 @@ export default function BankUncensoredPage() {
       {/* ═══════════════════════════════════════════════════════ */}
       <section className="w-full bg-black py-16 md:py-24 border-t border-zinc-900">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-2xl md:text-3xl font-bold text-white mb-8 leading-relaxed">4 ชั่วโมงนี้ จะเปลี่ยนคำถามในหัวคุณไปตลอด</p>
+          <p className="text-2xl md:text-3xl font-bold text-white mb-8 leading-relaxed">3 ชั่วโมงนี้ จะเปลี่ยนคำถามในหัวคุณไปตลอด</p>
           <div className="max-w-2xl mx-auto mb-10">
-            <p className="text-xl md:text-2xl font-bold text-yellow-400 leading-snug">&quot;4 ชั่วโมง ที่จะทำให้คุณรู้ว่าพร้อมกู้หรือยัง ก่อนเดินเข้าธนาคาร&quot;</p>
+            <p className="text-xl md:text-2xl font-bold text-yellow-400 leading-snug">&quot;3 ชั่วโมง ที่จะทำให้คุณรู้ว่าพร้อมกู้หรือยัง ก่อนเดินเข้าธนาคาร&quot;</p>
             <p className="text-lg text-gray-300 leading-relaxed mt-4">&quot;จบแล้วจะไม่มีคำถามว่า &apos;กู้ได้ไหม&apos; จะมีแค่คำตอบว่า &apos;ต้องเตรียมอะไร&apos;&quot;</p>
           </div>
           {/* Final CTA */}
@@ -750,7 +750,7 @@ export default function BankUncensoredPage() {
               <p>แต่วินรู้แน่ๆ ว่า การกู้แล้วโดนปฏิเสธ มันเจ็บกว่า<br/><span className="text-gray-400">เจ็บที่เสียเวลา เจ็บที่เสียโอกาส เจ็บที่เริ่มสงสัยในตัวเอง</span></p>
             </div>
             <div className="border-l-4 border-yellow-500 pl-5 py-2 mb-5">
-              <p className="text-white font-semibold">5,900 บาท กับ 4 ชั่วโมง</p>
+              <p className="text-white font-semibold">5,900 บาท กับ 3 ชั่วโมง</p>
               <p className="text-gray-200 text-base mt-1">แลกกับการรู้ว่าธุรกิจคุณพร้อมแค่ไหน ก่อนเสียเวลายื่นจริง</p>
             </div>
             <p className="text-gray-400 text-base">วินจะรอเจอคุณในคลาสค่ะ</p>

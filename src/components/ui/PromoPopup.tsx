@@ -70,7 +70,7 @@ export default function PromoPopup() {
           </div>
 
           <p className="text-gray-400 text-sm mb-6 leading-relaxed">
-            คลาสออนไลน์ 4 ชั่วโมง<br />
+            คลาสออนไลน์ 3 ชั่วโมง<br />
             เช็คความพร้อมก่อนเดินเข้าธนาคาร
           </p>
 

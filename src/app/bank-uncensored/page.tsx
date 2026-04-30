@@ -638,7 +638,7 @@ export default function BankUncensoredPage() {
           </div>
           {/* Promotion Urgency */}
           <div className="bg-red-900/10 border border-red-500/20 rounded-2xl p-5 md:p-6 text-center mb-12">
-            <p className="text-white font-bold text-lg">&#x26A1; PROMOTION: 1-30 เมษายน เท่านั้น</p>
+            <p className="text-white font-bold text-lg">&#x26A1; PROMOTION: 1-12 พฤษภาคม เท่านั้น</p>
             <p className="text-gray-300 text-base mt-1">สิทธิพิเศษมีจำนวนจำกัด</p>
           </div>
           {/* Cost Comparison */}

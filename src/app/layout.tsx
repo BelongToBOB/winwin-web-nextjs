@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     siteName: "WinWin Wealth Creation",
   },
   icons: {
-    icon: "/favicon.svg",
+    icon: "/favicon.png",
   },
 };
 

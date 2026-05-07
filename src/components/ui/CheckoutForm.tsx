@@ -331,7 +331,6 @@ export default function CheckoutForm({
 
   const VISIBLE_CHANNELS = new Set([
     "bank_qrcode", "creditcard",
-    "payplus_kbank",
   ]);
 
   const grouped = GROUP_ORDER.map((group) => ({
@@ -423,10 +422,6 @@ export default function CheckoutForm({
                     <QRCodeSVG value={promptpayPayload} size={160} />
                   </div>
                   <div className="w-full space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-gray-500">ธนาคาร</span>
-                      <span className="text-white font-medium">{bankInfo.bankName}</span>
-                    </div>
                     <div className="flex justify-between">
                       <span className="text-gray-500">ชื่อบัญชี</span>
                       <span className="text-white font-medium">{bankInfo.accountName}</span>

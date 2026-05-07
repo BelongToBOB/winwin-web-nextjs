@@ -15,28 +15,19 @@ export default function PaymentChannels() {
           </div>
         </div>
 
-        {/* 4 Cards Grid */}
+        {/* Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
 
-          {/* PromptPay QR */}
+          {/* QR โอนเงิน */}
           <div className="bg-[#111111] border border-[#2a2a2a] rounded-2xl p-6 flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0">
-              <img src="/images/promptpay-icon.png" alt="PromptPay" className="w-full h-full object-cover" />
+            <div className="w-12 h-12 rounded-xl bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center flex-shrink-0">
+              <svg className="w-6 h-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+              </svg>
             </div>
             <div>
-              <p className="text-white font-semibold text-base mb-1">PromptPay QR</p>
-              <p className="text-[#6b6b6b] text-sm leading-relaxed">สแกนจ่ายผ่าน QR Code ทุกธนาคาร</p>
-            </div>
-          </div>
-
-          {/* Credit Card */}
-          <div className="bg-[#111111] border border-[#2a2a2a] rounded-2xl p-6 flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0">
-              <img src="/images/creditcard-icon.png" alt="Credit Card" className="w-full h-full object-cover" />
-            </div>
-            <div>
-              <p className="text-white font-semibold text-base mb-1">บัตรเครดิต / เดบิต</p>
-              <p className="text-[#6b6b6b] text-sm leading-relaxed">VISA · MasterCard · JCB</p>
+              <p className="text-white font-semibold text-base mb-1">QR โอนเงิน</p>
+              <p className="text-[#6b6b6b] text-sm leading-relaxed">สแกน QR โอนเข้าบัญชีบริษัทโดยตรง</p>
             </div>
           </div>
 
@@ -48,24 +39,21 @@ export default function PaymentChannels() {
               </svg>
             </div>
             <div>
-              <p className="text-white font-semibold text-base mb-1">Mobile Banking</p>
-              <p className="text-[#6b6b6b] text-sm leading-relaxed">K PLUS · SCB Easy · KMA · Bualuang · Krungthai NEXT</p>
+              <p className="text-white font-semibold text-base mb-1">K PLUS</p>
+              <p className="text-[#6b6b6b] text-sm leading-relaxed">ชำระผ่านแอป K PLUS ธนาคารกสิกรไทย</p>
             </div>
           </div>
 
-          {/* Installment — ซ่อนไว้ก่อน
-          <div className="bg-[#111111] border border-[#2a2a2a] rounded-2xl p-6 flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center flex-shrink-0">
-              <svg className="w-6 h-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
+          {/* Credit Card */}
+          <div className="bg-[#111111] border border-[#2a2a2a] rounded-2xl p-6 flex items-start gap-4 sm:col-span-2">
+            <div className="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0">
+              <img src="/images/creditcard-icon.png" alt="Credit Card" className="w-full h-full object-cover" />
             </div>
             <div>
-              <p className="text-white font-semibold text-base mb-1">ผ่อนชำระ 0%</p>
-              <p className="text-[#6b6b6b] text-sm leading-relaxed">3, 6, 10 เดือน · KBank · KTC · SCB · กรุงศรี · First Choice</p>
+              <p className="text-white font-semibold text-base mb-1">บัตรเครดิต / เดบิต</p>
+              <p className="text-[#6b6b6b] text-sm leading-relaxed">VISA · MasterCard · JCB</p>
             </div>
           </div>
-          */}
 
         </div>
 

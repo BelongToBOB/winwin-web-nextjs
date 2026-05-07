@@ -36,7 +36,7 @@ interface Props {
 }
 
 const CHANNEL_LABELS: Record<string, { label: string; group: string }> = {
-  bank_qrcode: { label: "QR PromptPay", group: "scan" },
+  bank_qrcode: { label: "QR โอนเงิน", group: "scan" },
   creditcard: { label: "บัตรเครดิต / เดบิต", group: "card" },
   payplus_kbank: { label: "K PLUS", group: "mobile" },
   mobilebank_scb: { label: "SCB Easy", group: "mobile" },
@@ -60,9 +60,9 @@ const INSTALLMENT_MONTHS: Record<string, number[]> = {
 
 const SLIP_CHANNELS = new Set(["bank_qrcode", "payplus_kbank"]);
 
-const GROUP_ORDER = ["scan", "card", "mobile", "installment"];
+const GROUP_ORDER = ["scan", "mobile", "installment", "card"];
 const GROUP_LABELS: Record<string, string> = {
-  scan: "QR Code",
+  scan: "QR โอนเงิน",
   card: "บัตรเครดิต",
   mobile: "Mobile Banking",
   installment: "ผ่อนชำระ",

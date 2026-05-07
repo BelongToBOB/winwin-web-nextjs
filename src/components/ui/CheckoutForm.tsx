@@ -36,7 +36,8 @@ interface Props {
 }
 
 const CHANNEL_LABELS: Record<string, { label: string; group: string }> = {
-  bank_qrcode: { label: "QR ชำระเงิน", group: "scan" },
+  bank_qrcode: { label: "QR ชำระเงิน", group: "transfer" },
+  bank_transfer: { label: "ชำระผ่านบัญชี", group: "transfer" },
   creditcard: { label: "บัตรเครดิต / เดบิต", group: "card" },
   payplus_kbank: { label: "K PLUS", group: "mobile" },
   mobilebank_scb: { label: "SCB Easy", group: "mobile" },
@@ -58,11 +59,11 @@ const INSTALLMENT_MONTHS: Record<string, number[]> = {
   installment_firstchoice: [3, 6, 10, 12, 24, 36],
 };
 
-const SLIP_CHANNELS = new Set(["bank_qrcode", "payplus_kbank"]);
+const SLIP_CHANNELS = new Set(["bank_qrcode", "bank_transfer", "payplus_kbank"]);
 
-const GROUP_ORDER = ["scan", "mobile", "installment", "card"];
+const GROUP_ORDER = ["transfer", "mobile", "installment", "card"];
 const GROUP_LABELS: Record<string, string> = {
-  scan: "QR ชำระเงิน",
+  transfer: "ชำระผ่านบัญชี",
   card: "บัตรเครดิต",
   mobile: "Mobile Banking",
   installment: "ผ่อนชำระ",
@@ -330,13 +331,15 @@ export default function CheckoutForm({
   // ── Channel grouping ───────────────────────────
 
   const VISIBLE_CHANNELS = new Set([
-    "bank_qrcode", "creditcard",
+    "bank_qrcode", "bank_transfer", "creditcard",
   ]);
 
+  // bank_transfer is a client-side channel (not in DB enabledChannels)
+  const allChannels = [...course.enabledChannels, "bank_transfer"];
   const grouped = GROUP_ORDER.map((group) => ({
     group,
     label: GROUP_LABELS[group],
-    channels: course.enabledChannels.filter(
+    channels: allChannels.filter(
       (ch) => VISIBLE_CHANNELS.has(ch) && (CHANNEL_LABELS[ch]?.group || "other") === group
     ),
   })).filter((g) => g.channels.length > 0);
@@ -418,9 +421,11 @@ export default function CheckoutForm({
               <div className="bg-zinc-900 border border-zinc-700 rounded-xl p-5">
                 <p className="text-xs text-gray-500 uppercase tracking-wider mb-4">ชำระเงินมาที่บัญชี</p>
                 <div className="flex flex-col items-center gap-4">
-                  <div className="bg-white p-3 rounded-xl">
-                    <QRCodeSVG value={promptpayPayload} size={160} />
-                  </div>
+                  {channelCode === "bank_qrcode" && (
+                    <div className="bg-white p-3 rounded-xl">
+                      <QRCodeSVG value={promptpayPayload} size={160} />
+                    </div>
+                  )}
                   <div className="w-full space-y-2 text-sm">
                     <div className="flex justify-between">
                       <span className="text-gray-500">ชื่อบัญชี</span>

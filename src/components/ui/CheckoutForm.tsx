@@ -36,7 +36,7 @@ interface Props {
 }
 
 const CHANNEL_LABELS: Record<string, { label: string; group: string }> = {
-  bank_qrcode: { label: "QR โอนเงิน", group: "scan" },
+  bank_qrcode: { label: "QR ชำระเงิน", group: "scan" },
   creditcard: { label: "บัตรเครดิต / เดบิต", group: "card" },
   payplus_kbank: { label: "K PLUS", group: "mobile" },
   mobilebank_scb: { label: "SCB Easy", group: "mobile" },
@@ -62,7 +62,7 @@ const SLIP_CHANNELS = new Set(["bank_qrcode", "payplus_kbank"]);
 
 const GROUP_ORDER = ["scan", "mobile", "installment", "card"];
 const GROUP_LABELS: Record<string, string> = {
-  scan: "QR โอนเงิน",
+  scan: "QR ชำระเงิน",
   card: "บัตรเครดิต",
   mobile: "Mobile Banking",
   installment: "ผ่อนชำระ",
@@ -165,7 +165,7 @@ export default function CheckoutForm({
       return;
     }
     if (!slipFile) {
-      setError("กรุณาอัพโหลดสลิปการโอนเงิน");
+      setError("กรุณาอัพโหลดสลิปการชำระเงิน");
       return;
     }
 
@@ -416,7 +416,7 @@ export default function CheckoutForm({
           {isSlipChannel && bankInfo && (
             <div className="space-y-4">
               <div className="bg-zinc-900 border border-zinc-700 rounded-xl p-5">
-                <p className="text-xs text-gray-500 uppercase tracking-wider mb-4">โอนเงินมาที่บัญชี</p>
+                <p className="text-xs text-gray-500 uppercase tracking-wider mb-4">ชำระเงินมาที่บัญชี</p>
                 <div className="flex flex-col items-center gap-4">
                   <div className="bg-white p-3 rounded-xl">
                     <QRCodeSVG value={promptpayPayload} size={160} />
@@ -431,7 +431,7 @@ export default function CheckoutForm({
                       <span className="text-white font-mono font-bold">{bankInfo.accountNumber}</span>
                     </div>
                     <div className="flex justify-between border-t border-zinc-700 pt-2">
-                      <span className="text-gray-500">ยอดโอน</span>
+                      <span className="text-gray-500">ยอดชำระ</span>
                       <span className="text-yellow-400 font-bold text-base">{formatPrice(course.price)}</span>
                     </div>
                   </div>
@@ -439,7 +439,7 @@ export default function CheckoutForm({
               </div>
 
               <div>
-                <p className="text-xs text-gray-500 uppercase tracking-wider mb-3">อัพโหลดสลิปการโอน</p>
+                <p className="text-xs text-gray-500 uppercase tracking-wider mb-3">อัพโหลดสลิปการชำระเงิน</p>
                 <div
                   onClick={() => document.getElementById("slip-input")?.click()}
                   className={`border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-colors ${
@@ -548,7 +548,7 @@ export default function CheckoutForm({
                 กำลังดำเนินการ...
               </span>
             ) : isSlipChannel ? (
-              "ยืนยันการโอนเงิน"
+              "ยืนยันการชำระเงิน"
             ) : (
               `ชำระเงิน ${formatPrice(course.price)}`
             )}
@@ -556,7 +556,7 @@ export default function CheckoutForm({
 
           <p className="text-center text-gray-600 text-xs">
             {isSlipChannel
-              ? "หลังยืนยันสลิป ระบบจะตรวจสอบและส่งอีเมลยืนยันภายใน 24 ชั่วโมง"
+              ? "หลังยืนยันการชำระเงิน ระบบจะตรวจสอบและส่งอีเมลยืนยันภายใน 24 ชั่วโมง"
               : "หลังชำระเงินสำเร็จ ระบบจะส่งอีเมลยืนยันพร้อมรหัสเข้าเรียนอัตโนมัติ"}
           </p>
         </div>

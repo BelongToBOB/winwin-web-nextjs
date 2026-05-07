@@ -18,7 +18,7 @@ export default function PaymentChannels() {
         {/* Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
 
-          {/* QR โอนเงิน */}
+          {/* QR ชำระเงิน */}
           <div className="bg-[#111111] border border-[#2a2a2a] rounded-2xl p-6 flex items-start gap-4">
             <div className="w-12 h-12 rounded-xl bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center flex-shrink-0">
               <svg className="w-6 h-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -26,12 +26,12 @@ export default function PaymentChannels() {
               </svg>
             </div>
             <div>
-              <p className="text-white font-semibold text-base mb-1">QR โอนเงิน</p>
-              <p className="text-[#6b6b6b] text-sm leading-relaxed">สแกน QR โอนเข้าบัญชีบริษัทโดยตรง</p>
+              <p className="text-white font-semibold text-base mb-1">QR ชำระเงิน</p>
+              <p className="text-[#6b6b6b] text-sm leading-relaxed">สแกน QR ชำระเงินเข้าบัญชีบริษัทโดยตรง</p>
             </div>
           </div>
 
-          {/* โอนผ่านบัญชี */}
+          {/* ชำระผ่านบัญชี */}
           <div className="bg-[#111111] border border-[#2a2a2a] rounded-2xl p-6 flex items-start gap-4">
             <div className="w-12 h-12 rounded-xl bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center flex-shrink-0">
               <svg className="w-6 h-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -39,8 +39,8 @@ export default function PaymentChannels() {
               </svg>
             </div>
             <div>
-              <p className="text-white font-semibold text-base mb-1">โอนผ่านบัญชี</p>
-              <p className="text-[#6b6b6b] text-sm leading-relaxed">โอนจากธนาคารใดก็ได้</p>
+              <p className="text-white font-semibold text-base mb-1">ชำระผ่านบัญชี</p>
+              <p className="text-[#6b6b6b] text-sm leading-relaxed">ชำระจากธนาคารใดก็ได้</p>
             </div>
           </div>
 

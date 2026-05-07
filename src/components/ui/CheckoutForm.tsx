@@ -1,5 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
+import { QRCodeSVG } from "qrcode.react";
+import generatePayload from "promptpay-qr";
 
 interface CourseData {
   id: string;
@@ -11,6 +13,21 @@ interface CourseData {
   installmentMonths: number[];
   enabledChannels: string[];
   isActive: boolean;
+}
+
+interface BankInfo {
+  accountNumber: string;
+  accountName: string;
+  bankName: string;
+}
+
+interface SlipResult {
+  success: boolean;
+  customerCode: string;
+  orderNo: string;
+  status: "paid" | "pending_manual";
+  message: string;
+  error?: string;
 }
 
 interface Props {
@@ -41,6 +58,8 @@ const INSTALLMENT_MONTHS: Record<string, number[]> = {
   installment_firstchoice: [3, 6, 10, 12, 24, 36],
 };
 
+const SLIP_CHANNELS = new Set(["bank_qrcode", "payplus_kbank"]);
+
 const GROUP_ORDER = ["scan", "card", "mobile", "installment"];
 const GROUP_LABELS: Record<string, string> = {
   scan: "QR Code",
@@ -61,9 +80,7 @@ export default function CheckoutForm({
   const [fetchError, setFetchError] = useState<string | null>(null);
 
   const [channelCode, setChannelCode] = useState("");
-  const [installmentMonths, setInstallmentMonths] = useState<number | null>(
-    null
-  );
+  const [installmentMonths, setInstallmentMonths] = useState<number | null>(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -73,7 +90,18 @@ export default function CheckoutForm({
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch course on mount
+  // Slip states
+  const [bankInfo, setBankInfo] = useState<BankInfo | null>(null);
+  const [slipFile, setSlipFile] = useState<File | null>(null);
+  const [slipPreview, setSlipPreview] = useState<string | null>(null);
+  const [slipError, setSlipError] = useState<string | null>(null);
+  const [slipResult, setSlipResult] = useState<SlipResult | null>(null);
+
+  const isSlipChannel = SLIP_CHANNELS.has(channelCode);
+  const isInstallment = channelCode.startsWith("installment_");
+  const availableMonths = isInstallment ? INSTALLMENT_MONTHS[channelCode] || [] : [];
+
+  // Fetch course + bank info on mount
   useEffect(() => {
     setLoadingCourse(true);
     setFetchError(null);
@@ -90,12 +118,12 @@ export default function CheckoutForm({
       })
       .catch((err) => setFetchError(err.message))
       .finally(() => setLoadingCourse(false));
-  }, [courseSlug, apiBase]);
 
-  const isInstallment = channelCode.startsWith("installment_");
-  const availableMonths = isInstallment
-    ? INSTALLMENT_MONTHS[channelCode] || []
-    : [];
+    fetch(`${apiBase}/checkout/bank-info`)
+      .then((r) => r.json())
+      .then(setBankInfo)
+      .catch(() => {});
+  }, [courseSlug, apiBase]);
 
   // Reset installment months when channel changes
   useEffect(() => {
@@ -105,6 +133,79 @@ export default function CheckoutForm({
       setInstallmentMonths(availableMonths[0]);
     }
   }, [channelCode]);
+
+  // ── Slip handlers ──────────────────────────────
+
+  const handleSlipFile = (file: File) => {
+    setSlipError(null);
+    if (!["image/jpeg", "image/png"].includes(file.type)) {
+      setSlipError("รองรับเฉพาะ JPG และ PNG เท่านั้น");
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setSlipError("ขนาดไฟล์ไม่เกิน 5MB");
+      return;
+    }
+    setSlipFile(file);
+    const reader = new FileReader();
+    reader.onload = () => setSlipPreview(reader.result as string);
+    reader.readAsDataURL(file);
+  };
+
+  const handleSubmitSlip = async () => {
+    setError(null);
+    if (!course) return;
+
+    if (!firstName.trim() || !lastName.trim() || !email.trim()) {
+      setError("กรุณากรอกชื่อ นามสกุล และอีเมล");
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      setError("กรุณากรอกอีเมลที่ถูกต้อง");
+      return;
+    }
+    if (!slipFile) {
+      setError("กรุณาอัพโหลดสลิปการโอนเงิน");
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const base64 = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve((reader.result as string).split(",")[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(slipFile);
+      });
+
+      const res = await fetch(`${apiBase}/checkout/verify-slip`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          slipImage: base64,
+          courseId: course.id,
+          firstName: firstName.trim(),
+          lastName: lastName.trim(),
+          email: email.trim(),
+          phone: phone.trim() || undefined,
+          ...(lineId.trim() ? { lineId: lineId.trim() } : {}),
+        }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setSlipResult(data);
+      } else {
+        setError(data.error || "เกิดข้อผิดพลาด กรุณาลองใหม่");
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "เกิดข้อผิดพลาด กรุณาลองใหม่");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  // ── ChillPay handler (เดิม — ไม่แตะ) ──────────
 
   const handleSubmit = async () => {
     setError(null);
@@ -141,9 +242,7 @@ export default function CheckoutForm({
           email: email.trim(),
           phone: phone.trim() || undefined,
           ...(lineId.trim() ? { lineId: lineId.trim() } : {}),
-          ...(isInstallment && installmentMonths
-            ? { installmentMonths }
-            : {}),
+          ...(isInstallment && installmentMonths ? { installmentMonths } : {}),
         }),
       });
 
@@ -152,20 +251,18 @@ export default function CheckoutForm({
         throw new Error(data.message || "เกิดข้อผิดพลาด กรุณาลองใหม่");
       }
 
-      // Redirect to payment page
       if (data.paymentUrl) {
         window.location.href = data.paymentUrl;
       }
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "เกิดข้อผิดพลาด กรุณาลองใหม่"
-      );
+      setError(err instanceof Error ? err.message : "เกิดข้อผิดพลาด กรุณาลองใหม่");
     } finally {
       setSubmitting(false);
     }
   };
 
-  // Loading skeleton
+  // ── Loading ────────────────────────────────────
+
   if (loadingCourse) {
     return (
       <section className="w-full bg-[#0a0a0a] py-16 md:py-24 border-t border-yellow-500/10">
@@ -183,7 +280,6 @@ export default function CheckoutForm({
     );
   }
 
-  // Fetch error
   if (fetchError || !course) {
     return (
       <section className="w-full bg-[#0a0a0a] py-16 md:py-24 border-t border-yellow-500/10">
@@ -194,14 +290,44 @@ export default function CheckoutForm({
     );
   }
 
-  // Channels shown in UI (subset — others kept in CHANNEL_LABELS for future use)
+  // ── Slip result page ───────────────────────────
+
+  if (slipResult) {
+    return (
+      <section className="w-full bg-[#0a0a0a] py-16 md:py-24 border-t border-yellow-500/10">
+        <div className="max-w-lg mx-auto px-4 sm:px-6 text-center">
+          {slipResult.status === "paid" ? (
+            <>
+              <div className="text-5xl mb-4">✅</div>
+              <h2 className="text-2xl font-bold text-white mb-2">ชำระเงินสำเร็จ!</h2>
+            </>
+          ) : (
+            <>
+              <div className="text-5xl mb-4">⏳</div>
+              <h2 className="text-2xl font-bold text-white mb-2">รับสลิปแล้ว</h2>
+            </>
+          )}
+          <p className="text-gray-400 mb-6">{slipResult.message}</p>
+          <div className="bg-zinc-900 border border-zinc-700 rounded-xl p-4 mb-6">
+            <p className="text-gray-500 text-sm mb-1">รหัสลูกค้าของคุณ</p>
+            <p className="text-yellow-400 font-mono text-xl font-bold">{slipResult.customerCode}</p>
+            <p className="text-gray-600 text-xs mt-1">{slipResult.orderNo}</p>
+          </div>
+          <p className="text-gray-600 text-xs">
+            กรุณาเก็บรหัสนี้ไว้ หากมีปัญหากรุณาแจ้งแอดมินพร้อมรหัสนี้
+          </p>
+        </div>
+      </section>
+    );
+  }
+
+  // ── Channel grouping ───────────────────────────
+
   const VISIBLE_CHANNELS = new Set([
     "bank_qrcode", "creditcard",
     "payplus_kbank", "mobilebank_scb", "mobilebank_bay", "mobilebank_bbl",
-    // "installment_kbank", // ผ่อนชำระ — เปิดทีหลัง
   ]);
 
-  // Group channels
   const grouped = GROUP_ORDER.map((group) => ({
     group,
     label: GROUP_LABELS[group],
@@ -210,39 +336,32 @@ export default function CheckoutForm({
     ),
   })).filter((g) => g.channels.length > 0);
 
+  const promptpayPayload = bankInfo
+    ? generatePayload(bankInfo.accountNumber, { amount: course.price })
+    : "";
+
+  // ── Main form ──────────────────────────────────
+
   return (
-    <section
-      id="checkout"
-      className="w-full bg-[#0a0a0a] py-16 md:py-24 border-t border-yellow-500/10"
-    >
+    <section id="checkout" className="w-full bg-[#0a0a0a] py-16 md:py-24 border-t border-yellow-500/10">
       <div className="max-w-lg mx-auto px-4 sm:px-6">
         <a href="/bank-uncensored" className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-300 transition-colors mb-6">
-            ← กลับ
-          </a>
+          ← กลับ
+        </a>
         <div className="text-center mb-10">
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
-            สมัครเรียน
-          </h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">สมัครเรียน</h2>
           <p className="text-gray-400">{course.title}</p>
-          <p className="text-yellow-400 text-2xl font-bold mt-3">
-            {formatPrice(course.price)}
-          </p>
+          <p className="text-yellow-400 text-2xl font-bold mt-3">{formatPrice(course.price)}</p>
         </div>
 
         <div className="space-y-8">
           {/* 1. Payment channel */}
           <div className="space-y-4">
-            <label className="text-sm font-semibold text-gray-300 block">
-              เลือกวิธีชำระเงิน
-            </label>
+            <label className="text-sm font-semibold text-gray-300 block">เลือกวิธีชำระเงิน</label>
             {grouped.map((g) => (
               <div key={g.group}>
-                <p className="text-xs text-gray-500 uppercase tracking-wider mb-2">
-                  {g.label}
-                </p>
-                <div
-                  className={`grid gap-2 ${g.channels.length > 1 ? "grid-cols-2" : "grid-cols-1"}`}
-                >
+                <p className="text-xs text-gray-500 uppercase tracking-wider mb-2">{g.label}</p>
+                <div className={`grid gap-2 ${g.channels.length > 1 ? "grid-cols-2" : "grid-cols-1"}`}>
                   {g.channels.map((ch) => (
                     <button
                       key={ch}
@@ -261,12 +380,10 @@ export default function CheckoutForm({
             ))}
           </div>
 
-          {/* 2. Installment months */}
+          {/* 2. Installment months (ChillPay only) */}
           {isInstallment && availableMonths.length > 0 && (
             <div className="space-y-3">
-              <label className="text-sm font-semibold text-gray-300 block">
-                จำนวนงวด
-              </label>
+              <label className="text-sm font-semibold text-gray-300 block">จำนวนงวด</label>
               <div className="flex flex-wrap gap-2">
                 {availableMonths.map((m) => (
                   <button
@@ -284,18 +401,86 @@ export default function CheckoutForm({
               </div>
               {installmentMonths && (
                 <p className="text-xs text-gray-500">
-                  ≈ {formatPrice(Math.ceil(course.price / installmentMonths))}{" "}
-                  / เดือน
+                  ≈ {formatPrice(Math.ceil(course.price / installmentMonths))} / เดือน
                 </p>
               )}
             </div>
           )}
 
-          {/* 3. Customer info */}
+          {/* 3. Bank info + QR + Slip upload (slip channels only) */}
+          {isSlipChannel && bankInfo && (
+            <div className="space-y-4">
+              <div className="bg-zinc-900 border border-zinc-700 rounded-xl p-5">
+                <p className="text-xs text-gray-500 uppercase tracking-wider mb-4">โอนเงินมาที่บัญชี</p>
+                <div className="flex flex-col items-center gap-4">
+                  <div className="bg-white p-3 rounded-xl">
+                    <QRCodeSVG value={promptpayPayload} size={160} />
+                  </div>
+                  <div className="w-full space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-gray-500">ธนาคาร</span>
+                      <span className="text-white font-medium">{bankInfo.bankName}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-500">ชื่อบัญชี</span>
+                      <span className="text-white font-medium">{bankInfo.accountName}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-500">เลขบัญชี</span>
+                      <span className="text-white font-mono font-bold">{bankInfo.accountNumber}</span>
+                    </div>
+                    <div className="flex justify-between border-t border-zinc-700 pt-2">
+                      <span className="text-gray-500">ยอดโอน</span>
+                      <span className="text-yellow-400 font-bold text-base">{formatPrice(course.price)}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <p className="text-xs text-gray-500 uppercase tracking-wider mb-3">อัพโหลดสลิปการโอน</p>
+                <div
+                  onClick={() => document.getElementById("slip-input")?.click()}
+                  className={`border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-colors ${
+                    slipFile ? "border-yellow-500/50 bg-yellow-500/5" : "border-zinc-700 hover:border-zinc-500"
+                  }`}
+                >
+                  {slipPreview ? (
+                    <div className="relative">
+                      <img src={slipPreview} alt="slip" className="max-h-48 mx-auto rounded-lg object-contain" />
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSlipFile(null);
+                          setSlipPreview(null);
+                        }}
+                        className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-6 h-6 text-xs flex items-center justify-center"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="space-y-2">
+                      <p className="text-gray-400 text-sm">คลิกหรือลากไฟล์สลิปมาวาง</p>
+                      <p className="text-gray-600 text-xs">JPG, PNG ไม่เกิน 5MB</p>
+                    </div>
+                  )}
+                </div>
+                <input
+                  id="slip-input"
+                  type="file"
+                  accept="image/jpeg,image/png"
+                  className="hidden"
+                  onChange={(e) => { if (e.target.files?.[0]) handleSlipFile(e.target.files[0]); }}
+                />
+                {slipError && <p className="text-red-400 text-xs mt-2">{slipError}</p>}
+              </div>
+            </div>
+          )}
+
+          {/* 4. Customer info */}
           <div className="space-y-4">
-            <label className="text-sm font-semibold text-gray-300 block">
-              ข้อมูลผู้สมัคร
-            </label>
+            <label className="text-sm font-semibold text-gray-300 block">ข้อมูลผู้สมัคร</label>
             <div className="grid grid-cols-2 gap-3">
               <input
                 type="text"
@@ -319,9 +504,7 @@ export default function CheckoutForm({
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-700 text-white placeholder-gray-500 focus:border-yellow-500 focus:outline-none transition-colors"
             />
-            <p className="text-xs text-gray-600 -mt-1 px-1">
-              อีเมลใช้สำหรับส่งข้อมูลการเข้าเรียนเท่านั้น
-            </p>
+            <p className="text-xs text-gray-600 -mt-1 px-1">อีเมลใช้สำหรับส่งข้อมูลการเข้าเรียนเท่านั้น</p>
             <input
               type="tel"
               placeholder="เบอร์โทรศัพท์ *"
@@ -345,47 +528,35 @@ export default function CheckoutForm({
             </div>
           )}
 
-          {/* 4. Submit */}
+          {/* 5. Submit */}
           <button
-            onClick={handleSubmit}
-            disabled={submitting}
+            onClick={isSlipChannel ? handleSubmitSlip : handleSubmit}
+            disabled={submitting || (isSlipChannel && !slipFile)}
             className={`w-full py-4 rounded-xl text-base font-bold transition-all duration-200 ${
-              submitting
+              submitting || (isSlipChannel && !slipFile)
                 ? "bg-yellow-500/50 text-black/50 cursor-not-allowed"
                 : "bg-yellow-500 text-black hover:bg-yellow-400 hover:scale-[1.02]"
             }`}
           >
             {submitting ? (
               <span className="flex items-center justify-center gap-2">
-                <svg
-                  className="animate-spin w-5 h-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  />
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  />
+                <svg className="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                 </svg>
                 กำลังดำเนินการ...
               </span>
+            ) : isSlipChannel ? (
+              "ยืนยันการโอนเงิน"
             ) : (
               `ชำระเงิน ${formatPrice(course.price)}`
             )}
           </button>
 
           <p className="text-center text-gray-600 text-xs">
-            หลังชำระเงินสำเร็จ
-            ระบบจะส่งอีเมลยืนยันพร้อมรหัสเข้าเรียนอัตโนมัติ
+            {isSlipChannel
+              ? "หลังยืนยันสลิป ระบบจะตรวจสอบและส่งอีเมลยืนยันภายใน 24 ชั่วโมง"
+              : "หลังชำระเงินสำเร็จ ระบบจะส่งอีเมลยืนยันพร้อมรหัสเข้าเรียนอัตโนมัติ"}
           </p>
         </div>
       </div>

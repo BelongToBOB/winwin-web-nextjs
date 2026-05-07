@@ -6,7 +6,7 @@ export default function PaymentChannels() {
         {/* Header */}
         <div className="text-center mb-12">
           <p className="text-yellow-400 text-sm font-semibold uppercase tracking-widest mb-3">ช่องทางชำระเงิน</p>
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">ชำระได้หลายช่องทาง ปลอดภัย 100%</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">เลือกช่องทางที่สะดวก</h2>
           <div className="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/20 rounded-full px-4 py-1.5">
             <svg className="w-4 h-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
@@ -86,7 +86,7 @@ export default function PaymentChannels() {
             <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
             </svg>
-            <span className="text-[#6b6b6b] text-xs">Bank of Thailand Licensed</span>
+            <span className="text-[#6b6b6b] text-xs">บัตรเครดิตผ่าน ChillPay (ธปท. รับรอง)</span>
           </div>
         </div>
 

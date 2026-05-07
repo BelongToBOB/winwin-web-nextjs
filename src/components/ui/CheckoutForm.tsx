@@ -313,6 +313,12 @@ export default function CheckoutForm({
             <p className="text-yellow-400 font-mono text-xl font-bold">{slipResult.customerCode}</p>
             <p className="text-gray-600 text-xs mt-1">{slipResult.orderNo}</p>
           </div>
+          <button
+            onClick={() => { window.location.href = `/survey?buc=${slipResult.customerCode}`; }}
+            className="w-full py-4 rounded-xl text-base font-bold bg-yellow-500 text-black hover:bg-yellow-400 hover:scale-[1.02] transition-all duration-200 mb-4"
+          >
+            กรอกแบบสอบถาม →
+          </button>
           <p className="text-gray-600 text-xs">
             กรุณาเก็บรหัสนี้ไว้ หากมีปัญหากรุณาแจ้งแอดมินพร้อมรหัสนี้
           </p>

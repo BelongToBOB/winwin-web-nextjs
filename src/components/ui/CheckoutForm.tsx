@@ -325,7 +325,7 @@ export default function CheckoutForm({
 
   const VISIBLE_CHANNELS = new Set([
     "bank_qrcode", "creditcard",
-    "payplus_kbank", "mobilebank_scb", "mobilebank_bay", "mobilebank_bbl",
+    "payplus_kbank",
   ]);
 
   const grouped = GROUP_ORDER.map((group) => ({

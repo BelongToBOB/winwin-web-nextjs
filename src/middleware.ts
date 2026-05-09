@@ -4,8 +4,9 @@ import { NextResponse } from "next/server";
 export default auth((req) => {
   const { pathname } = req.nextUrl;
 
-  // Skip login page
-  if (pathname === "/learn/login") return NextResponse.next();
+  // Skip login and register pages
+  if (pathname === "/learn/login" || pathname === "/learn/register")
+    return NextResponse.next();
 
   // Protect all /learn/* routes
   if (pathname.startsWith("/learn") && !req.auth) {

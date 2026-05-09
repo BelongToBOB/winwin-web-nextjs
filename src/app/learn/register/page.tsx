@@ -14,7 +14,6 @@ export default function RegisterPage() {
     email: "",
     password: "",
     confirmPassword: "",
-    bucCode: "",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -41,7 +40,6 @@ export default function RegisterPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          bucCode: form.bucCode.trim(),
           email: form.email.trim(),
           password: form.password,
           displayName: form.displayName.trim(),
@@ -124,23 +122,6 @@ export default function RegisterPage() {
               className="w-full rounded-lg border border-white/20 bg-white/5 px-4 py-3 text-sm text-gray-200 placeholder:text-gray-500 focus:border-yellow-accent/50 focus:outline-none"
             />
           </div>
-          <div>
-            <label className="mb-1 block text-xs text-gray-400">
-              รหัสลูกค้า (BUC Code)
-            </label>
-            <input
-              type="text"
-              placeholder="เช่น BUC0001, BUC-VIP-001"
-              value={form.bucCode}
-              onChange={set("bucCode")}
-              required
-              className="w-full rounded-lg border border-white/20 bg-white/5 px-4 py-3 text-sm text-gray-200 placeholder:text-gray-500 focus:border-yellow-accent/50 focus:outline-none"
-            />
-            <p className="mt-1 text-xs text-gray-500">
-              รหัสที่ได้รับทาง email หลังซื้อคอร์ส
-            </p>
-          </div>
-
           <button
             type="submit"
             disabled={loading}

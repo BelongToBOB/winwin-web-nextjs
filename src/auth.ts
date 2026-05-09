@@ -24,7 +24,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (!res.ok) return null;
         const user = await res.json();
         return {
-          id: user.customerCode,
+          id: user.userId,
           email: user.email,
           name: user.displayName,
         };
@@ -36,13 +36,25 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     error: "/learn/login",
   },
   callbacks: {
-    async signIn({ user, account }) {
-      // Credentials provider: login endpoint already verified enrollment
+    async signIn({ user, account, profile }) {
+      // Credentials provider: login endpoint already verified
       if (account?.provider === "credentials") return true;
 
-      // Google provider: check enrollment
+      // Google provider: link/create user + check enrollment
       if (!user.email) return false;
       try {
+        // Create/link user record
+        await fetch(`${LMS_API}/auth/google-link`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            googleId: profile?.sub || account?.providerAccountId,
+            email: user.email,
+            displayName: user.name || user.email,
+          }),
+        });
+
+        // Check enrollment
         const res = await fetch(
           `${LMS_API}/auth/check-enrollment?email=${encodeURIComponent(user.email)}`
         );

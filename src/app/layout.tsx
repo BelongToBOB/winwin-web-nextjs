@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Prompt } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
+import SiteShell from "@/components/layout/SiteShell";
 
 const prompt = Prompt({
   subsets: ["thai", "latin"],
@@ -36,9 +35,7 @@ export default function RootLayout({
   return (
     <html lang="th" className={prompt.variable}>
       <body className="bg-black text-gray-50 font-sans antialiased overflow-x-hidden">
-        <Navbar />
-        {children}
-        <Footer />
+        <SiteShell>{children}</SiteShell>
       </body>
     </html>
   );

@@ -49,10 +49,6 @@ function LoginContent() {
         <h1 className="text-2xl font-bold text-yellow-accent">
           WinWin Learn
         </h1>
-        <p className="text-sm text-gray-400">
-          สำหรับผู้ที่ซื้อคอร์สแล้วเท่านั้น
-        </p>
-
         {isRegistered && (
           <div className="rounded-lg border border-green-500/30 bg-green-500/10 p-4">
             <p className="text-sm text-green-400">

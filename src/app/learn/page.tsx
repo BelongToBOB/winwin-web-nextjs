@@ -15,12 +15,16 @@ interface Course {
 }
 
 export default function LearnPage() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!session?.user?.email) return;
+    if (status === "loading") return;
+    if (!session?.user?.email) {
+      setLoading(false);
+      return;
+    }
 
     fetch("https://checkout.winwinwealth.co/api/learn/my-courses", {
       headers: { "x-user-email": session.user.email },
@@ -29,7 +33,7 @@ export default function LearnPage() {
       .then((data) => setCourses(Array.isArray(data) ? data : []))
       .catch(() => setCourses([]))
       .finally(() => setLoading(false));
-  }, [session?.user?.email]);
+  }, [session?.user?.email, status]);
 
   if (loading) {
     return (

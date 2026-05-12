@@ -29,6 +29,7 @@ interface CourseDetail {
   slug: string;
   title: string;
   description: string | null;
+  coverUrl: string | null;
   chapters: Chapter[];
 }
 
@@ -96,6 +97,15 @@ export default function CoursePage() {
         </svg>
         คอร์สของฉัน
       </Link>
+
+      {/* Cover */}
+      {course.coverUrl && (
+        <img
+          src={course.coverUrl}
+          alt=""
+          className="mb-6 h-48 w-full rounded-xl object-cover"
+        />
+      )}
 
       {/* Header */}
       <h1 className="mb-2 text-2xl font-bold">{course.title}</h1>

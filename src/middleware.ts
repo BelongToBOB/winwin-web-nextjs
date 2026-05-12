@@ -8,8 +8,8 @@ export default auth((req) => {
   if (pathname === "/learn/login" || pathname === "/learn/register")
     return NextResponse.next();
 
-  // Protect all /learn/* routes
-  if (pathname.startsWith("/learn") && !req.auth) {
+  // Protect /learn/* and /admin/*
+  if ((pathname.startsWith("/learn") || pathname.startsWith("/admin")) && !req.auth) {
     const loginUrl = new URL("/learn/login", req.url);
     return NextResponse.redirect(loginUrl);
   }
@@ -18,5 +18,5 @@ export default auth((req) => {
 });
 
 export const config = {
-  matcher: ["/learn/:path*"],
+  matcher: ["/learn/:path*", "/admin/:path*"],
 };

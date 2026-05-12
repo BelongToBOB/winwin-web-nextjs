@@ -11,6 +11,7 @@ interface Course {
   description: string | null;
   customerCode: string;
   enrolledAt: string;
+  coverUrl: string | null;
   progress: { total: number; completed: number; percent: number };
 }
 
@@ -65,8 +66,16 @@ export default function LearnPage() {
             <Link
               key={course.id}
               href={`/learn/${course.slug}`}
-              className="group rounded-xl border border-white/10 bg-white/5 p-6 transition hover:border-yellow-accent/30 hover:bg-white/10"
+              className="group overflow-hidden rounded-xl border border-white/10 bg-white/5 transition hover:border-yellow-accent/30 hover:bg-white/10"
             >
+              {course.coverUrl && (
+                <img
+                  src={course.coverUrl}
+                  alt=""
+                  className="h-36 w-full object-cover"
+                />
+              )}
+              <div className="p-6">
               <h2 className="text-lg font-semibold group-hover:text-yellow-accent">
                 {course.title}
               </h2>
@@ -86,6 +95,7 @@ export default function LearnPage() {
                     style={{ width: `${course.progress.percent}%` }}
                   />
                 </div>
+              </div>
               </div>
             </Link>
           ))}

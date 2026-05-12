@@ -13,10 +13,13 @@ interface LessonDetail {
   courseId: string;
   title: string;
   description: string | null;
+  type: string;
+  content: string | null;
   videoUrl: string | null;
   duration: number;
   order: number;
   isFree: boolean;
+  attachments: { id: string; url: string; name: string; size: number }[];
 }
 
 interface SiblingLesson {
@@ -151,39 +154,61 @@ export default function LessonPage() {
         กลับหน้าคอร์ส
       </Link>
 
-      {/* Video Player */}
-      <div className="mb-6 aspect-video w-full overflow-hidden rounded-xl border border-white/10 bg-white/5">
-        {lesson.videoUrl && lesson.videoUrl.match(/youtube\.com|youtu\.be/) ? (
-          <iframe
-            src={`https://www.youtube.com/embed/${lesson.videoUrl.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/)?.[1]}`}
-            className="h-full w-full"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
-        ) : lesson.videoUrl ? (
-          <video
-            src={lesson.videoUrl}
-            controls
-            className="h-full w-full"
-            controlsList="nodownload"
-          />
-        ) : (
-          <div className="flex h-full items-center justify-center text-gray-500">
-            <div className="text-center">
-              <svg className="mx-auto mb-2 h-12 w-12 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+      {/* Video Player (only for video type or if videoUrl exists) */}
+      {(lesson.type === "video" || lesson.videoUrl) && (
+        <div className="mb-6 aspect-video w-full overflow-hidden rounded-xl border border-white/10 bg-white/5">
+          {lesson.videoUrl && lesson.videoUrl.match(/youtube\.com|youtu\.be/) ? (
+            <iframe
+              src={`https://www.youtube.com/embed/${lesson.videoUrl.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/)?.[1]}`}
+              className="h-full w-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          ) : lesson.videoUrl ? (
+            <video src={lesson.videoUrl} controls className="h-full w-full" controlsList="nodownload" />
+          ) : (
+            <div className="flex h-full items-center justify-center text-gray-500">
               <p className="text-sm">วิดีโอกำลังเตรียมพร้อม</p>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      )}
 
       {/* Lesson Info */}
       <h1 className="mb-2 text-xl font-bold">{lesson.title}</h1>
       {lesson.description && (
-        <p className="mb-6 text-sm text-gray-400">{lesson.description}</p>
+        <p className="mb-4 text-sm text-gray-400">{lesson.description}</p>
+      )}
+
+      {/* Text Content (for text type) */}
+      {lesson.type === "text" && lesson.content && (
+        <div className="mb-6 rounded-xl border border-white/10 bg-white/[0.03] p-6 text-sm leading-relaxed text-gray-300 whitespace-pre-wrap">
+          {lesson.content}
+        </div>
+      )}
+
+      {/* Attachments */}
+      {lesson.attachments && lesson.attachments.length > 0 && (
+        <div className="mb-6">
+          <h3 className="mb-2 text-sm font-medium text-gray-400">ไฟล์ประกอบการเรียน</h3>
+          <div className="space-y-2">
+            {lesson.attachments.map((att) => (
+              <a
+                key={att.id}
+                href={att.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 rounded-lg border border-white/10 bg-white/[0.03] px-4 py-3 transition hover:bg-white/[0.06]"
+              >
+                <svg className="h-5 w-5 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <span className="flex-1 truncate text-sm text-gray-200">{att.name}</span>
+                <span className="text-xs text-gray-500">ดาวน์โหลด</span>
+              </a>
+            ))}
+          </div>
+        </div>
       )}
 
       {/* Mark Complete */}

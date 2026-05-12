@@ -37,13 +37,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   callbacks: {
     async signIn({ user, account, profile }) {
-      // Credentials provider: login endpoint already verified
       if (account?.provider === "credentials") return true;
 
-      // Google provider: link/create user + check enrollment
       if (!user.email) return false;
       try {
-        // Create/link user record
         await fetch(`${LMS_API}/auth/google-link`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -54,7 +51,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           }),
         });
 
-        // Check enrollment
         const res = await fetch(
           `${LMS_API}/auth/check-enrollment?email=${encodeURIComponent(user.email)}`
         );
@@ -64,6 +60,27 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       } catch {
         return true;
       }
+    },
+    async jwt({ token }) {
+      // Fetch role from backend on first sign-in or periodically
+      if (token.email && !token.role) {
+        try {
+          const res = await fetch(
+            `${LMS_API}/auth/check-enrollment?email=${encodeURIComponent(token.email as string)}`
+          );
+          const data = await res.json();
+          token.role = data.role || "user";
+        } catch {
+          token.role = "user";
+        }
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (session.user) {
+        (session.user as any).role = token.role || "user";
+      }
+      return session;
     },
   },
 });

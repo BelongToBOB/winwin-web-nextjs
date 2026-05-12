@@ -8,10 +8,17 @@ export default auth((req) => {
   if (pathname === "/learn/login" || pathname === "/learn/register")
     return NextResponse.next();
 
-  // Protect /learn/* and /admin/*
+  // Protect /learn/* and /admin/* — must be logged in
   if ((pathname.startsWith("/learn") || pathname.startsWith("/admin")) && !req.auth) {
-    const loginUrl = new URL("/learn/login", req.url);
-    return NextResponse.redirect(loginUrl);
+    return NextResponse.redirect(new URL("/learn/login", req.url));
+  }
+
+  // Protect /admin/* — must have admin role
+  if (pathname.startsWith("/admin")) {
+    const role = (req.auth?.user as any)?.role;
+    if (role !== "admin") {
+      return NextResponse.redirect(new URL("/learn", req.url));
+    }
   }
 
   return NextResponse.next();

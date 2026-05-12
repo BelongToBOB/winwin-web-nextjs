@@ -153,7 +153,14 @@ export default function LessonPage() {
 
       {/* Video Player */}
       <div className="mb-6 aspect-video w-full overflow-hidden rounded-xl border border-white/10 bg-white/5">
-        {lesson.videoUrl ? (
+        {lesson.videoUrl && lesson.videoUrl.match(/youtube\.com|youtu\.be/) ? (
+          <iframe
+            src={`https://www.youtube.com/embed/${lesson.videoUrl.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/)?.[1]}`}
+            className="h-full w-full"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        ) : lesson.videoUrl ? (
           <video
             src={lesson.videoUrl}
             controls

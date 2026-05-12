@@ -15,6 +15,7 @@ interface Lesson {
   order: number;
   is_free: boolean;
   completed: boolean;
+  type: string;
 }
 
 interface Chapter {
@@ -160,6 +161,16 @@ export default function CoursePage() {
                       <span className="text-sm font-medium text-gray-200 truncate">
                         {lesson.title}
                       </span>
+                      {lesson.type === "text" && (
+                        <span className="shrink-0 rounded bg-blue-400/15 px-1.5 py-0.5 text-[10px] font-medium text-blue-400">
+                          บทความ
+                        </span>
+                      )}
+                      {lesson.type === "file" && (
+                        <span className="shrink-0 rounded bg-orange-400/15 px-1.5 py-0.5 text-[10px] font-medium text-orange-400">
+                          ไฟล์
+                        </span>
+                      )}
                       {lesson.is_free && (
                         <span className="shrink-0 rounded bg-yellow-accent/20 px-1.5 py-0.5 text-[10px] font-semibold text-yellow-accent">
                           ฟรี

@@ -149,6 +149,16 @@ export default function PaymentResult() {
         >
           กรอกแบบสอบถามเลย →
         </a>
+
+        <div className="mt-6 pt-6 border-t border-zinc-800">
+          <p className="text-gray-500 text-sm mb-3">พร้อมเข้าเรียนแล้ว?</p>
+          <a
+            href="/learn/register"
+            className="inline-block px-6 py-2.5 rounded-xl bg-zinc-800 text-gray-300 font-medium border border-zinc-700 hover:border-zinc-500 transition-all text-sm"
+          >
+            สมัครบัญชีเพื่อเข้าเรียน →
+          </a>
+        </div>
       </div>
     );
   }

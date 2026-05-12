@@ -78,6 +78,13 @@ export default function Navbar() {
                 เกี่ยวกับวิน
               </Link>
 
+              <Link
+                href="/learn"
+                className="px-4 py-2 rounded-lg text-sm font-medium text-yellow-400 hover:text-yellow-300 transition-colors"
+              >
+                เข้าเรียน
+              </Link>
+
               <a
                 href="https://lin.ee/gGDzjTi"
                 target="_blank"

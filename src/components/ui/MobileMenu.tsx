@@ -93,6 +93,14 @@ export default function MobileMenu({ navLinks, courseLinks, currentPath }: Props
           เกี่ยวกับวิน
         </a>
 
+        <a
+          href="/learn"
+          className="block px-4 py-3 rounded-lg text-base font-medium text-yellow-400 hover:text-yellow-300 hover:bg-zinc-900 transition-colors"
+          onClick={() => setIsOpen(false)}
+        >
+          เข้าเรียน
+        </a>
+
         {/* LINE CTA */}
         <div className="pt-4 px-4">
           <a

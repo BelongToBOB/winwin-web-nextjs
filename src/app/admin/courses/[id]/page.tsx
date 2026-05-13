@@ -69,7 +69,10 @@ export default function CourseEditorPage() {
   const [forChapterId, setForChapterId] = useState("");
   const [chapterTitle, setChapterTitle] = useState("");
   const [chapterOrder, setChapterOrder] = useState("");
-  const [lessonForm, setLessonForm] = useState({ title: "", description: "", videoId: "", durationMin: "", order: "", isFree: false, type: "video", content: "" });
+  const [lessonForm, setLessonForm] = useState({ title: "", description: "", videoId: "", order: "", isFree: false, type: "video", content: "" });
+  const [durH, setDurH] = useState("");
+  const [durM, setDurM] = useState("");
+  const [durS, setDurS] = useState("");
   const [lessonAttachments, setLessonAttachments] = useState<Attachment[]>([]);
   const [saving, setSaving] = useState(false);
   const [uploadingFile, setUploadingFile] = useState(false);
@@ -158,7 +161,11 @@ export default function CourseEditorPage() {
   const openLesson = (chapterId: string, lesson?: Lesson) => {
     setForChapterId(chapterId); setEditingLesson(lesson || null);
     const chLessons = course?.chapters.find(c => c.id === chapterId)?.lessons || [];
-    setLessonForm({ title: lesson?.title || "", description: lesson?.description || "", videoId: lesson?.video_id || "", durationMin: lesson ? String(secondsToMinutes(lesson.duration)) : "", order: String(lesson?.order || chLessons.length + 1), isFree: lesson?.is_free || false, type: lesson?.type || "video", content: lesson?.content || "" });
+    const dur = lesson?.duration || 0;
+    setDurH(dur >= 3600 ? String(Math.floor(dur / 3600)) : "0");
+    setDurM(String(Math.floor((dur % 3600) / 60)));
+    setDurS(String(dur % 60));
+    setLessonForm({ title: lesson?.title || "", description: lesson?.description || "", videoId: lesson?.video_id || "", order: String(lesson?.order || chLessons.length + 1), isFree: lesson?.is_free || false, type: lesson?.type || "video", content: lesson?.content || "" });
     setLessonAttachments([]);
     setLocalVideoUrl("");
     if (lesson) {
@@ -170,7 +177,8 @@ export default function CourseEditorPage() {
   };
   const saveLesson = async () => {
     setSaving(true);
-    const payload = { title: lessonForm.title, description: lessonForm.description || null, videoId: lessonForm.videoId || null, duration: minutesToSeconds(Number(lessonForm.durationMin) || 0), order: Number(lessonForm.order) || 0, isFree: lessonForm.isFree, type: lessonForm.type, content: lessonForm.content || null };
+    const durTotal = (Number(durH) || 0) * 3600 + (Number(durM) || 0) * 60 + (Number(durS) || 0);
+    const payload = { title: lessonForm.title, description: lessonForm.description || null, videoId: lessonForm.videoId || null, duration: durTotal, order: Number(lessonForm.order) || 0, isFree: lessonForm.isFree, type: lessonForm.type, content: lessonForm.content || null };
     if (editingLesson) await fetch(`${LMS_API}/admin/lessons/${editingLesson.id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
     else await fetch(`${LMS_API}/admin/lessons`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...payload, chapterId: forChapterId, courseId: id }) });
     setSaving(false); setModal(null); show("บันทึกแล้ว"); reload();
@@ -211,8 +219,10 @@ export default function CourseEditorPage() {
     const vid = document.createElement("video");
     vid.src = objectUrl;
     vid.onloadedmetadata = () => {
-      const mins = Math.round((vid.duration / 60) * 10) / 10;
-      setL("durationMin", String(mins));
+      const totalSec = Math.round(vid.duration);
+      setDurH(String(Math.floor(totalSec / 3600)));
+      setDurM(String(Math.floor((totalSec % 3600) / 60)));
+      setDurS(String(totalSec % 60));
     };
     try {
       // 1. Create video on Bunny
@@ -601,7 +611,8 @@ export default function CourseEditorPage() {
                   // If new lesson, save first then upload
                   if (!editingLesson) {
                     setSaving(true);
-                    const payload = { title: lessonForm.title || file.name, description: lessonForm.description || null, videoId: lessonForm.videoId || null, duration: minutesToSeconds(Number(lessonForm.durationMin) || 0), order: Number(lessonForm.order) || 0, isFree: lessonForm.isFree, type: lessonForm.type, content: lessonForm.content || null, chapterId: forChapterId, courseId: id };
+                    const durTotalFile = (Number(durH) || 0) * 3600 + (Number(durM) || 0) * 60 + (Number(durS) || 0);
+                    const payload = { title: lessonForm.title || file.name, description: lessonForm.description || null, videoId: lessonForm.videoId || null, duration: durTotalFile, order: Number(lessonForm.order) || 0, isFree: lessonForm.isFree, type: lessonForm.type, content: lessonForm.content || null, chapterId: forChapterId, courseId: id };
                     const res = await fetch(`${LMS_API}/admin/lessons`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
                     const created = await res.json();
                     setSaving(false);
@@ -640,11 +651,22 @@ export default function CourseEditorPage() {
                 </button>
               </div>
 
-              <div className="flex gap-4">
+              <div className="flex gap-4 flex-wrap">
                 {lessonForm.type !== "file" && (
-                  <div><label className="mb-1.5 block text-sm text-gray-400">{lessonForm.type === "text" ? "เวลาอ่าน (นาที)" : "ความยาว (นาที)"}</label>
-                    <input type="number" step="0.5" min="0" value={lessonForm.durationMin} onChange={e => setL("durationMin", e.target.value)} onFocus={selectOnFocus}
-                      className="w-28 rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sm text-gray-200 focus:border-yellow-accent/40 focus:outline-none" /></div>
+                  <div>
+                    <label className="mb-1.5 block text-sm text-gray-400">{lessonForm.type === "text" ? "เวลาอ่าน" : "ความยาว"}</label>
+                    <div className="flex items-center gap-1">
+                      <input type="number" min="0" value={durH} onChange={e => setDurH(e.target.value)} onFocus={selectOnFocus} placeholder="0"
+                        className="w-16 rounded-lg border border-white/15 bg-white/5 px-3 py-3 text-sm text-gray-200 text-center focus:border-yellow-accent/40 focus:outline-none" />
+                      <span className="text-xs text-gray-500">ชม.</span>
+                      <input type="number" min="0" max="59" value={durM} onChange={e => setDurM(e.target.value)} onFocus={selectOnFocus} placeholder="0"
+                        className="w-16 rounded-lg border border-white/15 bg-white/5 px-3 py-3 text-sm text-gray-200 text-center focus:border-yellow-accent/40 focus:outline-none" />
+                      <span className="text-xs text-gray-500">น.</span>
+                      <input type="number" min="0" max="59" value={durS} onChange={e => setDurS(e.target.value)} onFocus={selectOnFocus} placeholder="0"
+                        className="w-16 rounded-lg border border-white/15 bg-white/5 px-3 py-3 text-sm text-gray-200 text-center focus:border-yellow-accent/40 focus:outline-none" />
+                      <span className="text-xs text-gray-500">วิ.</span>
+                    </div>
+                  </div>
                 )}
                 <div><label className="mb-1.5 block text-sm text-gray-400">ลำดับ</label>
                   <input type="number" min="1" value={lessonForm.order} onChange={e => setL("order", e.target.value)} onFocus={selectOnFocus}

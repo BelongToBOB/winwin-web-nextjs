@@ -99,7 +99,7 @@ export default function CoursePage() {
     <div className="mx-auto max-w-3xl px-6 py-8">
       {/* Cover */}
       {course.coverUrl && (
-        <img src={course.coverUrl} alt="" className="mb-6 h-52 w-full rounded-xl object-cover" />
+        <img src={course.coverUrl} alt="" className="mb-6 w-full rounded-xl" />
       )}
 
       {/* Header */}

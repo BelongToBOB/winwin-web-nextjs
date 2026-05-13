@@ -72,7 +72,7 @@ export default function LearnPage() {
                 <img
                   src={course.coverUrl}
                   alt=""
-                  className="h-36 w-full object-cover"
+                  className="w-full object-cover aspect-[16/9]"
                 />
               )}
               <div className="p-6">

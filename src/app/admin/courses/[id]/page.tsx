@@ -299,7 +299,7 @@ export default function CourseEditorPage() {
             <input ref={coverRef} type="file" accept="image/jpeg,image/png,image/webp" className="hidden" onChange={e => { if (e.target.files?.[0]) uploadCover(e.target.files[0]); }} />
             {course.coverUrl ? (
               <div className="relative group">
-                <img src={course.coverUrl} alt="" className="h-48 w-full rounded-xl object-cover border border-white/10" />
+                <img src={course.coverUrl} alt="" className="w-full rounded-xl border border-white/10" />
                 <div className="absolute inset-0 flex items-center justify-center rounded-xl bg-black/60 opacity-0 transition group-hover:opacity-100 cursor-pointer" onClick={() => coverRef.current?.click()}>
                   <span className="rounded-lg bg-white/20 px-4 py-2 text-sm font-medium text-white">เปลี่ยนรูป</span>
                 </div>

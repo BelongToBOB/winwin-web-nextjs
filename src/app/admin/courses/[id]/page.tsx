@@ -15,7 +15,7 @@ interface Lesson {
 interface Chapter { id: string; title: string; order: number; lessons: Lesson[]; }
 interface CourseContent {
   id: string; slug: string; title: string; description: string | null;
-  coverUrl: string | null; is_active: boolean; chapters: Chapter[];
+  coverUrl: string | null; is_active: boolean; price: string; chapters: Chapter[];
 }
 interface Student {
   id: string; email: string; first_name: string; last_name: string;
@@ -41,6 +41,12 @@ export default function CourseEditorPage() {
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState("");
   const [tab, setTab] = useState<"content" | "students">("content");
+
+  // Course info
+  const [courseTitle, setCourseTitle] = useState("");
+  const [courseDesc, setCourseDesc] = useState("");
+  const [coursePrice, setCoursePrice] = useState(0);
+  const [savingInfo, setSavingInfo] = useState(false);
 
   // Cover
   const coverRef = useRef<HTMLInputElement>(null);
@@ -74,7 +80,12 @@ export default function CourseEditorPage() {
   const setL = (key: string, value: any) => setLessonForm((f) => ({ ...f, [key]: value }));
 
   const reload = useCallback(() => {
-    fetch(`${LMS_API}/admin/courses/${id}/content`).then(r => r.json()).then(setCourse).catch(() => {}).finally(() => setLoading(false));
+    fetch(`${LMS_API}/admin/courses/${id}/content`).then(r => r.json()).then(d => {
+      setCourse(d);
+      setCourseTitle(d.title || "");
+      setCourseDesc(d.description || "");
+      setCoursePrice(Number(d.price) || 0);
+    }).catch(() => {}).finally(() => setLoading(false));
   }, [id]);
 
   const loadStudents = useCallback(() => {
@@ -87,6 +98,19 @@ export default function CourseEditorPage() {
 
   useEffect(() => { reload(); }, [reload]);
   useEffect(() => { if (tab === "students") loadStudents(); }, [tab, loadStudents]);
+
+  // === Course Info ===
+  const saveCourseInfo = async () => {
+    setSavingInfo(true);
+    await fetch(`${LMS_API}/admin/courses/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title: courseTitle, description: courseDesc, price: coursePrice }),
+    });
+    setSavingInfo(false);
+    show("บันทึกข้อมูลคอร์สแล้ว");
+    reload();
+  };
 
   // === Cover ===
   const uploadCover = async (file: File) => {
@@ -292,6 +316,32 @@ export default function CourseEditorPage() {
                 )}
               </div>
             )}
+          </div>
+
+          {/* Course Info */}
+          <div className="mb-8 rounded-xl border border-white/10 bg-white/[0.03] p-5">
+            <h2 className="mb-4 text-sm font-medium text-gray-400">ข้อมูลคอร์ส</h2>
+            <div className="space-y-3">
+              <div>
+                <label className="mb-1 block text-xs text-gray-500">ชื่อคอร์ส</label>
+                <input type="text" value={courseTitle} onChange={e => setCourseTitle(e.target.value)}
+                  className="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-sm text-gray-200 focus:border-yellow-accent/40 focus:outline-none" />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs text-gray-500">คำอธิบาย</label>
+                <textarea value={courseDesc} onChange={e => setCourseDesc(e.target.value)} rows={2}
+                  className="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-sm text-gray-200 focus:border-yellow-accent/40 focus:outline-none resize-none" />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs text-gray-500">ราคา (บาท)</label>
+                <input type="number" min="0" value={coursePrice} onChange={e => setCoursePrice(Number(e.target.value))}
+                  className="w-36 rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-sm text-gray-200 focus:border-yellow-accent/40 focus:outline-none" />
+              </div>
+              <button onClick={saveCourseInfo} disabled={savingInfo}
+                className="rounded-lg bg-yellow-accent px-4 py-2 text-sm font-semibold text-black hover:bg-yellow-300 disabled:opacity-50">
+                {savingInfo ? "กำลังบันทึก..." : "บันทึกข้อมูลคอร์ส"}
+              </button>
+            </div>
           </div>
 
           {/* Chapters + Lessons */}

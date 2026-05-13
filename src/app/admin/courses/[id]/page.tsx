@@ -205,8 +205,15 @@ export default function CourseEditorPage() {
   const uploadVideo = async (file: File) => {
     setUploadingVideo(true);
     setVideoProgress(0);
-    // Show local preview immediately
-    setLocalVideoUrl(URL.createObjectURL(file));
+    // Show local preview + auto-detect duration
+    const objectUrl = URL.createObjectURL(file);
+    setLocalVideoUrl(objectUrl);
+    const vid = document.createElement("video");
+    vid.src = objectUrl;
+    vid.onloadedmetadata = () => {
+      const mins = Math.round((vid.duration / 60) * 10) / 10;
+      setL("durationMin", String(mins));
+    };
     try {
       // 1. Create video on Bunny
       const createRes = await fetch(`${LMS_API}/admin/video/create`, {

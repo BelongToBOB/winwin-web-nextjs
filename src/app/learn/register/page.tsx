@@ -3,9 +3,11 @@
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 
 const LMS_API = "https://checkout.winwinwealth.co/api";
+const TURNSTILE_SITE_KEY = "0x4AAAAAADOTTgnDHUu3NEb3";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -17,6 +19,8 @@ export default function RegisterPage() {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const turnstileRef = useRef<TurnstileInstance>(null);
 
   const set = (key: string) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((f) => ({ ...f, [key]: e.target.value }));
@@ -25,6 +29,10 @@ export default function RegisterPage() {
     e.preventDefault();
     setError("");
 
+    if (!turnstileToken) {
+      setError("กรุณารอการตรวจสอบสักครู่");
+      return;
+    }
     if (form.password !== form.confirmPassword) {
       setError("รหัสผ่านไม่ตรงกัน");
       return;
@@ -43,11 +51,14 @@ export default function RegisterPage() {
           email: form.email.trim(),
           password: form.password,
           displayName: form.displayName.trim(),
+          turnstileToken,
         }),
       });
       const data = await res.json();
       if (!res.ok) {
         setError(data.message || "เกิดข้อผิดพลาด");
+        turnstileRef.current?.reset();
+        setTurnstileToken("");
         return;
       }
       router.push("/learn/login?registered=true");
@@ -82,49 +93,52 @@ export default function RegisterPage() {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-3 text-left">
-          <div>
-            <input
-              type="text"
-              placeholder="ชื่อที่แสดง"
-              value={form.displayName}
-              onChange={set("displayName")}
-              required
-              className="w-full rounded-lg border border-white/20 bg-white/5 px-4 py-3 text-sm text-gray-200 placeholder:text-gray-500 focus:border-yellow-accent/50 focus:outline-none"
+          <input
+            type="text"
+            placeholder="ชื่อที่แสดง"
+            value={form.displayName}
+            onChange={set("displayName")}
+            required
+            className="w-full rounded-lg border border-white/20 bg-white/5 px-4 py-3 text-sm text-gray-200 placeholder:text-gray-500 focus:border-yellow-accent/50 focus:outline-none"
+          />
+          <input
+            type="email"
+            placeholder="อีเมล"
+            value={form.email}
+            onChange={set("email")}
+            required
+            className="w-full rounded-lg border border-white/20 bg-white/5 px-4 py-3 text-sm text-gray-200 placeholder:text-gray-500 focus:border-yellow-accent/50 focus:outline-none"
+          />
+          <input
+            type="password"
+            placeholder="รหัสผ่าน (อย่างน้อย 6 ตัว)"
+            value={form.password}
+            onChange={set("password")}
+            required
+            className="w-full rounded-lg border border-white/20 bg-white/5 px-4 py-3 text-sm text-gray-200 placeholder:text-gray-500 focus:border-yellow-accent/50 focus:outline-none"
+          />
+          <input
+            type="password"
+            placeholder="ยืนยันรหัสผ่าน"
+            value={form.confirmPassword}
+            onChange={set("confirmPassword")}
+            required
+            className="w-full rounded-lg border border-white/20 bg-white/5 px-4 py-3 text-sm text-gray-200 placeholder:text-gray-500 focus:border-yellow-accent/50 focus:outline-none"
+          />
+
+          <div className="flex justify-center">
+            <Turnstile
+              ref={turnstileRef}
+              siteKey={TURNSTILE_SITE_KEY}
+              onSuccess={setTurnstileToken}
+              onExpire={() => setTurnstileToken("")}
+              options={{ theme: "dark", size: "flexible" }}
             />
           </div>
-          <div>
-            <input
-              type="email"
-              placeholder="อีเมล"
-              value={form.email}
-              onChange={set("email")}
-              required
-              className="w-full rounded-lg border border-white/20 bg-white/5 px-4 py-3 text-sm text-gray-200 placeholder:text-gray-500 focus:border-yellow-accent/50 focus:outline-none"
-            />
-          </div>
-          <div>
-            <input
-              type="password"
-              placeholder="รหัสผ่าน (อย่างน้อย 6 ตัว)"
-              value={form.password}
-              onChange={set("password")}
-              required
-              className="w-full rounded-lg border border-white/20 bg-white/5 px-4 py-3 text-sm text-gray-200 placeholder:text-gray-500 focus:border-yellow-accent/50 focus:outline-none"
-            />
-          </div>
-          <div>
-            <input
-              type="password"
-              placeholder="ยืนยันรหัสผ่าน"
-              value={form.confirmPassword}
-              onChange={set("confirmPassword")}
-              required
-              className="w-full rounded-lg border border-white/20 bg-white/5 px-4 py-3 text-sm text-gray-200 placeholder:text-gray-500 focus:border-yellow-accent/50 focus:outline-none"
-            />
-          </div>
+
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || !turnstileToken}
             className="w-full rounded-lg bg-yellow-accent py-3 text-sm font-semibold text-black transition hover:bg-yellow-300 disabled:opacity-50"
           >
             {loading ? "กำลังสมัคร..." : "สมัครสมาชิก"}

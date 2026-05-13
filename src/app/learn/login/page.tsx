@@ -4,7 +4,10 @@ import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { Suspense, useState } from "react";
+import { Suspense, useState, useRef } from "react";
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
+
+const TURNSTILE_SITE_KEY = "0x4AAAAAADOTTgnDHUu3NEb3";
 
 function LoginContent() {
   const searchParams = useSearchParams();
@@ -16,9 +19,15 @@ function LoginContent() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [credError, setCredError] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const turnstileRef = useRef<TurnstileInstance>(null);
 
   const handleCredentialsLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!turnstileToken) {
+      setCredError("กรุณารอการตรวจสอบสักครู่");
+      return;
+    }
     setLoading(true);
     setCredError("");
 
@@ -31,6 +40,8 @@ function LoginContent() {
     if (result?.error) {
       setCredError("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
       setLoading(false);
+      turnstileRef.current?.reset();
+      setTurnstileToken("");
     } else {
       window.location.href = "/learn";
     }
@@ -97,12 +108,23 @@ function LoginContent() {
             required
             className="w-full rounded-lg border border-white/20 bg-white/5 px-4 py-3 text-sm text-gray-200 placeholder:text-gray-500 focus:border-yellow-accent/50 focus:outline-none"
           />
+
+          <div className="flex justify-center">
+            <Turnstile
+              ref={turnstileRef}
+              siteKey={TURNSTILE_SITE_KEY}
+              onSuccess={setTurnstileToken}
+              onExpire={() => setTurnstileToken("")}
+              options={{ theme: "dark", size: "flexible" }}
+            />
+          </div>
+
           {credError && (
             <p className="text-xs text-red-400">{credError}</p>
           )}
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || !turnstileToken}
             className="w-full rounded-lg bg-yellow-accent py-3 text-sm font-semibold text-black transition hover:bg-yellow-300 disabled:opacity-50"
           >
             {loading ? "กำลังเข้าสู่ระบบ..." : "เข้าสู่ระบบ"}

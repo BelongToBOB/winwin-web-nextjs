@@ -22,13 +22,10 @@ interface LessonDetail {
   attachments: { id: string; url: string; name: string; size: number }[];
 }
 
-interface SiblingLesson {
-  id: string;
-  title: string;
-}
-
-interface CourseNav {
-  lessons: { id: string; title: string; chapter_id: string }[];
+function formatBytes(b: number) {
+  if (b < 1024) return b + " B";
+  if (b < 1048576) return (b / 1024).toFixed(0) + " KB";
+  return (b / 1048576).toFixed(1) + " MB";
 }
 
 export default function LessonPage() {
@@ -41,18 +38,16 @@ export default function LessonPage() {
   const [error, setError] = useState("");
   const [marking, setMarking] = useState(false);
   const [completed, setCompleted] = useState(false);
-
-  // Navigation: prev/next lessons
-  const [prevLesson, setPrevLesson] = useState<SiblingLesson | null>(null);
-  const [nextLesson, setNextLesson] = useState<SiblingLesson | null>(null);
+  const [nextLessonId, setNextLessonId] = useState<string | null>(null);
 
   useEffect(() => {
     if (status === "loading") return;
     if (!session?.user?.email) return;
+    setLoading(true);
+    setCompleted(false);
 
     const email = session.user.email;
 
-    // Fetch lesson detail
     fetch(`${LMS_API}/learn/lessons/${lessonId}`, {
       headers: { "x-user-email": email },
     })
@@ -64,31 +59,15 @@ export default function LessonPage() {
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
 
-    // Fetch course overview for prev/next navigation
-    fetch(`${LMS_API}/learn/courses/${slug}`, {
-      headers: { "x-user-email": email },
-    })
-      .then((res) => res.json())
+    // Get next lesson for auto-advance
+    fetch(`${LMS_API}/learn/courses/${slug}`, { headers: { "x-user-email": email } })
+      .then((r) => r.json())
       .then((course) => {
-        const allLessons: { id: string; title: string }[] = [];
-        course.chapters?.forEach((ch: any) => {
-          ch.lessons?.forEach((l: any) => {
-            allLessons.push({ id: l.id, title: l.title });
-          });
-        });
-
-        const idx = allLessons.findIndex((l) => l.id === lessonId);
-        setPrevLesson(idx > 0 ? allLessons[idx - 1] : null);
-        setNextLesson(idx < allLessons.length - 1 ? allLessons[idx + 1] : null);
-
-        // Check if current lesson is completed
-        const currentChapter = course.chapters?.find((ch: any) =>
-          ch.lessons?.some((l: any) => l.id === lessonId)
-        );
-        const currentLesson = currentChapter?.lessons?.find(
-          (l: any) => l.id === lessonId
-        );
-        if (currentLesson?.completed) setCompleted(true);
+        const all: { id: string; completed: boolean }[] = [];
+        course.chapters?.forEach((ch: any) => ch.lessons?.forEach((l: any) => all.push({ id: l.id, completed: l.completed })));
+        const idx = all.findIndex((l) => l.id === lessonId);
+        setNextLessonId(idx < all.length - 1 ? all[idx + 1].id : null);
+        if (all[idx]?.completed) setCompleted(true);
       })
       .catch(() => {});
   }, [slug, lessonId, session?.user?.email, status]);
@@ -99,24 +78,16 @@ export default function LessonPage() {
     try {
       const res = await fetch(`${LMS_API}/learn/progress`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-user-email": session.user.email,
-        },
+        headers: { "Content-Type": "application/json", "x-user-email": session.user.email },
         body: JSON.stringify({ lessonId, completed: true }),
       });
       if (res.ok) {
         setCompleted(true);
-        // Auto-navigate to next lesson after short delay
-        if (nextLesson) {
-          setTimeout(() => router.push(`/learn/${slug}/${nextLesson.id}`), 800);
+        if (nextLessonId) {
+          setTimeout(() => router.push(`/learn/${slug}/${nextLessonId}`), 600);
         }
       }
-    } catch {
-      // silent fail
-    } finally {
-      setMarking(false);
-    }
+    } catch {} finally { setMarking(false); }
   };
 
   if (loading) {
@@ -129,135 +100,109 @@ export default function LessonPage() {
 
   if (error || !lesson) {
     return (
-      <div className="mx-auto max-w-4xl px-4 py-10 text-center">
-        <p className="text-red-400">{error || "ไม่พบบทเรียน"}</p>
-        <Link
-          href={`/learn/${slug}`}
-          className="mt-4 inline-block text-sm text-yellow-accent hover:underline"
-        >
-          กลับหน้าคอร์ส
-        </Link>
+      <div className="flex min-h-[40vh] items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-400">{error || "ไม่พบบทเรียน"}</p>
+          <Link href={`/learn/${slug}`} className="mt-3 inline-block text-sm text-yellow-accent hover:underline">กลับหน้าคอร์ส</Link>
+        </div>
       </div>
     );
   }
 
-  return (
-    <div className="mx-auto max-w-4xl px-4 py-6">
-      {/* Back to course */}
-      <Link
-        href={`/learn/${slug}`}
-        className="mb-4 inline-flex items-center gap-1 text-sm text-gray-400 hover:text-yellow-accent"
-      >
-        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-        </svg>
-        กลับหน้าคอร์ส
-      </Link>
+  const ytMatch = lesson.videoUrl?.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
 
-      {/* Video Player (only for video type or if videoUrl exists) */}
+  return (
+    <div className="flex flex-col h-full">
+      {/* Video / Content Area */}
       {(lesson.type === "video" || lesson.videoUrl) && (
-        <div className="mb-6 aspect-video w-full overflow-hidden rounded-xl border border-white/10 bg-white/5">
-          {lesson.videoUrl && lesson.videoUrl.match(/youtube\.com|youtu\.be/) ? (
-            <iframe
-              src={`https://www.youtube.com/embed/${lesson.videoUrl.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/)?.[1]}`}
-              className="h-full w-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          ) : lesson.videoUrl ? (
-            <video src={lesson.videoUrl} controls className="h-full w-full" controlsList="nodownload" />
-          ) : (
-            <div className="flex h-full items-center justify-center text-gray-500">
-              <p className="text-sm">วิดีโอกำลังเตรียมพร้อม</p>
+        <div className="w-full bg-[#0A0A0A]">
+          <div className="mx-auto max-w-5xl">
+            <div className="aspect-video w-full overflow-hidden">
+              {ytMatch ? (
+                <iframe
+                  src={`https://www.youtube.com/embed/${ytMatch[1]}?rel=0`}
+                  className="h-full w-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : lesson.videoUrl ? (
+                <video src={lesson.videoUrl} controls className="h-full w-full" controlsList="nodownload" />
+              ) : (
+                <div className="flex h-full items-center justify-center bg-white/[0.02] text-gray-600">
+                  <p className="text-sm">วิดีโอกำลังเตรียมพร้อม</p>
+                </div>
+              )}
             </div>
-          )}
+          </div>
         </div>
       )}
 
       {/* Lesson Info */}
-      <h1 className="mb-2 text-xl font-bold">{lesson.title}</h1>
-      {lesson.description && (
-        <p className="mb-4 text-sm text-gray-400">{lesson.description}</p>
-      )}
-
-      {/* Text Content (for text type) */}
-      {lesson.type === "text" && lesson.content && (
-        <div className="mb-6 rounded-xl border border-white/10 bg-white/[0.03] p-6 text-sm leading-relaxed text-gray-300 whitespace-pre-wrap">
-          {lesson.content}
-        </div>
-      )}
-
-      {/* Attachments */}
-      {lesson.attachments && lesson.attachments.length > 0 && (
-        <div className="mb-6">
-          <h3 className="mb-2 text-sm font-medium text-gray-400">ไฟล์ประกอบการเรียน</h3>
-          <div className="space-y-2">
-            {lesson.attachments.map((att) => (
-              <a
-                key={att.id}
-                href={att.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 rounded-lg border border-white/10 bg-white/[0.03] px-4 py-3 transition hover:bg-white/[0.06]"
-              >
-                <svg className="h-5 w-5 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-                <span className="flex-1 truncate text-sm text-gray-200">{att.name}</span>
-                <span className="text-xs text-gray-500">ดาวน์โหลด</span>
-              </a>
-            ))}
+      <div className="mx-auto w-full max-w-3xl px-6 py-6">
+        {/* Title + Mark complete */}
+        <div className="flex items-start justify-between gap-4 mb-4">
+          <div className="flex-1">
+            <h1 className="text-xl font-bold leading-snug">{lesson.title}</h1>
+            {lesson.description && (
+              <p className="mt-2 text-sm text-gray-400 leading-relaxed">{lesson.description}</p>
+            )}
           </div>
+
+          {/* Compact complete button */}
+          {completed ? (
+            <div className="flex shrink-0 items-center gap-1.5 rounded-lg bg-yellow-accent/10 px-3 py-1.5">
+              <svg className="h-4 w-4 text-yellow-accent" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+              </svg>
+              <span className="text-xs font-medium text-yellow-accent">เรียนแล้ว</span>
+            </div>
+          ) : (
+            <button
+              onClick={handleMarkComplete}
+              disabled={marking}
+              className="shrink-0 rounded-lg bg-yellow-accent px-4 py-2 text-sm font-semibold text-black transition hover:bg-yellow-300 disabled:opacity-50"
+            >
+              {marking ? "..." : "เรียนจบแล้ว"}
+            </button>
+          )}
         </div>
-      )}
 
-      {/* Mark Complete */}
-      <div className="mb-6">
-        {completed ? (
-          <div className="flex items-center gap-2 rounded-xl border border-yellow-accent/20 bg-yellow-accent/5 px-4 py-3">
-            <svg className="h-5 w-5 text-yellow-accent" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-            </svg>
-            <span className="text-sm font-medium text-yellow-accent">เรียนจบแล้ว</span>
+        <div className="h-px bg-white/10 mb-5" />
+
+        {/* Text content */}
+        {lesson.type === "text" && lesson.content && (
+          <div className="mb-6 text-sm leading-relaxed text-gray-300 whitespace-pre-wrap">
+            {lesson.content}
           </div>
-        ) : (
-          <button
-            onClick={handleMarkComplete}
-            disabled={marking}
-            className="w-full rounded-xl bg-yellow-accent py-3 text-sm font-semibold text-black transition hover:bg-yellow-300 disabled:opacity-50"
-          >
-            {marking ? "กำลังบันทึก..." : "เรียนจบบทนี้แล้ว"}
-          </button>
         )}
-      </div>
 
-      {/* Prev / Next */}
-      <div className="flex items-center justify-between gap-4">
-        {prevLesson ? (
-          <Link
-            href={`/learn/${slug}/${prevLesson.id}`}
-            className="flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2.5 text-sm text-gray-400 transition hover:border-white/20 hover:text-gray-200"
-          >
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            <span className="max-w-[150px] truncate">{prevLesson.title}</span>
-          </Link>
-        ) : (
-          <div />
-        )}
-        {nextLesson ? (
-          <Link
-            href={`/learn/${slug}/${nextLesson.id}`}
-            className="flex items-center gap-2 rounded-xl border border-white/10 px-4 py-2.5 text-sm text-gray-400 transition hover:border-white/20 hover:text-gray-200"
-          >
-            <span className="max-w-[150px] truncate">{nextLesson.title}</span>
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </Link>
-        ) : (
-          <div />
+        {/* Attachments */}
+        {lesson.attachments && lesson.attachments.length > 0 && (
+          <div className="mb-6">
+            <h3 className="mb-3 text-sm font-medium text-gray-400">ไฟล์ประกอบการเรียน</h3>
+            <div className="space-y-2">
+              {lesson.attachments.map((att) => (
+                <a
+                  key={att.id}
+                  href={att.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 rounded-lg border border-white/10 bg-white/[0.02] px-4 py-3 transition hover:bg-white/[0.05]"
+                >
+                  <svg className="h-5 w-5 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  <div className="flex-1 min-w-0">
+                    <span className="block truncate text-sm text-gray-200">{att.name}</span>
+                    <span className="text-[11px] text-gray-600">{formatBytes(att.size)}</span>
+                  </div>
+                  <span className="shrink-0 rounded-md bg-white/5 px-2.5 py-1 text-xs text-gray-400 transition hover:bg-white/10">
+                    ดาวน์โหลด
+                  </span>
+                </a>
+              ))}
+            </div>
+          </div>
         )}
       </div>
     </div>

@@ -75,6 +75,7 @@ export default function CourseEditorPage() {
   const videoInputRef = useRef<HTMLInputElement>(null);
   const [uploadingVideo, setUploadingVideo] = useState(false);
   const [videoProgress, setVideoProgress] = useState(0);
+  const [localVideoUrl, setLocalVideoUrl] = useState("");
 
   const show = (msg: string) => { setToast(msg); setTimeout(() => setToast(""), 2500); };
   const setL = (key: string, value: any) => setLessonForm((f) => ({ ...f, [key]: value }));
@@ -156,6 +157,7 @@ export default function CourseEditorPage() {
     const chLessons = course?.chapters.find(c => c.id === chapterId)?.lessons || [];
     setLessonForm({ title: lesson?.title || "", description: lesson?.description || "", videoId: lesson?.video_id || "", durationMin: lesson ? secondsToMinutes(lesson.duration) : 0, order: lesson?.order || chLessons.length + 1, isFree: lesson?.is_free || false, type: lesson?.type || "video", content: lesson?.content || "" });
     setLessonAttachments([]);
+    setLocalVideoUrl("");
     if (lesson) {
       // Load attachments
       fetch(`${LMS_API}/learn/lessons/${lesson.id}`, { headers: { "x-user-email": "admin" } })
@@ -200,6 +202,8 @@ export default function CourseEditorPage() {
   const uploadVideo = async (file: File) => {
     setUploadingVideo(true);
     setVideoProgress(0);
+    // Show local preview immediately
+    setLocalVideoUrl(URL.createObjectURL(file));
     try {
       // 1. Create video on Bunny
       const createRes = await fetch(`${LMS_API}/admin/video/create`, {
@@ -523,7 +527,11 @@ export default function CourseEditorPage() {
                     onChange={e => { if (e.target.files?.[0]) uploadVideo(e.target.files[0]); }} />
 
                   {/* Current video preview */}
-                  {lessonForm.videoId && lessonForm.videoId.includes("mediadelivery.net") ? (
+                  {localVideoUrl ? (
+                    <div className="mb-3">
+                      <video src={localVideoUrl} controls className="aspect-video w-full rounded-lg border border-white/10" />
+                    </div>
+                  ) : lessonForm.videoId && lessonForm.videoId.includes("mediadelivery.net") ? (
                     <div className="mb-3">
                       <iframe src={lessonForm.videoId} className="aspect-video w-full rounded-lg border border-white/10" allowFullScreen
                         allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture" />

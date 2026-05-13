@@ -115,9 +115,9 @@ export default function LessonPage() {
     <div className="flex flex-col h-full">
       {/* Video / Content Area */}
       {(lesson.type === "video" || lesson.videoUrl) && (
-        <div className="w-full bg-[#0A0A0A]">
-          <div className="mx-auto max-w-5xl">
-            <div className="aspect-video w-full overflow-hidden">
+        <div className="w-full bg-[#0A0A0A] pt-2">
+          <div className="mx-auto max-w-5xl px-4">
+            <div className="aspect-video w-full overflow-hidden rounded-lg">
               {lesson.videoUrl?.includes("mediadelivery.net") ? (
                 <iframe
                   src={lesson.videoUrl}

@@ -66,6 +66,9 @@ export default function CourseEditorPage() {
   const [saving, setSaving] = useState(false);
   const [uploadingFile, setUploadingFile] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const videoInputRef = useRef<HTMLInputElement>(null);
+  const [uploadingVideo, setUploadingVideo] = useState(false);
+  const [videoProgress, setVideoProgress] = useState(0);
 
   const show = (msg: string) => { setToast(msg); setTimeout(() => setToast(""), 2500); };
   const setL = (key: string, value: any) => setLessonForm((f) => ({ ...f, [key]: value }));
@@ -167,6 +170,43 @@ export default function CourseEditorPage() {
     await fetch(`${LMS_API}/admin/attachments/${attId}`, { method: "DELETE" });
     setLessonAttachments(prev => prev.filter(a => a.id !== attId));
     show("ลบไฟล์แล้ว");
+  };
+
+  // === Video Upload ===
+  const uploadVideo = async (file: File) => {
+    setUploadingVideo(true);
+    setVideoProgress(0);
+    try {
+      // 1. Create video on Bunny
+      const createRes = await fetch(`${LMS_API}/admin/video/create`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: lessonForm.title || file.name }),
+      });
+      const videoData = await createRes.json();
+
+      // 2. Upload file directly to Bunny
+      const xhr = new XMLHttpRequest();
+      xhr.open("PUT", `https://video.bunnycdn.com/library/659470/videos/${videoData.videoId}`, true);
+      xhr.setRequestHeader("AccessKey", "e03fd3d9-f4a9-4aee-8bb6976287e1-32bf-4166");
+      xhr.upload.onprogress = (e) => {
+        if (e.lengthComputable) setVideoProgress(Math.round((e.loaded / e.total) * 100));
+      };
+      xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          setL("videoId", videoData.iframeUrl);
+          show("อัพโหลดวิดีโอสำเร็จ รอ Bunny ประมวลผลสักครู่");
+        } else {
+          show("อัพโหลดวิดีโอไม่สำเร็จ");
+        }
+        setUploadingVideo(false);
+      };
+      xhr.onerror = () => { show("อัพโหลดวิดีโอไม่สำเร็จ"); setUploadingVideo(false); };
+      xhr.send(file);
+    } catch {
+      show("อัพโหลดวิดีโอไม่สำเร็จ");
+      setUploadingVideo(false);
+    }
   };
 
   // === Enroll ===
@@ -427,10 +467,48 @@ export default function CourseEditorPage() {
               {/* Video field */}
               {lessonForm.type === "video" && (
                 <div>
-                  <label className="mb-1.5 block text-sm text-gray-400">วิดีโอ URL</label>
-                  <input type="text" placeholder="วาง YouTube URL หรือลิงก์วิดีโอ" value={lessonForm.videoId} onChange={e => setL("videoId", e.target.value)}
-                    className="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sm text-gray-200 placeholder:text-gray-600 focus:border-yellow-accent/40 focus:outline-none" />
-                  {ytId && <iframe src={`https://www.youtube.com/embed/${ytId}`} className="mt-3 aspect-video w-full rounded-lg border border-white/10" allowFullScreen />}
+                  <label className="mb-1.5 block text-sm text-gray-400">วิดีโอ</label>
+                  <input ref={videoInputRef} type="file" accept="video/*" className="hidden"
+                    onChange={e => { if (e.target.files?.[0]) uploadVideo(e.target.files[0]); }} />
+
+                  {/* Current video preview */}
+                  {lessonForm.videoId && lessonForm.videoId.includes("mediadelivery.net") ? (
+                    <div className="mb-3">
+                      <iframe src={lessonForm.videoId} className="aspect-video w-full rounded-lg border border-white/10" allowFullScreen
+                        allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture" />
+                    </div>
+                  ) : lessonForm.videoId && ytId ? (
+                    <div className="mb-3">
+                      <iframe src={`https://www.youtube.com/embed/${ytId}`} className="aspect-video w-full rounded-lg border border-white/10" allowFullScreen />
+                    </div>
+                  ) : lessonForm.videoId ? (
+                    <div className="mb-3 rounded-lg border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-gray-400 break-all">
+                      {lessonForm.videoId}
+                    </div>
+                  ) : null}
+
+                  {/* Upload progress */}
+                  {uploadingVideo && (
+                    <div className="mb-3">
+                      <div className="flex items-center justify-between text-xs text-gray-400 mb-1">
+                        <span>กำลังอัพโหลด...</span>
+                        <span>{videoProgress}%</span>
+                      </div>
+                      <div className="h-2 rounded-full bg-white/10 overflow-hidden">
+                        <div className="h-full rounded-full bg-yellow-accent transition-all" style={{ width: `${videoProgress}%` }} />
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="flex gap-2">
+                    <button type="button" onClick={() => videoInputRef.current?.click()} disabled={uploadingVideo}
+                      className="flex-1 rounded-lg border border-dashed border-white/20 px-4 py-2.5 text-sm text-gray-400 transition hover:border-white/30 hover:text-gray-300 disabled:opacity-50">
+                      {uploadingVideo ? "กำลังอัพโหลด..." : lessonForm.videoId ? "เปลี่ยนวิดีโอ" : "อัพโหลดวิดีโอ"}
+                    </button>
+                  </div>
+                  <p className="mt-1.5 text-xs text-gray-600">หรือวาง URL ด้านล่าง (YouTube, Bunny Stream, direct link)</p>
+                  <input type="text" placeholder="วาง URL วิดีโอ" value={lessonForm.videoId} onChange={e => setL("videoId", e.target.value)}
+                    className="mt-2 w-full rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-xs text-gray-300 placeholder:text-gray-600 focus:border-yellow-accent/40 focus:outline-none font-mono" />
                 </div>
               )}
 

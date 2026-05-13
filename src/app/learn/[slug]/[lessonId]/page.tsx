@@ -118,7 +118,14 @@ export default function LessonPage() {
         <div className="w-full bg-[#0A0A0A]">
           <div className="mx-auto max-w-5xl">
             <div className="aspect-video w-full overflow-hidden">
-              {ytMatch ? (
+              {lesson.videoUrl?.includes("mediadelivery.net") ? (
+                <iframe
+                  src={lesson.videoUrl}
+                  className="h-full w-full"
+                  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : ytMatch ? (
                 <iframe
                   src={`https://www.youtube.com/embed/${ytMatch[1]}?rel=0`}
                   className="h-full w-full"

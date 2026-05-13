@@ -47,7 +47,7 @@ export default function CourseEditorPage() {
   // Course info
   const [courseTitle, setCourseTitle] = useState("");
   const [courseDesc, setCourseDesc] = useState("");
-  const [coursePrice, setCoursePrice] = useState(0);
+  const [coursePrice, setCoursePrice] = useState("");
   const [savingInfo, setSavingInfo] = useState(false);
 
   // Cover
@@ -68,8 +68,8 @@ export default function CourseEditorPage() {
   const [editingLesson, setEditingLesson] = useState<Lesson | null>(null);
   const [forChapterId, setForChapterId] = useState("");
   const [chapterTitle, setChapterTitle] = useState("");
-  const [chapterOrder, setChapterOrder] = useState(0);
-  const [lessonForm, setLessonForm] = useState({ title: "", description: "", videoId: "", durationMin: 0, order: 0, isFree: false, type: "video", content: "" });
+  const [chapterOrder, setChapterOrder] = useState("");
+  const [lessonForm, setLessonForm] = useState({ title: "", description: "", videoId: "", durationMin: "", order: "", isFree: false, type: "video", content: "" });
   const [lessonAttachments, setLessonAttachments] = useState<Attachment[]>([]);
   const [saving, setSaving] = useState(false);
   const [uploadingFile, setUploadingFile] = useState(false);
@@ -87,7 +87,7 @@ export default function CourseEditorPage() {
       setCourse(d);
       setCourseTitle(d.title || "");
       setCourseDesc(d.description || "");
-      setCoursePrice(Number(d.price) || 0);
+      setCoursePrice(String(Number(d.price) || ""));
     }).catch(() => {}).finally(() => setLoading(false));
   }, [id]);
 
@@ -108,7 +108,7 @@ export default function CourseEditorPage() {
     await fetch(`${LMS_API}/admin/courses/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title: courseTitle, description: courseDesc, price: coursePrice }),
+      body: JSON.stringify({ title: courseTitle, description: courseDesc, price: Number(coursePrice) || 0 }),
     });
     setSavingInfo(false);
     show("บันทึกข้อมูลคอร์สแล้ว");
@@ -140,12 +140,13 @@ export default function CourseEditorPage() {
 
   // === Chapter ===
   const openChapter = (ch?: Chapter) => {
-    setEditingChapter(ch || null); setChapterTitle(ch?.title || ""); setChapterOrder(ch?.order || (course?.chapters.length ?? 0) + 1); setModal("chapter");
+    setEditingChapter(ch || null); setChapterTitle(ch?.title || ""); setChapterOrder(String(ch?.order ?? (course?.chapters.length ?? 0) + 1)); setModal("chapter");
   };
   const saveChapter = async () => {
     setSaving(true);
-    if (editingChapter) await fetch(`${LMS_API}/admin/chapters/${editingChapter.id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ title: chapterTitle, order: chapterOrder }) });
-    else await fetch(`${LMS_API}/admin/chapters`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ courseId: id, title: chapterTitle, order: chapterOrder }) });
+    const orderNum = Number(chapterOrder) || 0;
+    if (editingChapter) await fetch(`${LMS_API}/admin/chapters/${editingChapter.id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ title: chapterTitle, order: orderNum }) });
+    else await fetch(`${LMS_API}/admin/chapters`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ courseId: id, title: chapterTitle, order: orderNum }) });
     setSaving(false); setModal(null); show("บันทึกแล้ว"); reload();
   };
   const deleteChapter = async (chId: string, title: string) => {
@@ -157,7 +158,7 @@ export default function CourseEditorPage() {
   const openLesson = (chapterId: string, lesson?: Lesson) => {
     setForChapterId(chapterId); setEditingLesson(lesson || null);
     const chLessons = course?.chapters.find(c => c.id === chapterId)?.lessons || [];
-    setLessonForm({ title: lesson?.title || "", description: lesson?.description || "", videoId: lesson?.video_id || "", durationMin: lesson ? secondsToMinutes(lesson.duration) : 0, order: lesson?.order || chLessons.length + 1, isFree: lesson?.is_free || false, type: lesson?.type || "video", content: lesson?.content || "" });
+    setLessonForm({ title: lesson?.title || "", description: lesson?.description || "", videoId: lesson?.video_id || "", durationMin: lesson ? String(secondsToMinutes(lesson.duration)) : "", order: String(lesson?.order || chLessons.length + 1), isFree: lesson?.is_free || false, type: lesson?.type || "video", content: lesson?.content || "" });
     setLessonAttachments([]);
     setLocalVideoUrl("");
     if (lesson) {
@@ -169,7 +170,7 @@ export default function CourseEditorPage() {
   };
   const saveLesson = async () => {
     setSaving(true);
-    const payload = { title: lessonForm.title, description: lessonForm.description || null, videoId: lessonForm.videoId || null, duration: minutesToSeconds(lessonForm.durationMin), order: lessonForm.order, isFree: lessonForm.isFree, type: lessonForm.type, content: lessonForm.content || null };
+    const payload = { title: lessonForm.title, description: lessonForm.description || null, videoId: lessonForm.videoId || null, duration: minutesToSeconds(Number(lessonForm.durationMin) || 0), order: Number(lessonForm.order) || 0, isFree: lessonForm.isFree, type: lessonForm.type, content: lessonForm.content || null };
     if (editingLesson) await fetch(`${LMS_API}/admin/lessons/${editingLesson.id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
     else await fetch(`${LMS_API}/admin/lessons`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...payload, chapterId: forChapterId, courseId: id }) });
     setSaving(false); setModal(null); show("บันทึกแล้ว"); reload();
@@ -340,7 +341,7 @@ export default function CourseEditorPage() {
               </div>
               <div>
                 <label className="mb-1 block text-xs text-gray-500">ราคา (บาท)</label>
-                <input type="number" min="0" value={coursePrice} onChange={e => setCoursePrice(Number(e.target.value))} onFocus={selectOnFocus}
+                <input type="number" min="0" value={coursePrice} onChange={e => setCoursePrice(e.target.value)} onFocus={selectOnFocus}
                   className="w-36 rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-sm text-gray-200 focus:border-yellow-accent/40 focus:outline-none" />
               </div>
               <button onClick={saveCourseInfo} disabled={savingInfo}
@@ -483,7 +484,7 @@ export default function CourseEditorPage() {
                 <input type="text" placeholder="เช่น บทที่ 1: พื้นฐานการเงิน" value={chapterTitle} onChange={e => setChapterTitle(e.target.value)} autoFocus
                   className="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sm text-gray-200 placeholder:text-gray-600 focus:border-yellow-accent/40 focus:outline-none" /></div>
               <div><label className="mb-1.5 block text-sm text-gray-400">ลำดับ</label>
-                <input type="number" value={chapterOrder} onChange={e => setChapterOrder(Number(e.target.value))} onFocus={selectOnFocus}
+                <input type="number" value={chapterOrder} onChange={e => setChapterOrder(e.target.value)} onFocus={selectOnFocus}
                   className="w-24 rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sm text-gray-200 focus:border-yellow-accent/40 focus:outline-none" /></div>
             </div>
             <div className="mt-6 flex justify-end gap-3">
@@ -593,7 +594,7 @@ export default function CourseEditorPage() {
                   // If new lesson, save first then upload
                   if (!editingLesson) {
                     setSaving(true);
-                    const payload = { title: lessonForm.title || file.name, description: lessonForm.description || null, videoId: lessonForm.videoId || null, duration: minutesToSeconds(lessonForm.durationMin), order: lessonForm.order, isFree: lessonForm.isFree, type: lessonForm.type, content: lessonForm.content || null, chapterId: forChapterId, courseId: id };
+                    const payload = { title: lessonForm.title || file.name, description: lessonForm.description || null, videoId: lessonForm.videoId || null, duration: minutesToSeconds(Number(lessonForm.durationMin) || 0), order: Number(lessonForm.order) || 0, isFree: lessonForm.isFree, type: lessonForm.type, content: lessonForm.content || null, chapterId: forChapterId, courseId: id };
                     const res = await fetch(`${LMS_API}/admin/lessons`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
                     const created = await res.json();
                     setSaving(false);
@@ -635,11 +636,11 @@ export default function CourseEditorPage() {
               <div className="flex gap-4">
                 {lessonForm.type !== "file" && (
                   <div><label className="mb-1.5 block text-sm text-gray-400">{lessonForm.type === "text" ? "เวลาอ่าน (นาที)" : "ความยาว (นาที)"}</label>
-                    <input type="number" step="0.5" min="0" value={lessonForm.durationMin} onChange={e => setL("durationMin", Number(e.target.value))} onFocus={selectOnFocus}
+                    <input type="number" step="0.5" min="0" value={lessonForm.durationMin} onChange={e => setL("durationMin", e.target.value)} onFocus={selectOnFocus}
                       className="w-28 rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sm text-gray-200 focus:border-yellow-accent/40 focus:outline-none" /></div>
                 )}
                 <div><label className="mb-1.5 block text-sm text-gray-400">ลำดับ</label>
-                  <input type="number" min="1" value={lessonForm.order} onChange={e => setL("order", Number(e.target.value))} onFocus={selectOnFocus}
+                  <input type="number" min="1" value={lessonForm.order} onChange={e => setL("order", e.target.value)} onFocus={selectOnFocus}
                     className="w-24 rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sm text-gray-200 focus:border-yellow-accent/40 focus:outline-none" /></div>
               </div>
 

@@ -189,6 +189,7 @@ export default function CourseEditorPage() {
       const xhr = new XMLHttpRequest();
       xhr.open("PUT", `https://video.bunnycdn.com/library/659470/videos/${videoData.videoId}`, true);
       xhr.setRequestHeader("AccessKey", "e03fd3d9-f4a9-4aee-8bb6976287e1-32bf-4166");
+      xhr.setRequestHeader("Content-Type", "application/octet-stream");
       xhr.upload.onprogress = (e) => {
         if (e.lengthComputable) setVideoProgress(Math.round((e.loaded / e.total) * 100));
       };

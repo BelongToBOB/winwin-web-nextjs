@@ -572,10 +572,40 @@ export default function CourseEditorPage() {
                 </div>
               )}
 
-              {/* Attachments (available for all types) */}
-              {editingLesson && (
+              {/* File upload for "file" type */}
+              {lessonForm.type === "file" && (
                 <div>
-                  <label className="mb-1.5 block text-sm text-gray-400">ไฟล์แนบ</label>
+                  <label className="mb-1.5 block text-sm text-gray-400">ไฟล์หลัก</label>
+                  {editingLesson ? (
+                    <>
+                      <input ref={fileInputRef} type="file" className="hidden" onChange={e => { if (e.target.files?.[0]) uploadAttachment(e.target.files[0]); }} />
+                      {lessonAttachments.length > 0 && (
+                        <div className="mb-2 space-y-1.5">
+                          {lessonAttachments.map(att => (
+                            <div key={att.id} className="flex items-center gap-2 rounded-lg bg-white/5 px-3 py-2">
+                              <svg className="h-4 w-4 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" /></svg>
+                              <span className="flex-1 truncate text-sm text-gray-300">{att.file_name}</span>
+                              <span className="text-xs text-gray-600">{formatBytes(att.file_size)}</span>
+                              <button onClick={() => removeAttachment(att.id)} className="text-xs text-red-400/60 hover:text-red-400">ลบ</button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      <button onClick={() => fileInputRef.current?.click()} disabled={uploadingFile}
+                        className="w-full rounded-lg border border-dashed border-white/20 px-4 py-3 text-sm text-gray-500 hover:border-white/30 hover:text-gray-300 disabled:opacity-50">
+                        {uploadingFile ? "กำลังอัพโหลด..." : "+ อัพโหลดไฟล์ (PDF, เอกสาร, รูปภาพ สูงสุด 20MB)"}
+                      </button>
+                    </>
+                  ) : (
+                    <p className="text-xs text-gray-500 rounded-lg border border-dashed border-white/10 px-4 py-3">บันทึกบทเรียนก่อน แล้วกดแก้ไขเพื่ออัพโหลดไฟล์</p>
+                  )}
+                </div>
+              )}
+
+              {/* Attachments for video/text types */}
+              {lessonForm.type !== "file" && editingLesson && (
+                <div>
+                  <label className="mb-1.5 block text-sm text-gray-400">ไฟล์แนบเพิ่มเติม</label>
                   <input ref={fileInputRef} type="file" className="hidden" onChange={e => { if (e.target.files?.[0]) uploadAttachment(e.target.files[0]); }} />
                   {lessonAttachments.length > 0 && (
                     <div className="mb-2 space-y-1.5">
@@ -591,13 +621,9 @@ export default function CourseEditorPage() {
                   )}
                   <button onClick={() => fileInputRef.current?.click()} disabled={uploadingFile}
                     className="rounded-lg border border-dashed border-white/20 px-4 py-2 text-sm text-gray-500 hover:border-white/30 hover:text-gray-300 disabled:opacity-50">
-                    {uploadingFile ? "กำลังอัพโหลด..." : "+ เพิ่มไฟล์ (PDF, เอกสาร, รูปภาพ สูงสุด 20MB)"}
+                    {uploadingFile ? "กำลังอัพโหลด..." : "+ เพิ่มไฟล์แนบ"}
                   </button>
-                  {!editingLesson && <p className="mt-1 text-xs text-gray-600">บันทึกบทเรียนก่อน แล้วกดแก้ไขเพื่อแนบไฟล์</p>}
                 </div>
-              )}
-              {!editingLesson && (
-                <p className="text-xs text-gray-600">หมายเหตุ: แนบไฟล์ได้หลังจากสร้างบทเรียนแล้ว</p>
               )}
 
               <div className="flex gap-4">

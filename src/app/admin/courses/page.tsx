@@ -191,6 +191,7 @@ export default function AdminCoursesPage() {
                   min="0"
                   value={form.price}
                   onChange={(e) => setForm((f) => ({ ...f, price: Number(e.target.value) }))}
+                  onFocus={(e) => e.target.select()}
                   className="w-36 rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sm text-gray-200 focus:border-yellow-accent/40 focus:outline-none"
                 />
               </div>

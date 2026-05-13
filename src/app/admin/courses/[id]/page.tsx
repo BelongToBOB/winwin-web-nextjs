@@ -35,6 +35,8 @@ const LESSON_TYPES = [
   { value: "file", label: "ไฟล์/เอกสาร" },
 ];
 
+const selectOnFocus = (e: React.FocusEvent<HTMLInputElement>) => e.target.select();
+
 export default function CourseEditorPage() {
   const { id } = useParams<{ id: string }>();
   const [course, setCourse] = useState<CourseContent | null>(null);
@@ -338,7 +340,7 @@ export default function CourseEditorPage() {
               </div>
               <div>
                 <label className="mb-1 block text-xs text-gray-500">ราคา (บาท)</label>
-                <input type="number" min="0" value={coursePrice} onChange={e => setCoursePrice(Number(e.target.value))}
+                <input type="number" min="0" value={coursePrice} onChange={e => setCoursePrice(Number(e.target.value))} onFocus={selectOnFocus}
                   className="w-36 rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-sm text-gray-200 focus:border-yellow-accent/40 focus:outline-none" />
               </div>
               <button onClick={saveCourseInfo} disabled={savingInfo}
@@ -481,7 +483,7 @@ export default function CourseEditorPage() {
                 <input type="text" placeholder="เช่น บทที่ 1: พื้นฐานการเงิน" value={chapterTitle} onChange={e => setChapterTitle(e.target.value)} autoFocus
                   className="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sm text-gray-200 placeholder:text-gray-600 focus:border-yellow-accent/40 focus:outline-none" /></div>
               <div><label className="mb-1.5 block text-sm text-gray-400">ลำดับ</label>
-                <input type="number" value={chapterOrder} onChange={e => setChapterOrder(Number(e.target.value))}
+                <input type="number" value={chapterOrder} onChange={e => setChapterOrder(Number(e.target.value))} onFocus={selectOnFocus}
                   className="w-24 rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sm text-gray-200 focus:border-yellow-accent/40 focus:outline-none" /></div>
             </div>
             <div className="mt-6 flex justify-end gap-3">
@@ -633,11 +635,11 @@ export default function CourseEditorPage() {
               <div className="flex gap-4">
                 {lessonForm.type !== "file" && (
                   <div><label className="mb-1.5 block text-sm text-gray-400">{lessonForm.type === "text" ? "เวลาอ่าน (นาที)" : "ความยาว (นาที)"}</label>
-                    <input type="number" step="0.5" min="0" value={lessonForm.durationMin} onChange={e => setL("durationMin", Number(e.target.value))}
+                    <input type="number" step="0.5" min="0" value={lessonForm.durationMin} onChange={e => setL("durationMin", Number(e.target.value))} onFocus={selectOnFocus}
                       className="w-28 rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sm text-gray-200 focus:border-yellow-accent/40 focus:outline-none" /></div>
                 )}
                 <div><label className="mb-1.5 block text-sm text-gray-400">ลำดับ</label>
-                  <input type="number" min="1" value={lessonForm.order} onChange={e => setL("order", Number(e.target.value))}
+                  <input type="number" min="1" value={lessonForm.order} onChange={e => setL("order", Number(e.target.value))} onFocus={selectOnFocus}
                     className="w-24 rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sm text-gray-200 focus:border-yellow-accent/40 focus:outline-none" /></div>
               </div>
 

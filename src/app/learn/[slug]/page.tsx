@@ -46,6 +46,8 @@ export default function CoursePage() {
   const [course, setCourse] = useState<CourseDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [notEnrolled, setNotEnrolled] = useState(false);
+  const [catalogInfo, setCatalogInfo] = useState<{ title: string; description: string | null; coverUrl: string | null; price: number } | null>(null);
 
   useEffect(() => {
     if (status === "loading") return;
@@ -54,11 +56,19 @@ export default function CoursePage() {
     fetch(`${LMS_API}/learn/courses/${slug}`, {
       headers: { "x-user-email": session.user.email },
     })
-      .then((res) => {
+      .then(async (res) => {
+        if (res.status === 403) {
+          setNotEnrolled(true);
+          // Fetch catalog info for this course
+          const catalog = await fetch(`${LMS_API}/learn/catalog`).then(r => r.json());
+          const info = catalog.find((c: any) => c.slug === slug);
+          if (info) setCatalogInfo(info);
+          return null;
+        }
         if (!res.ok) throw new Error("ไม่สามารถโหลดข้อมูลคอร์สได้");
         return res.json();
       })
-      .then(setCourse)
+      .then((data) => { if (data) setCourse(data); })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   }, [slug, session?.user?.email, status]);
@@ -67,6 +77,36 @@ export default function CoursePage() {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
         <div className="h-8 w-8 animate-spin rounded-full border-2 border-yellow-accent border-t-transparent" />
+      </div>
+    );
+  }
+
+  if (notEnrolled) {
+    return (
+      <div className="mx-auto max-w-2xl px-6 py-10">
+        {catalogInfo?.coverUrl && (
+          <img src={catalogInfo.coverUrl} alt="" className="mb-6 w-full rounded-xl opacity-80" />
+        )}
+        <h1 className="mb-2 text-2xl font-bold">{catalogInfo?.title || slug}</h1>
+        {catalogInfo?.description && (
+          <p className="mb-6 text-sm text-gray-400">{catalogInfo.description}</p>
+        )}
+        <div className="rounded-xl border border-white/10 bg-white/[0.03] p-6 text-center">
+          <svg className="mx-auto mb-3 h-10 w-10 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+          <p className="mb-1 text-base font-medium text-gray-300">คุณยังไม่มีสิทธิ์เรียนคอร์สนี้</p>
+          <p className="mb-5 text-sm text-gray-500">กรุณาซื้อคอร์สก่อนเพื่อเข้าถึงเนื้อหาทั้งหมด</p>
+          {catalogInfo && catalogInfo.price > 0 && (
+            <p className="mb-4 text-lg font-bold text-yellow-accent">฿{catalogInfo.price.toLocaleString()}</p>
+          )}
+          <Link
+            href="/checkout"
+            className="inline-block rounded-lg bg-yellow-accent px-6 py-2.5 text-sm font-semibold text-black transition hover:bg-yellow-300"
+          >
+            ซื้อคอร์ส
+          </Link>
+        </div>
       </div>
     );
   }

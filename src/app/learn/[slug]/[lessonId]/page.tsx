@@ -112,36 +112,32 @@ export default function LessonPage() {
   const ytMatch = lesson.videoUrl?.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
 
   return (
-    <div className="flex flex-col min-h-0">
-      {/* Video / Content Area */}
+    <div>
+      {/* Video */}
       {(lesson.type === "video" || lesson.videoUrl) && (
-        <div className="w-full px-2 sm:px-4 lg:px-6 pt-2 sm:pt-4">
-          <div className="mx-auto w-full max-w-4xl">
-            <div className="relative w-full overflow-hidden rounded-lg" style={{ paddingBottom: "56.25%"}}>
-              <div className="absolute inset-0">
-              {lesson.videoUrl?.includes("mediadelivery.net") ? (
-                <iframe
-                  src={lesson.videoUrl}
-                  className="h-full w-full"
-                  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
-                  allowFullScreen
-                />
-              ) : ytMatch ? (
-                <iframe
-                  src={`https://www.youtube.com/embed/${ytMatch[1]}?rel=0`}
-                  className="h-full w-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              ) : lesson.videoUrl ? (
-                <video src={lesson.videoUrl} controls className="h-full w-full" controlsList="nodownload" />
-              ) : (
-                <div className="flex h-full items-center justify-center bg-white/[0.02] text-gray-600">
-                  <p className="text-sm">วิดีโอกำลังเตรียมพร้อม</p>
-                </div>
-              )}
+        <div className="p-3 sm:p-5">
+          <div className="relative mx-auto max-w-4xl overflow-hidden rounded-lg bg-black" style={{ paddingBottom: "56.25%" }}>
+            {lesson.videoUrl?.includes("mediadelivery.net") ? (
+              <iframe
+                src={lesson.videoUrl}
+                className="absolute inset-0 h-full w-full"
+                allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
+                allowFullScreen
+              />
+            ) : ytMatch ? (
+              <iframe
+                src={`https://www.youtube.com/embed/${ytMatch[1]}?rel=0`}
+                className="absolute inset-0 h-full w-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            ) : lesson.videoUrl ? (
+              <video src={lesson.videoUrl} controls className="absolute inset-0 h-full w-full" controlsList="nodownload" />
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center text-gray-600">
+                <p className="text-sm">วิดีโอกำลังเตรียมพร้อม</p>
               </div>
-            </div>
+            )}
           </div>
         </div>
       )}

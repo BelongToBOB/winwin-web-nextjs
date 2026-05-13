@@ -623,9 +623,11 @@ export default function CourseEditorPage() {
               </div>
 
               <div className="flex gap-4">
-                <div><label className="mb-1.5 block text-sm text-gray-400">ความยาว (นาที)</label>
-                  <input type="number" step="0.5" min="0" value={lessonForm.durationMin} onChange={e => setL("durationMin", Number(e.target.value))}
-                    className="w-28 rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sm text-gray-200 focus:border-yellow-accent/40 focus:outline-none" /></div>
+                {lessonForm.type !== "file" && (
+                  <div><label className="mb-1.5 block text-sm text-gray-400">{lessonForm.type === "text" ? "เวลาอ่าน (นาที)" : "ความยาว (นาที)"}</label>
+                    <input type="number" step="0.5" min="0" value={lessonForm.durationMin} onChange={e => setL("durationMin", Number(e.target.value))}
+                      className="w-28 rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sm text-gray-200 focus:border-yellow-accent/40 focus:outline-none" /></div>
+                )}
                 <div><label className="mb-1.5 block text-sm text-gray-400">ลำดับ</label>
                   <input type="number" min="1" value={lessonForm.order} onChange={e => setL("order", Number(e.target.value))}
                     className="w-24 rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sm text-gray-200 focus:border-yellow-accent/40 focus:outline-none" /></div>

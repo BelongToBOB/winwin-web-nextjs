@@ -112,12 +112,13 @@ export default function LessonPage() {
   const ytMatch = lesson.videoUrl?.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col min-h-0">
       {/* Video / Content Area */}
       {(lesson.type === "video" || lesson.videoUrl) && (
-        <div className="w-full flex justify-center p-4 lg:p-6">
-          <div className="w-full" style={{ maxWidth: "min(56rem, 100%)", maxHeight: "60vh", aspectRatio: "16/9" }}>
-            <div className="w-full h-full overflow-hidden rounded-lg">
+        <div className="w-full px-2 sm:px-4 lg:px-6 pt-2 sm:pt-4">
+          <div className="mx-auto w-full max-w-4xl">
+            <div className="relative w-full overflow-hidden rounded-lg" style={{ paddingBottom: "56.25%"}}>
+              <div className="absolute inset-0">
               {lesson.videoUrl?.includes("mediadelivery.net") ? (
                 <iframe
                   src={lesson.videoUrl}
@@ -139,6 +140,7 @@ export default function LessonPage() {
                   <p className="text-sm">วิดีโอกำลังเตรียมพร้อม</p>
                 </div>
               )}
+              </div>
             </div>
           </div>
         </div>

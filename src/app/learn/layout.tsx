@@ -294,6 +294,13 @@ function Sidebar() {
 }
 
 function LearnShell({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const isAuthPage = pathname === "/learn/login" || pathname === "/learn/register";
+
+  if (isAuthPage) {
+    return <div className="min-h-screen bg-black text-gray-50">{children}</div>;
+  }
+
   return (
     <div className="flex min-h-screen bg-black text-gray-50">
       <Sidebar />

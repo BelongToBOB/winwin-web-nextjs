@@ -109,6 +109,12 @@ function LoginContent() {
             className="w-full rounded-lg border border-white/20 bg-white/5 px-4 py-3 text-sm text-gray-200 placeholder:text-gray-500 focus:border-yellow-accent/50 focus:outline-none"
           />
 
+          <div className="text-right">
+            <Link href="/learn/forgot-password" className="text-xs text-gray-500 hover:text-gray-300">
+              ลืมรหัสผ่าน?
+            </Link>
+          </div>
+
           <div className="flex justify-center">
             <Turnstile
               ref={turnstileRef}

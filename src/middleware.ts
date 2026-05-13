@@ -4,9 +4,9 @@ import { NextResponse } from "next/server";
 export default auth((req) => {
   const { pathname } = req.nextUrl;
 
-  // Skip login and register pages
-  if (pathname === "/learn/login" || pathname === "/learn/register")
-    return NextResponse.next();
+  // Skip auth pages
+  const publicPages = ["/learn/login", "/learn/register", "/learn/forgot-password", "/learn/reset-password"];
+  if (publicPages.includes(pathname)) return NextResponse.next();
 
   // Protect /learn/* and /admin/* — must be logged in
   if ((pathname.startsWith("/learn") || pathname.startsWith("/admin")) && !req.auth) {

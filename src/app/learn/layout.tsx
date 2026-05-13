@@ -27,7 +27,8 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
   const isLearnHome = pathname === "/learn";
   const currentSlug = pathname.match(/^\/learn\/([^/]+)/)?.[1];
   const currentLessonId = pathname.match(/^\/learn\/[^/]+\/([^/]+)/)?.[1];
-  const isInsideCourse = !!currentSlug && currentSlug !== "login" && currentSlug !== "register";
+  const authSlugs = ["login", "register", "forgot-password", "reset-password"];
+  const isInsideCourse = !!currentSlug && !authSlugs.includes(currentSlug);
 
   useEffect(() => {
     if (!session?.user?.email) return;
@@ -133,7 +134,7 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
               จัดการคอร์ส
             </Link>
           )}
-          <div className="flex items-center gap-3 rounded-lg px-3 py-2">
+          <Link href="/learn/profile" onClick={onClose} className="flex items-center gap-3 rounded-lg px-3 py-2 transition hover:bg-white/5">
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-yellow-accent/10 text-xs font-semibold text-yellow-accent">
               {session.user.name?.[0]?.toUpperCase() || session.user.email?.[0]?.toUpperCase() || "U"}
             </div>
@@ -141,7 +142,7 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
               <p className="truncate text-sm text-gray-200">{session.user.name || "User"}</p>
               <p className="truncate text-[11px] text-gray-500">{session.user.email}</p>
             </div>
-          </div>
+          </Link>
           <button onClick={() => signOut({ callbackUrl: "/learn/login" })} className="mt-1 w-full rounded-lg px-3 py-2 text-left text-xs text-gray-500 hover:bg-white/5 hover:text-gray-300">
             ออกจากระบบ
           </button>
@@ -154,7 +155,8 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
 function LearnShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const isAuthPage = pathname === "/learn/login" || pathname === "/learn/register";
+  const authPages = ["/learn/login", "/learn/register", "/learn/forgot-password", "/learn/reset-password"];
+  const isAuthPage = authPages.includes(pathname);
 
   useEffect(() => { setMobileOpen(false); }, [pathname]);
 

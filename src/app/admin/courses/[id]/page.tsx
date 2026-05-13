@@ -572,59 +572,55 @@ export default function CourseEditorPage() {
                 </div>
               )}
 
-              {/* File upload for "file" type */}
-              {lessonForm.type === "file" && (
-                <div>
-                  <label className="mb-1.5 block text-sm text-gray-400">ไฟล์หลัก</label>
-                  {editingLesson ? (
-                    <>
-                      <input ref={fileInputRef} type="file" className="hidden" onChange={e => { if (e.target.files?.[0]) uploadAttachment(e.target.files[0]); }} />
-                      {lessonAttachments.length > 0 && (
-                        <div className="mb-2 space-y-1.5">
-                          {lessonAttachments.map(att => (
-                            <div key={att.id} className="flex items-center gap-2 rounded-lg bg-white/5 px-3 py-2">
-                              <svg className="h-4 w-4 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" /></svg>
-                              <span className="flex-1 truncate text-sm text-gray-300">{att.file_name}</span>
-                              <span className="text-xs text-gray-600">{formatBytes(att.file_size)}</span>
-                              <button onClick={() => removeAttachment(att.id)} className="text-xs text-red-400/60 hover:text-red-400">ลบ</button>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                      <button onClick={() => fileInputRef.current?.click()} disabled={uploadingFile}
-                        className="w-full rounded-lg border border-dashed border-white/20 px-4 py-3 text-sm text-gray-500 hover:border-white/30 hover:text-gray-300 disabled:opacity-50">
-                        {uploadingFile ? "กำลังอัพโหลด..." : "+ อัพโหลดไฟล์ (PDF, เอกสาร, รูปภาพ สูงสุด 20MB)"}
-                      </button>
-                    </>
-                  ) : (
-                    <p className="text-xs text-gray-500 rounded-lg border border-dashed border-white/10 px-4 py-3">บันทึกบทเรียนก่อน แล้วกดแก้ไขเพื่ออัพโหลดไฟล์</p>
-                  )}
-                </div>
-              )}
-
-              {/* Attachments for video/text types */}
-              {lessonForm.type !== "file" && editingLesson && (
-                <div>
-                  <label className="mb-1.5 block text-sm text-gray-400">ไฟล์แนบเพิ่มเติม</label>
-                  <input ref={fileInputRef} type="file" className="hidden" onChange={e => { if (e.target.files?.[0]) uploadAttachment(e.target.files[0]); }} />
-                  {lessonAttachments.length > 0 && (
-                    <div className="mb-2 space-y-1.5">
-                      {lessonAttachments.map(att => (
-                        <div key={att.id} className="flex items-center gap-2 rounded-lg bg-white/5 px-3 py-2">
-                          <svg className="h-4 w-4 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" /></svg>
-                          <span className="flex-1 truncate text-sm text-gray-300">{att.file_name}</span>
-                          <span className="text-xs text-gray-600">{formatBytes(att.file_size)}</span>
-                          <button onClick={() => removeAttachment(att.id)} className="text-xs text-red-400/60 hover:text-red-400">ลบ</button>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  <button onClick={() => fileInputRef.current?.click()} disabled={uploadingFile}
-                    className="rounded-lg border border-dashed border-white/20 px-4 py-2 text-sm text-gray-500 hover:border-white/30 hover:text-gray-300 disabled:opacity-50">
-                    {uploadingFile ? "กำลังอัพโหลด..." : "+ เพิ่มไฟล์แนบ"}
-                  </button>
-                </div>
-              )}
+              {/* File attachments — all types */}
+              <div>
+                <label className="mb-1.5 block text-sm text-gray-400">
+                  {lessonForm.type === "file" ? "ไฟล์หลัก" : "ไฟล์แนบ"}
+                </label>
+                <input ref={fileInputRef} type="file" className="hidden" onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  // If new lesson, save first then upload
+                  if (!editingLesson) {
+                    setSaving(true);
+                    const payload = { title: lessonForm.title || file.name, description: lessonForm.description || null, videoId: lessonForm.videoId || null, duration: minutesToSeconds(lessonForm.durationMin), order: lessonForm.order, isFree: lessonForm.isFree, type: lessonForm.type, content: lessonForm.content || null, chapterId: forChapterId, courseId: id };
+                    const res = await fetch(`${LMS_API}/admin/lessons`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+                    const created = await res.json();
+                    setSaving(false);
+                    if (!created.id) { show("สร้างบทเรียนไม่สำเร็จ"); return; }
+                    setEditingLesson({ ...created, chapter_id: forChapterId, description: null, video_id: null, duration: 0, is_free: false, type: lessonForm.type, content: null } as any);
+                    // Now upload attachment to the new lesson
+                    setUploadingFile(true);
+                    const fd = new FormData(); fd.append("file", file);
+                    const upRes = await fetch(`${LMS_API}/admin/upload`, { method: "POST", body: fd });
+                    const { url } = await upRes.json();
+                    const fullUrl = `https://checkout.winwinwealth.co${url}`;
+                    const att = await fetch(`${LMS_API}/admin/lessons/${created.id}/attachments`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ fileUrl: fullUrl, fileName: file.name, fileSize: file.size }) }).then(r => r.json());
+                    setLessonAttachments([{ id: att.id, file_url: att.file_url, file_name: att.file_name, file_size: att.file_size }]);
+                    setUploadingFile(false);
+                    show("สร้างบทเรียนและอัพโหลดไฟล์แล้ว");
+                    reload();
+                  } else {
+                    uploadAttachment(file);
+                  }
+                }} />
+                {lessonAttachments.length > 0 && (
+                  <div className="mb-2 space-y-1.5">
+                    {lessonAttachments.map(att => (
+                      <div key={att.id} className="flex items-center gap-2 rounded-lg bg-white/5 px-3 py-2">
+                        <svg className="h-4 w-4 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" /></svg>
+                        <span className="flex-1 truncate text-sm text-gray-300">{att.file_name}</span>
+                        <span className="text-xs text-gray-600">{formatBytes(att.file_size)}</span>
+                        <button onClick={() => removeAttachment(att.id)} className="text-xs text-red-400/60 hover:text-red-400">ลบ</button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <button onClick={() => fileInputRef.current?.click()} disabled={uploadingFile || saving}
+                  className={`rounded-lg border border-dashed border-white/20 px-4 py-3 text-sm text-gray-500 hover:border-white/30 hover:text-gray-300 disabled:opacity-50 ${lessonForm.type === "file" ? "w-full" : ""}`}>
+                  {uploadingFile ? "กำลังอัพโหลด..." : saving ? "กำลังสร้างบทเรียน..." : lessonAttachments.length > 0 ? "+ เพิ่มไฟล์" : "+ อัพโหลดไฟล์ (PDF, เอกสาร, รูปภาพ สูงสุด 20MB)"}
+                </button>
+              </div>
 
               <div className="flex gap-4">
                 <div><label className="mb-1.5 block text-sm text-gray-400">ความยาว (นาที)</label>

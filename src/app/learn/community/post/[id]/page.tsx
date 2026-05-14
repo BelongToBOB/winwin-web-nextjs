@@ -1,7 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 
@@ -32,6 +32,7 @@ export default function PostDetailPage() {
   const [loading, setLoading] = useState(true);
   const [comment, setComment] = useState("");
   const [commenting, setCommenting] = useState(false);
+  const commentRef = useRef<HTMLTextAreaElement>(null);
 
   const email = session?.user?.email || "";
   const headers = { "x-user-email": email };
@@ -52,6 +53,11 @@ export default function PostDetailPage() {
       body: JSON.stringify({ content: comment }),
     });
     setComment(""); setCommenting(false); loadPost();
+  };
+
+  const handleReply = (authorName: string) => {
+    setComment(`@${authorName} `);
+    commentRef.current?.focus();
   };
 
   const handleLikePost = async () => {
@@ -117,17 +123,22 @@ export default function PostDetailPage() {
               <span className="text-[10px]" style={{ color: "var(--lms-text-faint)" }}>{timeAgo(c.createdAt)}</span>
             </div>
             <p className="text-sm whitespace-pre-wrap ml-9" style={{ color: "var(--lms-text)" }}>{c.content}</p>
-            <button onClick={() => handleLikeComment(c.id)} className="flex items-center gap-1 text-[11px] ml-9 mt-1 transition hover:opacity-80" style={{ color: c.isLiked ? "var(--lms-red)" : "var(--lms-text-faint)" }}>
-              <svg className="h-3.5 w-3.5" fill={c.isLiked ? "currentColor" : "none"} viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
-              {c.likeCount > 0 && <span>{c.likeCount}</span>}
-            </button>
+            <div className="flex items-center gap-3 ml-9 mt-1">
+              <button onClick={() => handleLikeComment(c.id)} className="flex items-center gap-1 text-[11px] transition hover:opacity-80" style={{ color: c.isLiked ? "var(--lms-red)" : "var(--lms-text-faint)" }}>
+                <svg className="h-3.5 w-3.5" fill={c.isLiked ? "currentColor" : "none"} viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+                {c.likeCount > 0 && <span>{c.likeCount}</span>}
+              </button>
+              <button onClick={() => handleReply(c.author.name || c.author.email.split("@")[0])} className="text-[11px] transition hover:opacity-80" style={{ color: "var(--lms-text-faint)" }}>
+                ตอบกลับ
+              </button>
+            </div>
           </div>
         ))}
       </div>
 
       {/* Compose Comment */}
       <div className="rounded-xl p-4" style={{ background: "var(--lms-bg-card)", border: "1px solid var(--lms-border)" }}>
-        <textarea value={comment} onChange={e => setComment(e.target.value)} rows={2} placeholder="เขียนความคิดเห็น..."
+        <textarea ref={commentRef} value={comment} onChange={e => setComment(e.target.value)} rows={2} placeholder="เขียนความคิดเห็น..."
           className="w-full rounded-lg px-4 py-3 text-sm resize-none lms-input" />
         <div className="flex justify-end mt-2">
           <button onClick={handleComment} disabled={!comment.trim() || commenting}

@@ -88,6 +88,10 @@ export default function ResetPasswordPage() {
   return (
     <div className="flex min-h-screen items-center justify-center lms-bg px-4">
       <div className="w-full max-w-sm space-y-6 text-center">
+        <Link href="/learn/login" className="inline-flex items-center gap-1 text-sm transition hover:opacity-70" style={{ color: "var(--lms-text-muted)" }}>
+          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+          กลับ
+        </Link>
         <Image src="/favicon.png" alt="WinWin" width={64} height={64} className="mx-auto rounded-xl" />
         <h1 className="text-2xl font-bold text-[var(--lms-accent-text)]">ตั้งรหัสผ่านใหม่</h1>
         <Suspense><ResetContent /></Suspense>

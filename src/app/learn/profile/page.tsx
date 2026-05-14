@@ -107,6 +107,10 @@ export default function ProfilePage() {
         </div>
       )}
 
+      <Link href="/learn" className="mb-4 inline-flex items-center gap-1 text-sm transition hover:opacity-70" style={{ color: "var(--lms-text-muted)" }}>
+        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+        กลับหน้าหลัก
+      </Link>
       <h1 className="mb-6 text-xl font-bold">โปรไฟล์</h1>
 
       {/* User Card */}

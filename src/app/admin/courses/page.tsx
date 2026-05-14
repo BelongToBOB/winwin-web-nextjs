@@ -3,8 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-
-const LMS_API = "https://checkout.winwinwealth.co/api";
+import { adminFetch, adminPost } from "@/lib/admin-fetch";
 
 interface Course {
   id: string;
@@ -33,7 +32,7 @@ export default function AdminCoursesPage() {
   });
 
   const loadCourses = () => {
-    fetch(`${LMS_API}/admin/courses`)
+    adminFetch("/admin/courses")
       .then((r) => r.json())
       .then((data) => setCourses(Array.isArray(data) ? data : []))
       .catch(() => setCourses([]))
@@ -62,11 +61,7 @@ export default function AdminCoursesPage() {
 
     setSaving(true);
     try {
-      const res = await fetch(`${LMS_API}/admin/courses/create`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
+      const res = await adminPost("/admin/courses/create", form);
       const data = await res.json();
       if (!res.ok) {
         setError(data.message || "สร้างคอร์สไม่สำเร็จ");

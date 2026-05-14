@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 
-const LMS_API = "https://checkout.winwinwealth.co/api";
+import { adminFetch, adminPost, adminPut, adminDelete, adminUpload, LMS_API } from "@/lib/admin-fetch";
 
 interface Attachment { id: string; file_url: string; file_name: string; file_size: number; }
 interface Lesson {
@@ -86,7 +86,7 @@ export default function CourseEditorPage() {
   const setL = (key: string, value: any) => setLessonForm((f) => ({ ...f, [key]: value }));
 
   const reload = useCallback(() => {
-    fetch(`${LMS_API}/admin/courses/${id}/content`).then(r => r.json()).then(d => {
+    adminFetch(`/admin/courses/${id}/content`).then(r => r.json()).then(d => {
       setCourse(d);
       setCourseTitle(d.title || "");
       setCourseDesc(d.description || "");
@@ -96,7 +96,7 @@ export default function CourseEditorPage() {
 
   const loadStudents = useCallback(() => {
     setStudentsLoading(true);
-    fetch(`${LMS_API}/admin/courses/${id}/students`).then(r => r.json()).then(d => {
+    adminFetch(`/admin/courses/${id}/students`).then(r => r.json()).then(d => {
       setStudents(d.students || []);
       setTotalLessons(d.totalLessons || 0);
     }).catch(() => {}).finally(() => setStudentsLoading(false));
@@ -108,10 +108,7 @@ export default function CourseEditorPage() {
   // === Course Info ===
   const saveCourseInfo = async () => {
     setSavingInfo(true);
-    await fetch(`${LMS_API}/admin/courses/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title: courseTitle, description: courseDesc, price: Number(coursePrice) || 0 }),
+    await adminPut(`/admin/courses/${id}`, { title: courseTitle, description: courseDesc, price: Number(coursePrice) || 0
     });
     setSavingInfo(false);
     show("บันทึกข้อมูลคอร์สแล้ว");
@@ -123,10 +120,9 @@ export default function CourseEditorPage() {
     if (file.size > 2 * 1024 * 1024) { show("ไฟล์ใหญ่เกิน 2MB"); return; }
     setUploadingCover(true);
     try {
-      const fd = new FormData(); fd.append("file", file);
-      const r = await fetch(`${LMS_API}/admin/upload`, { method: "POST", body: fd });
+      const r = await adminUpload("/admin/upload", file);
       const { url } = await r.json();
-      await fetch(`${LMS_API}/admin/courses/${id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ coverUrl: `https://checkout.winwinwealth.co${url}` }) });
+      await adminPut(`/admin/courses/${id}`, { coverUrl: `https://checkout.winwinwealth.co${url}` });
       show("บันทึกรูปปกแล้ว"); reload();
     } catch { show("อัพโหลดไม่สำเร็จ"); }
     finally { setUploadingCover(false); }
@@ -136,7 +132,7 @@ export default function CourseEditorPage() {
   const togglePublish = async () => {
     if (!course) return;
     const next = !course.is_active;
-    await fetch(`${LMS_API}/admin/courses/${id}/publish`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ isActive: next }) });
+    await adminPut(`/admin/courses/${id}/publish`, { isActive: next });
     show(next ? "เผยแพร่คอร์สแล้ว" : "ซ่อนคอร์สแล้ว (Draft)");
     reload();
   };
@@ -148,13 +144,13 @@ export default function CourseEditorPage() {
   const saveChapter = async () => {
     setSaving(true);
     const orderNum = Number(chapterOrder) || 0;
-    if (editingChapter) await fetch(`${LMS_API}/admin/chapters/${editingChapter.id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ title: chapterTitle, order: orderNum }) });
-    else await fetch(`${LMS_API}/admin/chapters`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ courseId: id, title: chapterTitle, order: orderNum }) });
+    if (editingChapter) await adminPut(`/admin/chapters/${editingChapter.id}`, { title: chapterTitle, order: orderNum });
+    else await adminPost("/admin/chapters", { courseId: id, title: chapterTitle, order: orderNum });
     setSaving(false); setModal(null); show("บันทึกแล้ว"); reload();
   };
   const deleteChapter = async (chId: string, title: string) => {
     if (!confirm(`ลบ "${title}" และบทเรียนทั้งหมด?`)) return;
-    await fetch(`${LMS_API}/admin/chapters/${chId}`, { method: "DELETE" }); show("ลบแล้ว"); reload();
+    await adminDelete(`/admin/chapters/${chId}`); show("ลบแล้ว"); reload();
   };
 
   // === Lesson ===
@@ -179,13 +175,13 @@ export default function CourseEditorPage() {
     setSaving(true);
     const durTotal = (Number(durH) || 0) * 3600 + (Number(durM) || 0) * 60 + (Number(durS) || 0);
     const payload = { title: lessonForm.title, description: lessonForm.description || null, videoId: lessonForm.videoId || null, duration: durTotal, order: Number(lessonForm.order) || 0, isFree: lessonForm.isFree, type: lessonForm.type, content: lessonForm.content || null };
-    if (editingLesson) await fetch(`${LMS_API}/admin/lessons/${editingLesson.id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-    else await fetch(`${LMS_API}/admin/lessons`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...payload, chapterId: forChapterId, courseId: id }) });
+    if (editingLesson) await adminPut(`/admin/lessons/${editingLesson.id}`, payload);
+    else await adminPost("/admin/lessons", { ...payload, chapterId: forChapterId, courseId: id });
     setSaving(false); setModal(null); show("บันทึกแล้ว"); reload();
   };
   const deleteLesson = async (lessonId: string, title: string) => {
     if (!confirm(`ลบบทเรียน "${title}"?`)) return;
-    await fetch(`${LMS_API}/admin/lessons/${lessonId}`, { method: "DELETE" }); show("ลบแล้ว"); reload();
+    await adminDelete(`/admin/lessons/${lessonId}`); show("ลบแล้ว"); reload();
   };
 
   // === Attachments ===
@@ -193,18 +189,17 @@ export default function CourseEditorPage() {
     if (!editingLesson) return;
     setUploadingFile(true);
     try {
-      const fd = new FormData(); fd.append("file", file);
-      const r = await fetch(`${LMS_API}/admin/upload`, { method: "POST", body: fd });
+      const r = await adminUpload("/admin/upload", file);
       const { url } = await r.json();
       const fullUrl = `https://checkout.winwinwealth.co${url}`;
-      const att = await fetch(`${LMS_API}/admin/lessons/${editingLesson.id}/attachments`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ fileUrl: fullUrl, fileName: file.name, fileSize: file.size }) }).then(r => r.json());
+      const att = await adminPost(`/admin/lessons/${editingLesson.id}/attachments`, { fileUrl: fullUrl, fileName: file.name, fileSize: file.size }).then(r => r.json());
       setLessonAttachments(prev => [...prev, { id: att.id, file_url: att.file_url, file_name: att.file_name, file_size: att.file_size }]);
       show("เพิ่มไฟล์แล้ว");
     } catch { show("อัพโหลดไม่สำเร็จ"); }
     finally { setUploadingFile(false); }
   };
   const removeAttachment = async (attId: string) => {
-    await fetch(`${LMS_API}/admin/attachments/${attId}`, { method: "DELETE" });
+    await adminDelete(`/admin/attachments/${attId}`);
     setLessonAttachments(prev => prev.filter(a => a.id !== attId));
     show("ลบไฟล์แล้ว");
   };
@@ -226,11 +221,7 @@ export default function CourseEditorPage() {
     };
     try {
       // 1. Create video on Bunny
-      const createRes = await fetch(`${LMS_API}/admin/video/create`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title: lessonForm.title || file.name }),
-      });
+      const createRes = await adminPost("/admin/video/create", { title: lessonForm.title || file.name });
       const videoData = await createRes.json();
 
       // 2. Upload file directly to Bunny
@@ -262,14 +253,14 @@ export default function CourseEditorPage() {
   const handleEnroll = async () => {
     if (!enrollEmail) return;
     setEnrolling(true);
-    const res = await fetch(`${LMS_API}/admin/courses/${id}/enroll`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email: enrollEmail }) });
+    const res = await adminPost(`/admin/courses/${id}/enroll`, { email: enrollEmail });
     const data = await res.json();
     show(data.success ? "เพิ่มนักเรียนแล้ว" : data.message || "ไม่สำเร็จ");
     setEnrollEmail(""); setEnrolling(false); loadStudents();
   };
   const handleUnenroll = async (regId: string, email: string) => {
     if (!confirm(`ยกเลิกการลงทะเบียนของ ${email}?`)) return;
-    await fetch(`${LMS_API}/admin/courses/${id}/unenroll`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ registrationId: regId }) });
+    await adminPost(`/admin/courses/${id}/unenroll`, { registrationId: regId });
     show("ยกเลิกแล้ว"); loadStudents();
   };
 
@@ -613,7 +604,7 @@ export default function CourseEditorPage() {
                     setSaving(true);
                     const durTotalFile = (Number(durH) || 0) * 3600 + (Number(durM) || 0) * 60 + (Number(durS) || 0);
                     const payload = { title: lessonForm.title || file.name, description: lessonForm.description || null, videoId: lessonForm.videoId || null, duration: durTotalFile, order: Number(lessonForm.order) || 0, isFree: lessonForm.isFree, type: lessonForm.type, content: lessonForm.content || null, chapterId: forChapterId, courseId: id };
-                    const res = await fetch(`${LMS_API}/admin/lessons`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+                    const res = await adminPost("/admin/lessons", payload);
                     const created = await res.json();
                     setSaving(false);
                     if (!created.id) { show("สร้างบทเรียนไม่สำเร็จ"); return; }
@@ -621,10 +612,10 @@ export default function CourseEditorPage() {
                     // Now upload attachment to the new lesson
                     setUploadingFile(true);
                     const fd = new FormData(); fd.append("file", file);
-                    const upRes = await fetch(`${LMS_API}/admin/upload`, { method: "POST", body: fd });
+                    const upRes = await adminUpload("/admin/upload", file);
                     const { url } = await upRes.json();
                     const fullUrl = `https://checkout.winwinwealth.co${url}`;
-                    const att = await fetch(`${LMS_API}/admin/lessons/${created.id}/attachments`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ fileUrl: fullUrl, fileName: file.name, fileSize: file.size }) }).then(r => r.json());
+                    const att = await adminPost(`/admin/lessons/${created.id}/attachments`, { fileUrl: fullUrl, fileName: file.name, fileSize: file.size }).then(r => r.json());
                     setLessonAttachments([{ id: att.id, file_url: att.file_url, file_name: att.file_name, file_size: att.file_size }]);
                     setUploadingFile(false);
                     show("สร้างบทเรียนและอัพโหลดไฟล์แล้ว");

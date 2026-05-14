@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-
-const LMS_API = "https://checkout.winwinwealth.co/api";
+import { adminFetch } from "@/lib/admin-fetch";
 
 interface Stats {
   users: { total: number; today: number; week: number };
@@ -30,7 +29,7 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${LMS_API}/admin/dashboard-stats`)
+    adminFetch("/admin/dashboard-stats")
       .then((r) => r.json())
       .then(setStats)
       .catch(() => {})

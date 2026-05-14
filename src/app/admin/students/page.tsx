@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-const LMS_API = "https://checkout.winwinwealth.co/api";
+import { adminFetch } from "@/lib/admin-fetch";
 
 interface CourseProgress {
   regId: string;
@@ -38,7 +37,7 @@ export default function StudentsPage() {
   const [selected, setSelected] = useState<Student | null>(null);
 
   useEffect(() => {
-    fetch(`${LMS_API}/admin/all-students`)
+    adminFetch("/admin/all-students")
       .then((r) => r.json())
       .then((d) => setStudents(Array.isArray(d) ? d : []))
       .catch(() => {})

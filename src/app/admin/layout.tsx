@@ -9,7 +9,14 @@ import { useEffect, useState } from "react";
 type Theme = "light" | "dark";
 
 function AdminShell({ children }: { children: React.ReactNode }) {
-  const { status } = useSession();
+  const { data: session, status } = useSession();
+
+  // Store admin email for API auth
+  useEffect(() => {
+    if (session?.user?.email) {
+      sessionStorage.setItem("admin-email", session.user.email);
+    }
+  }, [session?.user?.email]);
   const pathname = usePathname();
   const [theme, setTheme] = useState<Theme>("dark");
 

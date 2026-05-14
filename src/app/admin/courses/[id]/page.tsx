@@ -280,10 +280,10 @@ export default function CourseEditorPage() {
 
   return (
     <div>
-      {toast && <div className="fixed top-4 right-4 z-50 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 px-4 py-2 text-sm text-gray-200">{toast}</div>}
+      {toast && <div className="fixed top-4 right-4 z-50 rounded-lg bg-[var(--lms-border)] backdrop-blur-md border border-[var(--lms-border-input)] px-4 py-2 text-sm text-[var(--lms-text)]">{toast}</div>}
 
       {/* Header */}
-      <Link href="/admin/courses" className="mb-4 inline-flex items-center gap-1 text-sm text-gray-400 hover:text-yellow-accent">
+      <Link href="/admin/courses" className="mb-4 inline-flex items-center gap-1 text-sm text-[var(--lms-text-secondary)] hover:text-[var(--lms-accent-text)]">
         <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
         คอร์สทั้งหมด
       </Link>
@@ -291,24 +291,24 @@ export default function CourseEditorPage() {
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">{course.title}</h1>
-          <p className="mt-1 text-sm text-gray-500">{course.slug}</p>
+          <p className="mt-1 text-sm text-[var(--lms-text-muted)]">{course.slug}</p>
         </div>
         <div className="flex items-center gap-3">
-          <span className={`rounded-full px-3 py-1 text-xs font-medium ${course.is_active ? "bg-green-500/15 text-green-400" : "bg-white/10 text-gray-400"}`}>
+          <span className={`rounded-full px-3 py-1 text-xs font-medium ${course.is_active ? "bg-green-500/15 text-green-400" : "bg-[var(--lms-border)] text-[var(--lms-text-secondary)]"}`}>
             {course.is_active ? "เผยแพร่แล้ว" : "Draft"}
           </span>
-          <button onClick={togglePublish} className={`rounded-lg px-4 py-2 text-sm font-medium transition ${course.is_active ? "bg-white/10 text-gray-300 hover:bg-white/20" : "bg-green-600 text-white hover:bg-green-500"}`}>
+          <button onClick={togglePublish} className={`rounded-lg px-4 py-2 text-sm font-medium transition ${course.is_active ? "bg-[var(--lms-border)] text-[var(--lms-text-secondary)] hover:bg-[var(--lms-bg-card-hover)]" : "bg-green-600 text-[var(--lms-text)] hover:bg-green-500"}`}>
             {course.is_active ? "ซ่อนคอร์ส" : "เผยแพร่คอร์ส"}
           </button>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="mb-6 flex gap-1 border-b border-white/10">
+      <div className="mb-6 flex gap-1 border-b border-[var(--lms-border)]">
         {([["content", "เนื้อหา"], ["students", "นักเรียน"]] as const).map(([key, label]) => (
-          <button key={key} onClick={() => setTab(key)} className={`px-4 py-2.5 text-sm font-medium transition border-b-2 -mb-px ${tab === key ? "border-yellow-accent text-white" : "border-transparent text-gray-500 hover:text-gray-300"}`}>
+          <button key={key} onClick={() => setTab(key)} className={`px-4 py-2.5 text-sm font-medium transition border-b-2 -mb-px ${tab === key ? "border-yellow-accent text-[var(--lms-text)]" : "border-transparent text-[var(--lms-text-muted)] hover:text-[var(--lms-text-secondary)]"}`}>
             {label}
-            {key === "students" && students.length > 0 && <span className="ml-1.5 rounded-full bg-white/10 px-1.5 py-0.5 text-[10px]">{students.length}</span>}
+            {key === "students" && students.length > 0 && <span className="ml-1.5 rounded-full bg-[var(--lms-border)] px-1.5 py-0.5 text-[10px]">{students.length}</span>}
           </button>
         ))}
       </div>
@@ -318,51 +318,51 @@ export default function CourseEditorPage() {
         <>
           {/* Cover */}
           <div className="mb-8">
-            <h2 className="mb-2 text-sm font-medium text-gray-400">รูปปก</h2>
-            <p className="mb-3 text-xs text-gray-600">แนะนำ 1200 x 600 px (อัตราส่วน 2:1), JPG/PNG/WebP, ไม่เกิน 2MB</p>
+            <h2 className="mb-2 text-sm font-medium text-[var(--lms-text-secondary)]">รูปปก</h2>
+            <p className="mb-3 text-xs text-[var(--lms-text-faint)]">แนะนำ 1200 x 600 px (อัตราส่วน 2:1), JPG/PNG/WebP, ไม่เกิน 2MB</p>
             <input ref={coverRef} type="file" accept="image/jpeg,image/png,image/webp" className="hidden" onChange={e => { if (e.target.files?.[0]) uploadCover(e.target.files[0]); }} />
             {course.coverUrl ? (
               <div className="relative group">
-                <img src={course.coverUrl} alt="" className="w-full rounded-xl border border-white/10" />
-                <div className="absolute inset-0 flex items-center justify-center rounded-xl bg-black/60 opacity-0 transition group-hover:opacity-100 cursor-pointer" onClick={() => coverRef.current?.click()}>
-                  <span className="rounded-lg bg-white/20 px-4 py-2 text-sm font-medium text-white">เปลี่ยนรูป</span>
+                <img src={course.coverUrl} alt="" className="w-full rounded-xl border border-[var(--lms-border)]" />
+                <div className="absolute inset-0 flex items-center justify-center rounded-xl lms-bg/60 opacity-0 transition group-hover:opacity-100 cursor-pointer" onClick={() => coverRef.current?.click()}>
+                  <span className="rounded-lg bg-white/20 px-4 py-2 text-sm font-medium text-[var(--lms-text)]">เปลี่ยนรูป</span>
                 </div>
-                {uploadingCover && <div className="absolute inset-0 flex items-center justify-center rounded-xl bg-black/70"><div className="h-6 w-6 animate-spin rounded-full border-2 border-yellow-accent border-t-transparent" /></div>}
+                {uploadingCover && <div className="absolute inset-0 flex items-center justify-center rounded-xl lms-bg/70"><div className="h-6 w-6 animate-spin rounded-full border-2 border-yellow-accent border-t-transparent" /></div>}
               </div>
             ) : (
-              <div className={`flex h-48 cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed transition ${dragOver ? "border-yellow-accent bg-yellow-accent/5" : "border-white/20 bg-white/[0.02] hover:border-white/30"}`}
+              <div className={`flex h-48 cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed transition ${dragOver ? "border-yellow-accent bg-[var(--lms-accent)]/5" : "border-[var(--lms-border-input)] bg-[var(--lms-bg-card)] hover:border-white/30"}`}
                 onClick={() => coverRef.current?.click()}
                 onDragOver={e => { e.preventDefault(); setDragOver(true); }} onDragLeave={() => setDragOver(false)}
                 onDrop={e => { e.preventDefault(); setDragOver(false); if (e.dataTransfer.files[0]) uploadCover(e.dataTransfer.files[0]); }}>
                 {uploadingCover ? <div className="h-6 w-6 animate-spin rounded-full border-2 border-yellow-accent border-t-transparent" /> : (
-                  <><svg className="mb-2 h-8 w-8 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                  <p className="text-sm text-gray-500">ลากรูปมาวางที่นี่ หรือกดเพื่อเลือกไฟล์</p></>
+                  <><svg className="mb-2 h-8 w-8 text-[var(--lms-text-faint)]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                  <p className="text-sm text-[var(--lms-text-muted)]">ลากรูปมาวางที่นี่ หรือกดเพื่อเลือกไฟล์</p></>
                 )}
               </div>
             )}
           </div>
 
           {/* Course Info */}
-          <div className="mb-8 rounded-xl border border-white/10 bg-white/[0.03] p-5">
-            <h2 className="mb-4 text-sm font-medium text-gray-400">ข้อมูลคอร์ส</h2>
+          <div className="mb-8 rounded-xl border border-[var(--lms-border)] bg-[var(--lms-bg-card)] p-5">
+            <h2 className="mb-4 text-sm font-medium text-[var(--lms-text-secondary)]">ข้อมูลคอร์ส</h2>
             <div className="space-y-3">
               <div>
-                <label className="mb-1 block text-xs text-gray-500">ชื่อคอร์ส</label>
+                <label className="mb-1 block text-xs text-[var(--lms-text-muted)]">ชื่อคอร์ส</label>
                 <input type="text" value={courseTitle} onChange={e => setCourseTitle(e.target.value)}
-                  className="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-sm text-gray-200 focus:border-yellow-accent/40 focus:outline-none" />
+                  className="w-full rounded-lg border border-[var(--lms-border-input)] bg-[var(--lms-bg-input)] px-4 py-2.5 text-sm text-[var(--lms-text)] focus:border-[var(--lms-accent)] focus:outline-none" />
               </div>
               <div>
-                <label className="mb-1 block text-xs text-gray-500">คำอธิบาย</label>
+                <label className="mb-1 block text-xs text-[var(--lms-text-muted)]">คำอธิบาย</label>
                 <textarea value={courseDesc} onChange={e => setCourseDesc(e.target.value)} rows={2}
-                  className="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-sm text-gray-200 focus:border-yellow-accent/40 focus:outline-none resize-none" />
+                  className="w-full rounded-lg border border-[var(--lms-border-input)] bg-[var(--lms-bg-input)] px-4 py-2.5 text-sm text-[var(--lms-text)] focus:border-[var(--lms-accent)] focus:outline-none resize-none" />
               </div>
               <div>
-                <label className="mb-1 block text-xs text-gray-500">ราคา (บาท)</label>
+                <label className="mb-1 block text-xs text-[var(--lms-text-muted)]">ราคา (บาท)</label>
                 <input type="number" min="0" value={coursePrice} onChange={e => setCoursePrice(e.target.value)} onFocus={selectOnFocus}
-                  className="w-36 rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-sm text-gray-200 focus:border-yellow-accent/40 focus:outline-none" />
+                  className="w-36 rounded-lg border border-[var(--lms-border-input)] bg-[var(--lms-bg-input)] px-4 py-2.5 text-sm text-[var(--lms-text)] focus:border-[var(--lms-accent)] focus:outline-none" />
               </div>
               <button onClick={saveCourseInfo} disabled={savingInfo}
-                className="rounded-lg bg-yellow-accent px-4 py-2 text-sm font-semibold text-black hover:bg-yellow-300 disabled:opacity-50">
+                className="rounded-lg bg-[var(--lms-accent)] px-4 py-2 text-sm font-semibold text-black hover:opacity-90 disabled:opacity-50">
                 {savingInfo ? "กำลังบันทึก..." : "บันทึกข้อมูลคอร์ส"}
               </button>
             </div>
@@ -371,19 +371,19 @@ export default function CourseEditorPage() {
           {/* Chapters + Lessons */}
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-lg font-semibold">เนื้อหาคอร์ส</h2>
-            <button onClick={() => openChapter()} className="rounded-lg bg-yellow-accent px-4 py-2 text-sm font-semibold text-black hover:bg-yellow-300">+ เพิ่มบท</button>
+            <button onClick={() => openChapter()} className="rounded-lg bg-[var(--lms-accent)] px-4 py-2 text-sm font-semibold text-black hover:opacity-90">+ เพิ่มบท</button>
           </div>
           <div className="space-y-4">
             {course.chapters.map(ch => (
-              <div key={ch.id} className="rounded-xl border border-white/10 bg-white/[0.02] overflow-hidden">
-                <div className="flex items-center justify-between px-5 py-3 bg-white/[0.03]">
+              <div key={ch.id} className="rounded-xl border border-[var(--lms-border)] bg-[var(--lms-bg-card)] overflow-hidden">
+                <div className="flex items-center justify-between px-5 py-3 bg-[var(--lms-bg-card)]">
                   <div className="flex items-center gap-3">
-                    <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/10 text-xs font-medium text-gray-400">{ch.order}</span>
+                    <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[var(--lms-border)] text-xs font-medium text-[var(--lms-text-secondary)]">{ch.order}</span>
                     <span className="font-medium">{ch.title}</span>
-                    <span className="text-xs text-gray-600">{ch.lessons.length} บทเรียน</span>
+                    <span className="text-xs text-[var(--lms-text-faint)]">{ch.lessons.length} บทเรียน</span>
                   </div>
                   <div className="flex gap-1">
-                    <button onClick={() => openChapter(ch)} className="rounded-lg px-3 py-1.5 text-xs text-gray-400 hover:bg-white/10 hover:text-white">แก้ไข</button>
+                    <button onClick={() => openChapter(ch)} className="rounded-lg px-3 py-1.5 text-xs text-[var(--lms-text-secondary)] hover:bg-[var(--lms-border)] hover:text-[var(--lms-text)]">แก้ไข</button>
                     <button onClick={() => deleteChapter(ch.id, ch.title)} className="rounded-lg px-3 py-1.5 text-xs text-red-400/60 hover:bg-red-500/10 hover:text-red-400">ลบ</button>
                   </div>
                 </div>
@@ -391,29 +391,29 @@ export default function CourseEditorPage() {
                   {ch.lessons.map(lesson => {
                     const typeLabel = LESSON_TYPES.find(t => t.value === lesson.type)?.label || lesson.type;
                     return (
-                      <div key={lesson.id} className="flex items-center gap-3 px-5 py-3 hover:bg-white/[0.03]">
-                        <span className="w-6 text-center text-xs text-gray-600">{lesson.order}</span>
+                      <div key={lesson.id} className="flex items-center gap-3 px-5 py-3 hover:bg-[var(--lms-bg-card)]">
+                        <span className="w-6 text-center text-xs text-[var(--lms-text-faint)]">{lesson.order}</span>
                         <span className={`h-2 w-2 shrink-0 rounded-full ${lesson.video_id ? "bg-green-500" : lesson.type === "text" ? "bg-blue-400" : lesson.type === "file" ? "bg-orange-400" : "bg-white/20"}`} />
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
-                            <span className="text-sm text-gray-200 truncate">{lesson.title}</span>
-                            <span className="shrink-0 rounded bg-white/10 px-1.5 py-0.5 text-[10px] text-gray-500">{typeLabel}</span>
-                            {lesson.is_free && <span className="shrink-0 rounded bg-yellow-accent/15 px-1.5 py-0.5 text-[10px] font-medium text-yellow-accent/80">ฟรี</span>}
+                            <span className="text-sm text-[var(--lms-text)] truncate">{lesson.title}</span>
+                            <span className="shrink-0 rounded bg-[var(--lms-border)] px-1.5 py-0.5 text-[10px] text-[var(--lms-text-muted)]">{typeLabel}</span>
+                            {lesson.is_free && <span className="shrink-0 rounded bg-[var(--lms-accent)]/15 px-1.5 py-0.5 text-[10px] font-medium text-[var(--lms-accent-text)]/80">ฟรี</span>}
                           </div>
                         </div>
-                        <span className="text-xs tabular-nums text-gray-600">{formatDuration(lesson.duration)}</span>
-                        <button onClick={() => openLesson(ch.id, lesson)} className="rounded-lg px-3 py-1.5 text-xs text-gray-400 hover:bg-white/10 hover:text-white">แก้ไข</button>
+                        <span className="text-xs tabular-nums text-[var(--lms-text-faint)]">{formatDuration(lesson.duration)}</span>
+                        <button onClick={() => openLesson(ch.id, lesson)} className="rounded-lg px-3 py-1.5 text-xs text-[var(--lms-text-secondary)] hover:bg-[var(--lms-border)] hover:text-[var(--lms-text)]">แก้ไข</button>
                         <button onClick={() => deleteLesson(lesson.id, lesson.title)} className="rounded-lg px-3 py-1.5 text-xs text-red-400/60 hover:bg-red-500/10 hover:text-red-400">ลบ</button>
                       </div>
                     );
                   })}
                 </div>
-                <button onClick={() => openLesson(ch.id)} className="w-full border-t border-white/5 px-5 py-2.5 text-left text-sm text-gray-500 hover:bg-white/[0.03] hover:text-gray-300">+ เพิ่มบทเรียน</button>
+                <button onClick={() => openLesson(ch.id)} className="w-full border-t border-white/5 px-5 py-2.5 text-left text-sm text-[var(--lms-text-muted)] hover:bg-[var(--lms-bg-card)] hover:text-[var(--lms-text-secondary)]">+ เพิ่มบทเรียน</button>
               </div>
             ))}
-            {course.chapters.length === 0 && <div className="rounded-xl border border-dashed border-white/10 py-16 text-center"><p className="text-gray-500">ยังไม่มีเนื้อหา</p></div>}
+            {course.chapters.length === 0 && <div className="rounded-xl border border-dashed border-[var(--lms-border)] py-16 text-center"><p className="text-[var(--lms-text-muted)]">ยังไม่มีเนื้อหา</p></div>}
           </div>
-          <div className="mt-4 flex items-center gap-4 text-xs text-gray-600">
+          <div className="mt-4 flex items-center gap-4 text-xs text-[var(--lms-text-faint)]">
             <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-green-500" /> วิดีโอ</span>
             <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-blue-400" /> บทความ</span>
             <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-orange-400" /> ไฟล์</span>
@@ -426,13 +426,13 @@ export default function CourseEditorPage() {
       {tab === "students" && (
         <>
           {/* Enroll new */}
-          <div className="mb-6 rounded-xl border border-white/10 bg-white/[0.02] p-4">
-            <h3 className="mb-3 text-sm font-medium text-gray-400">เพิ่มนักเรียน</h3>
+          <div className="mb-6 rounded-xl border border-[var(--lms-border)] bg-[var(--lms-bg-card)] p-4">
+            <h3 className="mb-3 text-sm font-medium text-[var(--lms-text-secondary)]">เพิ่มนักเรียน</h3>
             <div className="flex gap-2">
               <input type="email" placeholder="อีเมลนักเรียน" value={enrollEmail} onChange={e => setEnrollEmail(e.target.value)}
-                className="flex-1 rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-sm text-gray-200 placeholder:text-gray-600 focus:border-yellow-accent/40 focus:outline-none" />
+                className="flex-1 rounded-lg border border-[var(--lms-border-input)] bg-[var(--lms-bg-input)] px-4 py-2.5 text-sm text-[var(--lms-text)] placeholder:text-[var(--lms-text-faint)] focus:border-[var(--lms-accent)] focus:outline-none" />
               <button onClick={handleEnroll} disabled={!enrollEmail || enrolling}
-                className="rounded-lg bg-yellow-accent px-4 py-2.5 text-sm font-semibold text-black disabled:opacity-50 hover:bg-yellow-300">
+                className="rounded-lg bg-[var(--lms-accent)] px-4 py-2.5 text-sm font-semibold text-black disabled:opacity-50 hover:opacity-90">
                 {enrolling ? "..." : "เพิ่ม"}
               </button>
             </div>
@@ -442,39 +442,39 @@ export default function CourseEditorPage() {
           {studentsLoading ? (
             <div className="flex py-10 items-center justify-center"><div className="h-6 w-6 animate-spin rounded-full border-2 border-yellow-accent border-t-transparent" /></div>
           ) : students.length === 0 ? (
-            <p className="py-10 text-center text-gray-500">ยังไม่มีนักเรียน</p>
+            <p className="py-10 text-center text-[var(--lms-text-muted)]">ยังไม่มีนักเรียน</p>
           ) : (
-            <div className="rounded-xl border border-white/10 overflow-hidden">
+            <div className="rounded-xl border border-[var(--lms-border)] overflow-hidden">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-white/10 bg-white/[0.03]">
-                    <th className="px-4 py-2.5 text-left text-xs font-medium text-gray-500">ชื่อ / อีเมล</th>
-                    <th className="px-4 py-2.5 text-left text-xs font-medium text-gray-500">รหัส</th>
-                    <th className="px-4 py-2.5 text-left text-xs font-medium text-gray-500">ความคืบหน้า</th>
-                    <th className="px-4 py-2.5 text-left text-xs font-medium text-gray-500">สถานะ</th>
-                    <th className="px-4 py-2.5 text-right text-xs font-medium text-gray-500"></th>
+                  <tr className="border-b border-[var(--lms-border)] bg-[var(--lms-bg-card)]">
+                    <th className="px-4 py-2.5 text-left text-xs font-medium text-[var(--lms-text-muted)]">ชื่อ / อีเมล</th>
+                    <th className="px-4 py-2.5 text-left text-xs font-medium text-[var(--lms-text-muted)]">รหัส</th>
+                    <th className="px-4 py-2.5 text-left text-xs font-medium text-[var(--lms-text-muted)]">ความคืบหน้า</th>
+                    <th className="px-4 py-2.5 text-left text-xs font-medium text-[var(--lms-text-muted)]">สถานะ</th>
+                    <th className="px-4 py-2.5 text-right text-xs font-medium text-[var(--lms-text-muted)]"></th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
                   {students.map(s => {
                     const pct = totalLessons > 0 ? Math.round((s.completed_lessons / totalLessons) * 100) : 0;
                     return (
-                      <tr key={s.id} className="hover:bg-white/[0.02]">
+                      <tr key={s.id} className="hover:bg-[var(--lms-bg-card)]">
                         <td className="px-4 py-3">
-                          <div className="text-gray-200">{s.display_name || `${s.first_name} ${s.last_name}`.trim() || s.email}</div>
-                          <div className="text-xs text-gray-500">{s.email}</div>
+                          <div className="text-[var(--lms-text)]">{s.display_name || `${s.first_name} ${s.last_name}`.trim() || s.email}</div>
+                          <div className="text-xs text-[var(--lms-text-muted)]">{s.email}</div>
                         </td>
-                        <td className="px-4 py-3 font-mono text-xs text-gray-500">{s.customer_code}</td>
+                        <td className="px-4 py-3 font-mono text-xs text-[var(--lms-text-muted)]">{s.customer_code}</td>
                         <td className="px-4 py-3">
                           <div className="flex items-center gap-2">
-                            <div className="h-1.5 w-20 rounded-full bg-white/10 overflow-hidden">
-                              <div className="h-full rounded-full bg-yellow-accent" style={{ width: `${pct}%` }} />
+                            <div className="h-1.5 w-20 rounded-full bg-[var(--lms-border)] overflow-hidden">
+                              <div className="h-full rounded-full bg-[var(--lms-accent)]" style={{ width: `${pct}%` }} />
                             </div>
-                            <span className="text-xs tabular-nums text-gray-500">{s.completed_lessons}/{totalLessons}</span>
+                            <span className="text-xs tabular-nums text-[var(--lms-text-muted)]">{s.completed_lessons}/{totalLessons}</span>
                           </div>
                         </td>
                         <td className="px-4 py-3">
-                          <span className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${s.status === "ACTIVE" ? "bg-green-500/15 text-green-400" : s.status === "VIP_GRANT" ? "bg-orange-500/15 text-orange-400" : "bg-white/10 text-gray-400"}`}>
+                          <span className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${s.status === "ACTIVE" ? "bg-green-500/15 text-green-400" : s.status === "VIP_GRANT" ? "bg-orange-500/15 text-orange-400" : "bg-[var(--lms-border)] text-[var(--lms-text-secondary)]"}`}>
                             {s.status}
                           </span>
                         </td>
@@ -493,20 +493,20 @@ export default function CourseEditorPage() {
 
       {/* ====== CHAPTER MODAL ====== */}
       {modal === "chapter" && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm" onClick={() => setModal(null)}>
-          <div className="w-full max-w-md rounded-2xl border border-white/10 bg-[#1C1C1E] p-6 shadow-2xl" onClick={e => e.stopPropagation()}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center lms-bg/70 backdrop-blur-sm" onClick={() => setModal(null)}>
+          <div className="w-full max-w-md rounded-2xl border border-[var(--lms-border)] bg-[var(--lms-bg-secondary)] p-6 shadow-2xl" onClick={e => e.stopPropagation()}>
             <h3 className="mb-5 text-lg font-semibold">{editingChapter ? "แก้ไขบท" : "เพิ่มบทใหม่"}</h3>
             <div className="space-y-4">
-              <div><label className="mb-1.5 block text-sm text-gray-400">ชื่อบท</label>
+              <div><label className="mb-1.5 block text-sm text-[var(--lms-text-secondary)]">ชื่อบท</label>
                 <input type="text" placeholder="เช่น บทที่ 1: พื้นฐานการเงิน" value={chapterTitle} onChange={e => setChapterTitle(e.target.value)} autoFocus
-                  className="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sm text-gray-200 placeholder:text-gray-600 focus:border-yellow-accent/40 focus:outline-none" /></div>
-              <div><label className="mb-1.5 block text-sm text-gray-400">ลำดับ</label>
+                  className="w-full rounded-lg border border-[var(--lms-border-input)] bg-[var(--lms-bg-input)] px-4 py-3 text-sm text-[var(--lms-text)] placeholder:text-[var(--lms-text-faint)] focus:border-[var(--lms-accent)] focus:outline-none" /></div>
+              <div><label className="mb-1.5 block text-sm text-[var(--lms-text-secondary)]">ลำดับ</label>
                 <input type="number" value={chapterOrder} onChange={e => setChapterOrder(e.target.value)} onFocus={selectOnFocus}
-                  className="w-24 rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sm text-gray-200 focus:border-yellow-accent/40 focus:outline-none" /></div>
+                  className="w-24 rounded-lg border border-[var(--lms-border-input)] bg-[var(--lms-bg-input)] px-4 py-3 text-sm text-[var(--lms-text)] focus:border-[var(--lms-accent)] focus:outline-none" /></div>
             </div>
             <div className="mt-6 flex justify-end gap-3">
-              <button onClick={() => setModal(null)} className="rounded-lg px-5 py-2.5 text-sm text-gray-400 hover:text-white">ยกเลิก</button>
-              <button onClick={saveChapter} disabled={!chapterTitle || saving} className="rounded-lg bg-yellow-accent px-5 py-2.5 text-sm font-semibold text-black disabled:opacity-50 hover:bg-yellow-300">{saving ? "กำลังบันทึก..." : "บันทึก"}</button>
+              <button onClick={() => setModal(null)} className="rounded-lg px-5 py-2.5 text-sm text-[var(--lms-text-secondary)] hover:text-[var(--lms-text)]">ยกเลิก</button>
+              <button onClick={saveChapter} disabled={!chapterTitle || saving} className="rounded-lg bg-[var(--lms-accent)] px-5 py-2.5 text-sm font-semibold text-black disabled:opacity-50 hover:opacity-90">{saving ? "กำลังบันทึก..." : "บันทึก"}</button>
             </div>
           </div>
         </div>
@@ -514,54 +514,54 @@ export default function CourseEditorPage() {
 
       {/* ====== LESSON MODAL ====== */}
       {modal === "lesson" && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm overflow-y-auto py-8" onClick={() => setModal(null)}>
-          <div className="w-full max-w-lg rounded-2xl border border-white/10 bg-[#1C1C1E] p-6 shadow-2xl" onClick={e => e.stopPropagation()}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center lms-bg/70 backdrop-blur-sm overflow-y-auto py-8" onClick={() => setModal(null)}>
+          <div className="w-full max-w-lg rounded-2xl border border-[var(--lms-border)] bg-[var(--lms-bg-secondary)] p-6 shadow-2xl" onClick={e => e.stopPropagation()}>
             <h3 className="mb-5 text-lg font-semibold">{editingLesson ? "แก้ไขบทเรียน" : "เพิ่มบทเรียน"}</h3>
             <div className="space-y-4">
               {/* Type selector */}
               <div>
-                <label className="mb-1.5 block text-sm text-gray-400">ประเภท</label>
+                <label className="mb-1.5 block text-sm text-[var(--lms-text-secondary)]">ประเภท</label>
                 <div className="flex gap-2">
                   {LESSON_TYPES.map(t => (
                     <button key={t.value} onClick={() => setL("type", t.value)}
-                      className={`rounded-lg px-4 py-2 text-sm transition ${lessonForm.type === t.value ? "bg-yellow-accent text-black font-medium" : "bg-white/5 text-gray-400 hover:bg-white/10"}`}>
+                      className={`rounded-lg px-4 py-2 text-sm transition ${lessonForm.type === t.value ? "bg-[var(--lms-accent)] text-black font-medium" : "bg-[var(--lms-bg-input)] text-[var(--lms-text-secondary)] hover:bg-[var(--lms-border)]"}`}>
                       {t.label}
                     </button>
                   ))}
                 </div>
               </div>
 
-              <div><label className="mb-1.5 block text-sm text-gray-400">ชื่อบทเรียน</label>
+              <div><label className="mb-1.5 block text-sm text-[var(--lms-text-secondary)]">ชื่อบทเรียน</label>
                 <input type="text" placeholder="เช่น แนะนำคอร์ส" value={lessonForm.title} onChange={e => setL("title", e.target.value)} autoFocus
-                  className="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sm text-gray-200 placeholder:text-gray-600 focus:border-yellow-accent/40 focus:outline-none" /></div>
+                  className="w-full rounded-lg border border-[var(--lms-border-input)] bg-[var(--lms-bg-input)] px-4 py-3 text-sm text-[var(--lms-text)] placeholder:text-[var(--lms-text-faint)] focus:border-[var(--lms-accent)] focus:outline-none" /></div>
 
-              <div><label className="mb-1.5 block text-sm text-gray-400">คำอธิบาย</label>
+              <div><label className="mb-1.5 block text-sm text-[var(--lms-text-secondary)]">คำอธิบาย</label>
                 <textarea placeholder="อธิบายสั้นๆ" value={lessonForm.description} onChange={e => setL("description", e.target.value)} rows={2}
-                  className="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sm text-gray-200 placeholder:text-gray-600 focus:border-yellow-accent/40 focus:outline-none resize-none" /></div>
+                  className="w-full rounded-lg border border-[var(--lms-border-input)] bg-[var(--lms-bg-input)] px-4 py-3 text-sm text-[var(--lms-text)] placeholder:text-[var(--lms-text-faint)] focus:border-[var(--lms-accent)] focus:outline-none resize-none" /></div>
 
               {/* Video field */}
               {lessonForm.type === "video" && (
                 <div>
-                  <label className="mb-1.5 block text-sm text-gray-400">วิดีโอ</label>
+                  <label className="mb-1.5 block text-sm text-[var(--lms-text-secondary)]">วิดีโอ</label>
                   <input ref={videoInputRef} type="file" accept="video/*" className="hidden"
                     onChange={e => { if (e.target.files?.[0]) uploadVideo(e.target.files[0]); }} />
 
                   {/* Current video preview */}
                   {localVideoUrl ? (
                     <div className="mb-3">
-                      <video src={localVideoUrl} controls className="aspect-video w-full rounded-lg border border-white/10" />
+                      <video src={localVideoUrl} controls className="aspect-video w-full rounded-lg border border-[var(--lms-border)]" />
                     </div>
                   ) : lessonForm.videoId && lessonForm.videoId.includes("mediadelivery.net") ? (
                     <div className="mb-3">
-                      <iframe src={lessonForm.videoId} className="aspect-video w-full rounded-lg border border-white/10" allowFullScreen
+                      <iframe src={lessonForm.videoId} className="aspect-video w-full rounded-lg border border-[var(--lms-border)]" allowFullScreen
                         allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture" />
                     </div>
                   ) : lessonForm.videoId && ytId ? (
                     <div className="mb-3">
-                      <iframe src={`https://www.youtube.com/embed/${ytId}`} className="aspect-video w-full rounded-lg border border-white/10" allowFullScreen />
+                      <iframe src={`https://www.youtube.com/embed/${ytId}`} className="aspect-video w-full rounded-lg border border-[var(--lms-border)]" allowFullScreen />
                     </div>
                   ) : lessonForm.videoId ? (
-                    <div className="mb-3 rounded-lg border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-gray-400 break-all">
+                    <div className="mb-3 rounded-lg border border-[var(--lms-border)] bg-[var(--lms-bg-card)] px-4 py-3 text-sm text-[var(--lms-text-secondary)] break-all">
                       {lessonForm.videoId}
                     </div>
                   ) : null}
@@ -569,40 +569,40 @@ export default function CourseEditorPage() {
                   {/* Upload progress */}
                   {uploadingVideo && (
                     <div className="mb-3">
-                      <div className="flex items-center justify-between text-xs text-gray-400 mb-1">
+                      <div className="flex items-center justify-between text-xs text-[var(--lms-text-secondary)] mb-1">
                         <span>กำลังอัพโหลด...</span>
                         <span>{videoProgress}%</span>
                       </div>
-                      <div className="h-2 rounded-full bg-white/10 overflow-hidden">
-                        <div className="h-full rounded-full bg-yellow-accent transition-all" style={{ width: `${videoProgress}%` }} />
+                      <div className="h-2 rounded-full bg-[var(--lms-border)] overflow-hidden">
+                        <div className="h-full rounded-full bg-[var(--lms-accent)] transition-all" style={{ width: `${videoProgress}%` }} />
                       </div>
                     </div>
                   )}
 
                   <div className="flex gap-2">
                     <button type="button" onClick={() => videoInputRef.current?.click()} disabled={uploadingVideo}
-                      className="flex-1 rounded-lg border border-dashed border-white/20 px-4 py-2.5 text-sm text-gray-400 transition hover:border-white/30 hover:text-gray-300 disabled:opacity-50">
+                      className="flex-1 rounded-lg border border-dashed border-[var(--lms-border-input)] px-4 py-2.5 text-sm text-[var(--lms-text-secondary)] transition hover:border-white/30 hover:text-[var(--lms-text-secondary)] disabled:opacity-50">
                       {uploadingVideo ? "กำลังอัพโหลด..." : lessonForm.videoId ? "เปลี่ยนวิดีโอ" : "อัพโหลดวิดีโอ"}
                     </button>
                   </div>
-                  <p className="mt-1.5 text-xs text-gray-600">หรือวาง URL ด้านล่าง (YouTube, Bunny Stream, direct link)</p>
+                  <p className="mt-1.5 text-xs text-[var(--lms-text-faint)]">หรือวาง URL ด้านล่าง (YouTube, Bunny Stream, direct link)</p>
                   <input type="text" placeholder="วาง URL วิดีโอ" value={lessonForm.videoId} onChange={e => setL("videoId", e.target.value)}
-                    className="mt-2 w-full rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-xs text-gray-300 placeholder:text-gray-600 focus:border-yellow-accent/40 focus:outline-none font-mono" />
+                    className="mt-2 w-full rounded-lg border border-[var(--lms-border-input)] bg-[var(--lms-bg-input)] px-4 py-2.5 text-xs text-[var(--lms-text-secondary)] placeholder:text-[var(--lms-text-faint)] focus:border-[var(--lms-accent)] focus:outline-none font-mono" />
                 </div>
               )}
 
               {/* Text content */}
               {lessonForm.type === "text" && (
                 <div>
-                  <label className="mb-1.5 block text-sm text-gray-400">เนื้อหาบทความ</label>
+                  <label className="mb-1.5 block text-sm text-[var(--lms-text-secondary)]">เนื้อหาบทความ</label>
                   <textarea value={lessonForm.content} onChange={e => setL("content", e.target.value)} rows={8} placeholder="เขียนเนื้อหาบทเรียนที่นี่..."
-                    className="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sm text-gray-200 placeholder:text-gray-600 focus:border-yellow-accent/40 focus:outline-none resize-y" />
+                    className="w-full rounded-lg border border-[var(--lms-border-input)] bg-[var(--lms-bg-input)] px-4 py-3 text-sm text-[var(--lms-text)] placeholder:text-[var(--lms-text-faint)] focus:border-[var(--lms-accent)] focus:outline-none resize-y" />
                 </div>
               )}
 
               {/* File attachments — all types */}
               <div>
-                <label className="mb-1.5 block text-sm text-gray-400">
+                <label className="mb-1.5 block text-sm text-[var(--lms-text-secondary)]">
                   {lessonForm.type === "file" ? "ไฟล์หลัก" : "ไฟล์แนบ"}
                 </label>
                 <input ref={fileInputRef} type="file" className="hidden" onChange={async (e) => {
@@ -636,17 +636,17 @@ export default function CourseEditorPage() {
                 {lessonAttachments.length > 0 && (
                   <div className="mb-2 space-y-1.5">
                     {lessonAttachments.map(att => (
-                      <div key={att.id} className="flex items-center gap-2 rounded-lg bg-white/5 px-3 py-2">
-                        <svg className="h-4 w-4 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" /></svg>
-                        <span className="flex-1 truncate text-sm text-gray-300">{att.file_name}</span>
-                        <span className="text-xs text-gray-600">{formatBytes(att.file_size)}</span>
+                      <div key={att.id} className="flex items-center gap-2 rounded-lg bg-[var(--lms-bg-input)] px-3 py-2">
+                        <svg className="h-4 w-4 shrink-0 text-[var(--lms-text-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" /></svg>
+                        <span className="flex-1 truncate text-sm text-[var(--lms-text-secondary)]">{att.file_name}</span>
+                        <span className="text-xs text-[var(--lms-text-faint)]">{formatBytes(att.file_size)}</span>
                         <button onClick={() => removeAttachment(att.id)} className="text-xs text-red-400/60 hover:text-red-400">ลบ</button>
                       </div>
                     ))}
                   </div>
                 )}
                 <button onClick={() => fileInputRef.current?.click()} disabled={uploadingFile || saving}
-                  className={`rounded-lg border border-dashed border-white/20 px-4 py-3 text-sm text-gray-500 hover:border-white/30 hover:text-gray-300 disabled:opacity-50 ${lessonForm.type === "file" ? "w-full" : ""}`}>
+                  className={`rounded-lg border border-dashed border-[var(--lms-border-input)] px-4 py-3 text-sm text-[var(--lms-text-muted)] hover:border-white/30 hover:text-[var(--lms-text-secondary)] disabled:opacity-50 ${lessonForm.type === "file" ? "w-full" : ""}`}>
                   {uploadingFile ? "กำลังอัพโหลด..." : saving ? "กำลังสร้างบทเรียน..." : lessonAttachments.length > 0 ? "+ เพิ่มไฟล์" : "+ อัพโหลดไฟล์ (PDF, เอกสาร, รูปภาพ สูงสุด 20MB)"}
                 </button>
               </div>
@@ -654,34 +654,34 @@ export default function CourseEditorPage() {
               <div className="flex gap-4 flex-wrap">
                 {lessonForm.type !== "file" && (
                   <div>
-                    <label className="mb-1.5 block text-sm text-gray-400">{lessonForm.type === "text" ? "เวลาอ่าน" : "ความยาว"}</label>
+                    <label className="mb-1.5 block text-sm text-[var(--lms-text-secondary)]">{lessonForm.type === "text" ? "เวลาอ่าน" : "ความยาว"}</label>
                     <div className="flex items-center gap-1">
                       <input type="number" min="0" value={durH} onChange={e => setDurH(e.target.value)} onFocus={selectOnFocus} placeholder="0"
-                        className="w-16 rounded-lg border border-white/15 bg-white/5 px-3 py-3 text-sm text-gray-200 text-center focus:border-yellow-accent/40 focus:outline-none" />
-                      <span className="text-xs text-gray-500">ชม.</span>
+                        className="w-16 rounded-lg border border-[var(--lms-border-input)] bg-[var(--lms-bg-input)] px-3 py-3 text-sm text-[var(--lms-text)] text-center focus:border-[var(--lms-accent)] focus:outline-none" />
+                      <span className="text-xs text-[var(--lms-text-muted)]">ชม.</span>
                       <input type="number" min="0" max="59" value={durM} onChange={e => setDurM(e.target.value)} onFocus={selectOnFocus} placeholder="0"
-                        className="w-16 rounded-lg border border-white/15 bg-white/5 px-3 py-3 text-sm text-gray-200 text-center focus:border-yellow-accent/40 focus:outline-none" />
-                      <span className="text-xs text-gray-500">น.</span>
+                        className="w-16 rounded-lg border border-[var(--lms-border-input)] bg-[var(--lms-bg-input)] px-3 py-3 text-sm text-[var(--lms-text)] text-center focus:border-[var(--lms-accent)] focus:outline-none" />
+                      <span className="text-xs text-[var(--lms-text-muted)]">น.</span>
                       <input type="number" min="0" max="59" value={durS} onChange={e => setDurS(e.target.value)} onFocus={selectOnFocus} placeholder="0"
-                        className="w-16 rounded-lg border border-white/15 bg-white/5 px-3 py-3 text-sm text-gray-200 text-center focus:border-yellow-accent/40 focus:outline-none" />
-                      <span className="text-xs text-gray-500">วิ.</span>
+                        className="w-16 rounded-lg border border-[var(--lms-border-input)] bg-[var(--lms-bg-input)] px-3 py-3 text-sm text-[var(--lms-text)] text-center focus:border-[var(--lms-accent)] focus:outline-none" />
+                      <span className="text-xs text-[var(--lms-text-muted)]">วิ.</span>
                     </div>
                   </div>
                 )}
-                <div><label className="mb-1.5 block text-sm text-gray-400">ลำดับ</label>
+                <div><label className="mb-1.5 block text-sm text-[var(--lms-text-secondary)]">ลำดับ</label>
                   <input type="number" min="1" value={lessonForm.order} onChange={e => setL("order", e.target.value)} onFocus={selectOnFocus}
-                    className="w-24 rounded-lg border border-white/15 bg-white/5 px-4 py-3 text-sm text-gray-200 focus:border-yellow-accent/40 focus:outline-none" /></div>
+                    className="w-24 rounded-lg border border-[var(--lms-border-input)] bg-[var(--lms-bg-input)] px-4 py-3 text-sm text-[var(--lms-text)] focus:border-[var(--lms-accent)] focus:outline-none" /></div>
               </div>
 
-              <label className="flex items-center gap-3 rounded-lg border border-white/10 bg-white/[0.02] px-4 py-3 cursor-pointer hover:bg-white/[0.04]">
+              <label className="flex items-center gap-3 rounded-lg border border-[var(--lms-border)] bg-[var(--lms-bg-card)] px-4 py-3 cursor-pointer hover:bg-[var(--lms-bg-card-hover)]">
                 <input type="checkbox" checked={lessonForm.isFree} onChange={e => setL("isFree", e.target.checked)} className="h-4 w-4 rounded" />
-                <div><span className="text-sm text-gray-200">เปิดให้ดูฟรี</span><p className="text-xs text-gray-500">ผู้ที่ยังไม่ได้ซื้อคอร์สสามารถดูบทเรียนนี้ได้</p></div>
+                <div><span className="text-sm text-[var(--lms-text)]">เปิดให้ดูฟรี</span><p className="text-xs text-[var(--lms-text-muted)]">ผู้ที่ยังไม่ได้ซื้อคอร์สสามารถดูบทเรียนนี้ได้</p></div>
               </label>
             </div>
 
             <div className="mt-6 flex justify-end gap-3">
-              <button onClick={() => setModal(null)} className="rounded-lg px-5 py-2.5 text-sm text-gray-400 hover:text-white">ยกเลิก</button>
-              <button onClick={saveLesson} disabled={!lessonForm.title || saving} className="rounded-lg bg-yellow-accent px-5 py-2.5 text-sm font-semibold text-black disabled:opacity-50 hover:bg-yellow-300">{saving ? "กำลังบันทึก..." : "บันทึก"}</button>
+              <button onClick={() => setModal(null)} className="rounded-lg px-5 py-2.5 text-sm text-[var(--lms-text-secondary)] hover:text-[var(--lms-text)]">ยกเลิก</button>
+              <button onClick={saveLesson} disabled={!lessonForm.title || saving} className="rounded-lg bg-[var(--lms-accent)] px-5 py-2.5 text-sm font-semibold text-black disabled:opacity-50 hover:opacity-90">{saving ? "กำลังบันทึก..." : "บันทึก"}</button>
             </div>
           </div>
         </div>

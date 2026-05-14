@@ -34,6 +34,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
 
   const links = [
     { href: "/admin/courses", label: "จัดการคอร์ส" },
+    { href: "/admin/students", label: "นักเรียน" },
   ];
 
   return (

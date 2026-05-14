@@ -103,7 +103,7 @@ export default function LessonPage() {
       <div className="flex min-h-[40vh] items-center justify-center">
         <div className="text-center">
           <p className="text-red-400">{error || "ไม่พบบทเรียน"}</p>
-          <Link href={`/learn/${slug}`} className="mt-3 inline-block text-sm text-yellow-accent hover:underline">กลับหน้าคอร์ส</Link>
+          <Link href={`/learn/${slug}`} className="mt-3 inline-block text-sm text-[var(--lms-accent-text)] hover:underline">กลับหน้าคอร์ส</Link>
         </div>
       </div>
     );
@@ -116,7 +116,7 @@ export default function LessonPage() {
       {/* Video */}
       {(lesson.type === "video" || lesson.videoUrl) && (
         <div className="p-3 sm:p-5">
-          <div className="relative mx-auto max-w-4xl overflow-hidden rounded-lg bg-black" style={{ paddingBottom: "56.25%" }}>
+          <div className="relative mx-auto max-w-4xl overflow-hidden rounded-lg lms-bg" style={{ paddingBottom: "56.25%" }}>
             {lesson.videoUrl?.includes("mediadelivery.net") ? (
               <iframe
                 src={lesson.videoUrl}
@@ -134,7 +134,7 @@ export default function LessonPage() {
             ) : lesson.videoUrl ? (
               <video src={lesson.videoUrl} controls className="absolute inset-0 h-full w-full" controlsList="nodownload" />
             ) : (
-              <div className="absolute inset-0 flex items-center justify-center text-gray-600">
+              <div className="absolute inset-0 flex items-center justify-center text-[var(--lms-text-faint)]">
                 <p className="text-sm">วิดีโอกำลังเตรียมพร้อม</p>
               </div>
             )}
@@ -149,34 +149,34 @@ export default function LessonPage() {
           <div className="flex-1">
             <h1 className="text-xl font-bold leading-snug">{lesson.title}</h1>
             {lesson.description && (
-              <p className="mt-2 text-sm text-gray-400 leading-relaxed">{lesson.description}</p>
+              <p className="mt-2 text-sm text-[var(--lms-text-secondary)] leading-relaxed">{lesson.description}</p>
             )}
           </div>
 
           {/* Compact complete button */}
           {completed ? (
-            <div className="flex shrink-0 items-center gap-1.5 rounded-lg bg-yellow-accent/10 px-3 py-1.5">
-              <svg className="h-4 w-4 text-yellow-accent" fill="currentColor" viewBox="0 0 20 20">
+            <div className="flex shrink-0 items-center gap-1.5 rounded-lg bg-[var(--lms-accent)]/10 px-3 py-1.5">
+              <svg className="h-4 w-4 text-[var(--lms-accent-text)]" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
               </svg>
-              <span className="text-xs font-medium text-yellow-accent">เรียนแล้ว</span>
+              <span className="text-xs font-medium text-[var(--lms-accent-text)]">เรียนแล้ว</span>
             </div>
           ) : (
             <button
               onClick={handleMarkComplete}
               disabled={marking}
-              className="shrink-0 rounded-lg bg-yellow-accent px-4 py-2 text-sm font-semibold text-black transition hover:bg-yellow-300 disabled:opacity-50"
+              className="shrink-0 rounded-lg bg-[var(--lms-accent)] px-4 py-2 text-sm font-semibold text-black transition hover:opacity-90 disabled:opacity-50"
             >
               {marking ? "..." : "เรียนจบแล้ว"}
             </button>
           )}
         </div>
 
-        <div className="h-px bg-white/10 mb-5" />
+        <div className="h-px bg-[var(--lms-border)] mb-5" />
 
         {/* Text content */}
         {lesson.type === "text" && lesson.content && (
-          <div className="mb-6 text-sm leading-relaxed text-gray-300 whitespace-pre-wrap">
+          <div className="mb-6 text-sm leading-relaxed text-[var(--lms-text-secondary)] whitespace-pre-wrap">
             {lesson.content}
           </div>
         )}
@@ -184,7 +184,7 @@ export default function LessonPage() {
         {/* Attachments */}
         {lesson.attachments && lesson.attachments.length > 0 && (
           <div className="mb-6">
-            <h3 className="mb-3 text-sm font-medium text-gray-400">ไฟล์ประกอบการเรียน</h3>
+            <h3 className="mb-3 text-sm font-medium text-[var(--lms-text-secondary)]">ไฟล์ประกอบการเรียน</h3>
             <div className="space-y-2">
               {lesson.attachments.map((att) => (
                 <a
@@ -192,16 +192,16 @@ export default function LessonPage() {
                   href={att.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 rounded-lg border border-white/10 bg-white/[0.02] px-4 py-3 transition hover:bg-white/[0.05]"
+                  className="flex items-center gap-3 rounded-lg border border-[var(--lms-border)] bg-[var(--lms-bg-card)] px-4 py-3 transition hover:bg-white/[0.05]"
                 >
-                  <svg className="h-5 w-5 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="h-5 w-5 shrink-0 text-[var(--lms-text-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
                   <div className="flex-1 min-w-0">
-                    <span className="block truncate text-sm text-gray-200">{att.name}</span>
-                    <span className="text-[11px] text-gray-600">{formatBytes(att.size)}</span>
+                    <span className="block truncate text-sm text-[var(--lms-text)]">{att.name}</span>
+                    <span className="text-[11px] text-[var(--lms-text-faint)]">{formatBytes(att.size)}</span>
                   </div>
-                  <span className="shrink-0 rounded-md bg-white/5 px-2.5 py-1 text-xs text-gray-400 transition hover:bg-white/10">
+                  <span className="shrink-0 rounded-md bg-[var(--lms-bg-input)] px-2.5 py-1 text-xs text-[var(--lms-text-secondary)] transition hover:bg-[var(--lms-border)]">
                     ดาวน์โหลด
                   </span>
                 </a>

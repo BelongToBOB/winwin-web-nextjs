@@ -48,7 +48,7 @@ function LoginContent() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-black px-4">
+    <div className="flex min-h-screen items-center justify-center lms-bg px-4">
       <div className="w-full max-w-sm space-y-6 text-center">
         <Image
           src="/favicon.png"
@@ -57,7 +57,7 @@ function LoginContent() {
           height={64}
           className="mx-auto rounded-xl"
         />
-        <h1 className="text-2xl font-bold text-yellow-accent">
+        <h1 className="text-2xl font-bold text-[var(--lms-accent-text)]">
           WinWin Learn
         </h1>
         {isRegistered && (
@@ -75,7 +75,7 @@ function LoginContent() {
             </p>
             <Link
               href="/checkout"
-              className="mt-3 inline-block rounded-lg bg-yellow-accent px-5 py-2 text-sm font-semibold text-black transition hover:bg-yellow-300"
+              className="mt-3 inline-block rounded-lg bg-[var(--lms-accent)] px-5 py-2 text-sm font-semibold text-black transition hover:opacity-90"
             >
               ซื้อคอร์ส
             </Link>
@@ -98,7 +98,7 @@ function LoginContent() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full rounded-lg border border-white/20 bg-white/5 px-4 py-3 text-sm text-gray-200 placeholder:text-gray-500 focus:border-yellow-accent/50 focus:outline-none"
+            className="w-full rounded-lg border border-[var(--lms-border-input)] bg-[var(--lms-bg-input)] px-4 py-3 text-sm text-[var(--lms-text)] placeholder:text-[var(--lms-text-muted)] focus:border-[var(--lms-accent)] focus:outline-none"
           />
           <input
             type="password"
@@ -106,11 +106,11 @@ function LoginContent() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="w-full rounded-lg border border-white/20 bg-white/5 px-4 py-3 text-sm text-gray-200 placeholder:text-gray-500 focus:border-yellow-accent/50 focus:outline-none"
+            className="w-full rounded-lg border border-[var(--lms-border-input)] bg-[var(--lms-bg-input)] px-4 py-3 text-sm text-[var(--lms-text)] placeholder:text-[var(--lms-text-muted)] focus:border-[var(--lms-accent)] focus:outline-none"
           />
 
           <div className="text-right">
-            <Link href="/learn/forgot-password" className="text-xs text-gray-500 hover:text-gray-300">
+            <Link href="/learn/forgot-password" className="text-xs text-[var(--lms-text-muted)] hover:text-[var(--lms-text-secondary)]">
               ลืมรหัสผ่าน?
             </Link>
           </div>
@@ -131,7 +131,7 @@ function LoginContent() {
           <button
             type="submit"
             disabled={loading || !turnstileToken}
-            className="w-full rounded-lg bg-yellow-accent py-3 text-sm font-semibold text-black transition hover:bg-yellow-300 disabled:opacity-50"
+            className="w-full rounded-lg bg-[var(--lms-accent)] py-3 text-sm font-semibold text-black transition hover:opacity-90 disabled:opacity-50"
           >
             {loading ? "กำลังเข้าสู่ระบบ..." : "เข้าสู่ระบบ"}
           </button>
@@ -139,15 +139,15 @@ function LoginContent() {
 
         {/* Divider */}
         <div className="flex items-center gap-3">
-          <div className="h-px flex-1 bg-white/10" />
-          <span className="text-xs text-gray-500">หรือ</span>
-          <div className="h-px flex-1 bg-white/10" />
+          <div className="h-px flex-1 bg-[var(--lms-border)]" />
+          <span className="text-xs text-[var(--lms-text-muted)]">หรือ</span>
+          <div className="h-px flex-1 bg-[var(--lms-border)]" />
         </div>
 
         {/* Google Button */}
         <button
           onClick={() => signIn("google", { callbackUrl: "/learn" })}
-          className="flex w-full items-center justify-center gap-3 rounded-lg border border-white/20 bg-white/5 px-4 py-3 text-sm font-medium text-gray-200 transition hover:bg-white/10"
+          className="flex w-full items-center justify-center gap-3 rounded-lg border border-[var(--lms-border-input)] bg-[var(--lms-bg-input)] px-4 py-3 text-sm font-medium text-[var(--lms-text)] transition hover:bg-[var(--lms-border)]"
         >
           <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
             <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4" />
@@ -159,11 +159,11 @@ function LoginContent() {
         </button>
 
         {/* Register Link */}
-        <p className="text-sm text-gray-400">
+        <p className="text-sm text-[var(--lms-text-secondary)]">
           ยังไม่มีบัญชี?{" "}
           <Link
             href="/learn/register"
-            className="text-yellow-accent hover:underline"
+            className="text-[var(--lms-accent-text)] hover:underline"
           >
             สมัครสมาชิก
           </Link>

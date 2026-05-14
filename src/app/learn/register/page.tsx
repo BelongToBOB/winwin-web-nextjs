@@ -70,7 +70,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-black px-4">
+    <div className="flex min-h-screen items-center justify-center lms-bg px-4">
       <div className="w-full max-w-sm space-y-6 text-center">
         <Image
           src="/favicon.png"
@@ -79,10 +79,10 @@ export default function RegisterPage() {
           height={64}
           className="mx-auto rounded-xl"
         />
-        <h1 className="text-2xl font-bold text-yellow-accent">
+        <h1 className="text-2xl font-bold text-[var(--lms-accent-text)]">
           สมัครสมาชิก
         </h1>
-        <p className="text-sm text-gray-400">
+        <p className="text-sm text-[var(--lms-text-secondary)]">
           สร้างบัญชีเพื่อเข้าเรียนคอร์สที่ซื้อแล้ว
         </p>
 
@@ -99,7 +99,7 @@ export default function RegisterPage() {
             value={form.displayName}
             onChange={set("displayName")}
             required
-            className="w-full rounded-lg border border-white/20 bg-white/5 px-4 py-3 text-sm text-gray-200 placeholder:text-gray-500 focus:border-yellow-accent/50 focus:outline-none"
+            className="w-full rounded-lg border border-[var(--lms-border-input)] bg-[var(--lms-bg-input)] px-4 py-3 text-sm text-[var(--lms-text)] placeholder:text-[var(--lms-text-muted)] focus:border-[var(--lms-accent)] focus:outline-none"
           />
           <input
             type="email"
@@ -107,7 +107,7 @@ export default function RegisterPage() {
             value={form.email}
             onChange={set("email")}
             required
-            className="w-full rounded-lg border border-white/20 bg-white/5 px-4 py-3 text-sm text-gray-200 placeholder:text-gray-500 focus:border-yellow-accent/50 focus:outline-none"
+            className="w-full rounded-lg border border-[var(--lms-border-input)] bg-[var(--lms-bg-input)] px-4 py-3 text-sm text-[var(--lms-text)] placeholder:text-[var(--lms-text-muted)] focus:border-[var(--lms-accent)] focus:outline-none"
           />
           <input
             type="password"
@@ -115,7 +115,7 @@ export default function RegisterPage() {
             value={form.password}
             onChange={set("password")}
             required
-            className="w-full rounded-lg border border-white/20 bg-white/5 px-4 py-3 text-sm text-gray-200 placeholder:text-gray-500 focus:border-yellow-accent/50 focus:outline-none"
+            className="w-full rounded-lg border border-[var(--lms-border-input)] bg-[var(--lms-bg-input)] px-4 py-3 text-sm text-[var(--lms-text)] placeholder:text-[var(--lms-text-muted)] focus:border-[var(--lms-accent)] focus:outline-none"
           />
           <input
             type="password"
@@ -123,7 +123,7 @@ export default function RegisterPage() {
             value={form.confirmPassword}
             onChange={set("confirmPassword")}
             required
-            className="w-full rounded-lg border border-white/20 bg-white/5 px-4 py-3 text-sm text-gray-200 placeholder:text-gray-500 focus:border-yellow-accent/50 focus:outline-none"
+            className="w-full rounded-lg border border-[var(--lms-border-input)] bg-[var(--lms-bg-input)] px-4 py-3 text-sm text-[var(--lms-text)] placeholder:text-[var(--lms-text-muted)] focus:border-[var(--lms-accent)] focus:outline-none"
           />
 
           <div className="flex justify-center">
@@ -139,17 +139,17 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={loading || !turnstileToken}
-            className="w-full rounded-lg bg-yellow-accent py-3 text-sm font-semibold text-black transition hover:bg-yellow-300 disabled:opacity-50"
+            className="w-full rounded-lg bg-[var(--lms-accent)] py-3 text-sm font-semibold text-black transition hover:opacity-90 disabled:opacity-50"
           >
             {loading ? "กำลังสมัคร..." : "สมัครสมาชิก"}
           </button>
         </form>
 
-        <p className="text-sm text-gray-400">
+        <p className="text-sm text-[var(--lms-text-secondary)]">
           มีบัญชีอยู่แล้ว?{" "}
           <Link
             href="/learn/login"
-            className="text-yellow-accent hover:underline"
+            className="text-[var(--lms-accent-text)] hover:underline"
           >
             เข้าสู่ระบบ
           </Link>

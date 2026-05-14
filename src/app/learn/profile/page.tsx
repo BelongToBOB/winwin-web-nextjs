@@ -69,32 +69,32 @@ export default function ProfilePage() {
       <h1 className="mb-8 text-xl font-bold">โปรไฟล์</h1>
 
       {/* Display Name */}
-      <div className="mb-8 rounded-xl border border-white/10 bg-white/[0.02] p-5">
-        <h2 className="mb-4 text-sm font-medium text-gray-400">ข้อมูลทั่วไป</h2>
+      <div className="mb-8 rounded-xl border border-[var(--lms-border)] bg-[var(--lms-bg-card)] p-5">
+        <h2 className="mb-4 text-sm font-medium text-[var(--lms-text-secondary)]">ข้อมูลทั่วไป</h2>
         <div className="space-y-3">
           <div>
-            <label className="mb-1.5 block text-xs text-gray-500">อีเมล</label>
-            <p className="text-sm text-gray-300">{session?.user?.email}</p>
+            <label className="mb-1.5 block text-xs text-[var(--lms-text-muted)]">อีเมล</label>
+            <p className="text-sm text-[var(--lms-text-secondary)]">{session?.user?.email}</p>
           </div>
           <div>
-            <label className="mb-1.5 block text-xs text-gray-500">ชื่อที่แสดง</label>
+            <label className="mb-1.5 block text-xs text-[var(--lms-text-muted)]">ชื่อที่แสดง</label>
             <input
               type="text"
               value={displayName}
               onChange={e => setDisplayName(e.target.value)}
-              className="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-sm text-gray-200 focus:border-yellow-accent/40 focus:outline-none"
+              className="w-full rounded-lg border border-[var(--lms-border-input)] bg-[var(--lms-bg-input)] px-4 py-2.5 text-sm text-[var(--lms-text)] focus:border-[var(--lms-accent)] focus:outline-none"
             />
           </div>
           <button onClick={handleSaveName} disabled={saving}
-            className="rounded-lg bg-yellow-accent px-4 py-2 text-sm font-semibold text-black hover:bg-yellow-300 disabled:opacity-50">
+            className="rounded-lg bg-[var(--lms-accent)] px-4 py-2 text-sm font-semibold text-black hover:opacity-90 disabled:opacity-50">
             {saving ? "..." : "บันทึก"}
           </button>
         </div>
       </div>
 
       {/* Change Password */}
-      <div className="rounded-xl border border-white/10 bg-white/[0.02] p-5">
-        <h2 className="mb-4 text-sm font-medium text-gray-400">เปลี่ยนรหัสผ่าน</h2>
+      <div className="rounded-xl border border-[var(--lms-border)] bg-[var(--lms-bg-card)] p-5">
+        <h2 className="mb-4 text-sm font-medium text-[var(--lms-text-secondary)]">เปลี่ยนรหัสผ่าน</h2>
 
         {error && (
           <div className="mb-3 rounded-lg border border-red-500/30 bg-red-500/10 p-3">
@@ -104,22 +104,22 @@ export default function ProfilePage() {
 
         <form onSubmit={handleChangePassword} className="space-y-3">
           <div>
-            <label className="mb-1.5 block text-xs text-gray-500">รหัสผ่านปัจจุบัน</label>
+            <label className="mb-1.5 block text-xs text-[var(--lms-text-muted)]">รหัสผ่านปัจจุบัน</label>
             <input type="password" value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} required
-              className="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-sm text-gray-200 focus:border-yellow-accent/40 focus:outline-none" />
+              className="w-full rounded-lg border border-[var(--lms-border-input)] bg-[var(--lms-bg-input)] px-4 py-2.5 text-sm text-[var(--lms-text)] focus:border-[var(--lms-accent)] focus:outline-none" />
           </div>
           <div>
-            <label className="mb-1.5 block text-xs text-gray-500">รหัสผ่านใหม่</label>
+            <label className="mb-1.5 block text-xs text-[var(--lms-text-muted)]">รหัสผ่านใหม่</label>
             <input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} required placeholder="อย่างน้อย 6 ตัวอักษร"
-              className="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-sm text-gray-200 placeholder:text-gray-600 focus:border-yellow-accent/40 focus:outline-none" />
+              className="w-full rounded-lg border border-[var(--lms-border-input)] bg-[var(--lms-bg-input)] px-4 py-2.5 text-sm text-[var(--lms-text)] placeholder:text-gray-600 focus:border-[var(--lms-accent)] focus:outline-none" />
           </div>
           <div>
-            <label className="mb-1.5 block text-xs text-gray-500">ยืนยันรหัสผ่านใหม่</label>
+            <label className="mb-1.5 block text-xs text-[var(--lms-text-muted)]">ยืนยันรหัสผ่านใหม่</label>
             <input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required
-              className="w-full rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-sm text-gray-200 focus:border-yellow-accent/40 focus:outline-none" />
+              className="w-full rounded-lg border border-[var(--lms-border-input)] bg-[var(--lms-bg-input)] px-4 py-2.5 text-sm text-[var(--lms-text)] focus:border-[var(--lms-accent)] focus:outline-none" />
           </div>
           <button type="submit" disabled={saving}
-            className="rounded-lg bg-yellow-accent px-4 py-2 text-sm font-semibold text-black hover:bg-yellow-300 disabled:opacity-50">
+            className="rounded-lg bg-[var(--lms-accent)] px-4 py-2 text-sm font-semibold text-black hover:opacity-90 disabled:opacity-50">
             {saving ? "..." : "เปลี่ยนรหัสผ่าน"}
           </button>
         </form>

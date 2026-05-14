@@ -51,11 +51,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           }),
         });
 
-        const res = await fetch(
-          `${LMS_API}/auth/check-enrollment?email=${encodeURIComponent(user.email)}`
-        );
-        const data = await res.json();
-        if (!data.enrolled) return `/learn/login?error=not_enrolled`;
         return true;
       } catch {
         return true;

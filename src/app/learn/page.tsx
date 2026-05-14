@@ -37,7 +37,7 @@ export default function LearnPage() {
         <div className="grid gap-4 sm:grid-cols-2 mb-10">
           {myCourses.map(course => (
             <Link key={course.id} href={`/learn/${course.slug}`} className="group overflow-hidden rounded-xl transition lms-card">
-              {course.coverUrl && <img src={course.coverUrl} alt="" className="w-full object-cover aspect-[16/9]" />}
+              {course.coverUrl && <img src={course.coverUrl} alt="" className="w-full object-cover aspect-[2/1]" />}
               <div className="p-5">
                 <h2 className="text-base font-semibold" style={{ color: "var(--lms-text)" }}>{course.title}</h2>
                 {course.description && <p className="mt-1 line-clamp-2 text-sm" style={{ color: "var(--lms-text-muted)" }}>{course.description}</p>}
@@ -62,7 +62,7 @@ export default function LearnPage() {
             {lockedCourses.map(course => (
               <div key={course.id} className="overflow-hidden rounded-xl lms-card">
                 <div className="relative">
-                  {course.coverUrl && <img src={course.coverUrl} alt="" className="w-full object-cover aspect-[16/9] opacity-60" />}
+                  {course.coverUrl && <img src={course.coverUrl} alt="" className="w-full object-cover aspect-[2/1] opacity-60" />}
                   <div className="absolute inset-0 flex items-center justify-center" style={{ background: "rgba(0,0,0,0.3)" }}>
                     <svg className="h-8 w-8 opacity-50" style={{ color: "var(--lms-text)" }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />

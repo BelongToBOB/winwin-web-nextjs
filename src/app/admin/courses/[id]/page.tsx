@@ -319,7 +319,7 @@ export default function CourseEditorPage() {
           {/* Cover */}
           <div className="mb-8">
             <h2 className="mb-2 text-sm font-medium text-gray-400">รูปปก</h2>
-            <p className="mb-3 text-xs text-gray-600">แนะนำ 1200 x 630 px, JPG/PNG/WebP, ไม่เกิน 2MB</p>
+            <p className="mb-3 text-xs text-gray-600">แนะนำ 1200 x 600 px (อัตราส่วน 2:1), JPG/PNG/WebP, ไม่เกิน 2MB</p>
             <input ref={coverRef} type="file" accept="image/jpeg,image/png,image/webp" className="hidden" onChange={e => { if (e.target.files?.[0]) uploadCover(e.target.files[0]); }} />
             {course.coverUrl ? (
               <div className="relative group">

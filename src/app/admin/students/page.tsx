@@ -20,6 +20,8 @@ interface Student {
   id: string;
   email: string;
   displayName: string | null;
+  phone: string | null;
+  lineId: string | null;
   hasGoogle: boolean;
   createdAt: string;
   courses: CourseProgress[];
@@ -196,9 +198,11 @@ export default function StudentsPage() {
               </div>
             </div>
 
-            <div className="mb-4 flex gap-3 text-xs" style={{ color: "var(--lms-text-faint)" }}>
+            <div className="mb-4 flex flex-wrap gap-x-4 gap-y-1 text-xs" style={{ color: "var(--lms-text-faint)" }}>
               <span>สมัคร: {formatDate(selected.createdAt)}</span>
               {selected.hasGoogle && <span>Google linked</span>}
+              {selected.phone && <span>Tel: {selected.phone}</span>}
+              {selected.lineId && <span>Line: {selected.lineId}</span>}
             </div>
 
             <div style={{ borderTop: "1px solid var(--lms-border)" }} className="pt-4">

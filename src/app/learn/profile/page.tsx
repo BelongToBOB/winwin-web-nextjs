@@ -20,6 +20,8 @@ interface CourseInfo {
 interface Profile {
   email: string;
   displayName: string | null;
+  phone: string | null;
+  lineId: string | null;
   hasGoogle: boolean;
   hasPassword: boolean;
   createdAt: string;
@@ -35,6 +37,8 @@ export default function ProfilePage() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const [displayName, setDisplayName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [lineId, setLineId] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -51,6 +55,8 @@ export default function ProfilePage() {
       .then(d => {
         setProfile(d);
         setDisplayName(d?.displayName || "");
+        setPhone(d?.phone || "");
+        setLineId(d?.lineId || "");
       })
       .catch(() => {})
       .finally(() => setLoading(false));
@@ -62,7 +68,7 @@ export default function ProfilePage() {
     try {
       const res = await fetch(`${LMS_API}/auth/update-profile`, {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: session.user.email, displayName }),
+        body: JSON.stringify({ email: session.user.email, displayName, phone, lineId }),
       });
       const data = await res.json();
       if (!res.ok) { setError(data.message); return; }
@@ -142,6 +148,14 @@ export default function ProfilePage() {
           <div>
             <label className="mb-1.5 block text-xs" style={{ color: "var(--lms-text-muted)" }}>ชื่อที่แสดง</label>
             <input type="text" value={displayName} onChange={e => setDisplayName(e.target.value)} className="w-full rounded-lg px-4 py-2.5 text-sm lms-input" />
+          </div>
+          <div>
+            <label className="mb-1.5 block text-xs" style={{ color: "var(--lms-text-muted)" }}>เบอร์โทร</label>
+            <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="0812345678" className="w-full rounded-lg px-4 py-2.5 text-sm lms-input" />
+          </div>
+          <div>
+            <label className="mb-1.5 block text-xs" style={{ color: "var(--lms-text-muted)" }}>Line ID</label>
+            <input type="text" value={lineId} onChange={e => setLineId(e.target.value)} placeholder="@lineid" className="w-full rounded-lg px-4 py-2.5 text-sm lms-input" />
           </div>
           <button onClick={handleSaveName} disabled={saving}
             className="rounded-lg px-4 py-2 text-sm font-semibold text-black disabled:opacity-50 hover:opacity-90"

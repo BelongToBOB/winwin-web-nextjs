@@ -59,6 +59,7 @@ export default function CommunityPage() {
   const [onboardForm, setOnboardForm] = useState({ name: "", business: "", province: "", goal: "" });
 
   const email = session?.user?.email || "";
+  const isAdmin = (session?.user as any)?.role === "admin";
   const headers = { "x-user-email": email };
 
   const loadPosts = useCallback(() => {
@@ -94,6 +95,28 @@ export default function CommunityPage() {
 
   const handleLike = async (postId: string) => {
     await fetch(`${LMS_API}/community/posts/${postId}/like`, { method: "POST", headers });
+    loadPosts();
+  };
+
+  const handlePin = async (postId: string, pinned: boolean) => {
+    await fetch(`${LMS_API}/admin/community/posts/${postId}/pin`, {
+      method: "PUT", headers: { ...headers, "Content-Type": "application/json", "x-admin-email": email },
+      body: JSON.stringify({ pinned }),
+    });
+    loadPosts();
+  };
+
+  const handleAnnouncement = async (postId: string, announcement: boolean) => {
+    await fetch(`${LMS_API}/admin/community/posts/${postId}/announcement`, {
+      method: "PUT", headers: { ...headers, "Content-Type": "application/json", "x-admin-email": email },
+      body: JSON.stringify({ announcement }),
+    });
+    loadPosts();
+  };
+
+  const handleDeletePost = async (postId: string) => {
+    if (!confirm("ลบโพสต์นี้?")) return;
+    await fetch(`${LMS_API}/community/posts/${postId}`, { method: "DELETE", headers });
     loadPosts();
   };
 
@@ -171,6 +194,27 @@ export default function CommunityPage() {
                       <span>{timeAgo(post.createdAt)}</span>
                     </div>
                   </div>
+                  {/* Admin / Owner actions */}
+                  {(isAdmin || post.author.email === email) && (
+                    <div className="flex items-center gap-1 shrink-0">
+                      {isAdmin && (
+                        <>
+                          <button onClick={() => handlePin(post.id, !post.isPinned)} title={post.isPinned ? "เลิกปักหมุด" : "ปักหมุด"}
+                            className="rounded p-1.5 transition hover:opacity-70" style={{ color: post.isPinned ? "var(--lms-accent)" : "var(--lms-text-faint)" }}>
+                            <svg className="h-4 w-4" fill={post.isPinned ? "currentColor" : "none"} viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg>
+                          </button>
+                          <button onClick={() => handleAnnouncement(post.id, !post.isAnnouncement)} title={post.isAnnouncement ? "เลิกประกาศ" : "ตั้งเป็นประกาศ"}
+                            className="rounded p-1.5 transition hover:opacity-70" style={{ color: post.isAnnouncement ? "var(--lms-red)" : "var(--lms-text-faint)" }}>
+                            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" /></svg>
+                          </button>
+                        </>
+                      )}
+                      <button onClick={() => handleDeletePost(post.id)} title="ลบ"
+                        className="rounded p-1.5 transition hover:opacity-70" style={{ color: "var(--lms-text-faint)" }}>
+                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                      </button>
+                    </div>
+                  )}
                 </div>
 
                 {/* Content */}

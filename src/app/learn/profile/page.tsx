@@ -39,6 +39,10 @@ export default function ProfilePage() {
   const [displayName, setDisplayName] = useState("");
   const [phone, setPhone] = useState("");
   const [lineId, setLineId] = useState("");
+  const [bio, setBio] = useState("");
+  const [businessName, setBusinessName] = useState("");
+  const [industry, setIndustry] = useState("");
+  const [province, setProvince] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -57,6 +61,17 @@ export default function ProfilePage() {
         setDisplayName(d?.displayName || "");
         setPhone(d?.phone || "");
         setLineId(d?.lineId || "");
+        // Load community profile for business fields
+        fetch(`${LMS_API}/community/me`, { headers: { "x-user-email": session?.user?.email || "" } })
+          .then(r => r.ok ? r.json() : null)
+          .then(cp => {
+            if (cp) {
+              setBio(cp.bio || "");
+              setBusinessName(cp.businessName || "");
+              setIndustry(cp.industry || "");
+              setProvince(cp.province || "");
+            }
+          }).catch(() => {});
       })
       .catch(() => {})
       .finally(() => setLoading(false));
@@ -69,6 +84,11 @@ export default function ProfilePage() {
       const res = await fetch(`${LMS_API}/auth/update-profile`, {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: session.user.email, displayName, phone, lineId }),
+      });
+      // Also update community profile
+      await fetch(`${LMS_API}/community/me`, {
+        method: "PUT", headers: { "x-user-email": session?.user?.email || "", "Content-Type": "application/json" },
+        body: JSON.stringify({ displayName, bio, businessName, industry, province }),
       });
       const data = await res.json();
       if (!res.ok) { setError(data.message); return; }
@@ -156,6 +176,24 @@ export default function ProfilePage() {
           <div>
             <label className="mb-1.5 block text-xs" style={{ color: "var(--lms-text-muted)" }}>Line ID</label>
             <input type="text" value={lineId} onChange={e => setLineId(e.target.value)} placeholder="@lineid" className="w-full rounded-lg px-4 py-2.5 text-sm lms-input" />
+          </div>
+          <div>
+            <label className="mb-1.5 block text-xs" style={{ color: "var(--lms-text-muted)" }}>ชื่อธุรกิจ</label>
+            <input type="text" value={businessName} onChange={e => setBusinessName(e.target.value)} placeholder="เช่น บริษัท สมชาย จำกัด" className="w-full rounded-lg px-4 py-2.5 text-sm lms-input" />
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="mb-1.5 block text-xs" style={{ color: "var(--lms-text-muted)" }}>อุตสาหกรรม</label>
+              <input type="text" value={industry} onChange={e => setIndustry(e.target.value)} placeholder="เช่น ค้าปลีก" className="w-full rounded-lg px-4 py-2.5 text-sm lms-input" />
+            </div>
+            <div>
+              <label className="mb-1.5 block text-xs" style={{ color: "var(--lms-text-muted)" }}>จังหวัด</label>
+              <input type="text" value={province} onChange={e => setProvince(e.target.value)} placeholder="เช่น กรุงเทพ" className="w-full rounded-lg px-4 py-2.5 text-sm lms-input" />
+            </div>
+          </div>
+          <div>
+            <label className="mb-1.5 block text-xs" style={{ color: "var(--lms-text-muted)" }}>แนะนำตัว</label>
+            <textarea value={bio} onChange={e => setBio(e.target.value)} rows={2} placeholder="เกี่ยวกับตัวคุณสั้นๆ..." className="w-full rounded-lg px-4 py-2.5 text-sm lms-input resize-none" />
           </div>
           <button onClick={handleSaveName} disabled={saving}
             className="rounded-lg px-4 py-2 text-sm font-semibold text-black disabled:opacity-50 hover:opacity-90"

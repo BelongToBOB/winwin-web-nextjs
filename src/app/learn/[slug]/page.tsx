@@ -76,7 +76,7 @@ export default function CoursePage() {
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-yellow-accent border-t-transparent" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[var(--lms-accent)] border-t-transparent" />
       </div>
     );
   }
@@ -191,7 +191,7 @@ export default function CoursePage() {
                 <h3 className="text-sm font-medium text-[var(--lms-text-secondary)]">{chapter.title}</h3>
                 <span className="text-xs text-[var(--lms-text-faint)]">{chCompleted}/{chapter.lessons.length}</span>
               </div>
-              <div className="divide-y divide-white/5 rounded-xl border border-[var(--lms-border)] bg-[var(--lms-bg-card)] overflow-hidden">
+              <div className="divide-y divide-[var(--lms-border)] rounded-xl border border-[var(--lms-border)] bg-[var(--lms-bg-card)] overflow-hidden">
                 {chapter.lessons.map((lesson, i) => (
                   <Link
                     key={lesson.id}
@@ -200,7 +200,7 @@ export default function CoursePage() {
                   >
                     <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border ${
                       lesson.completed
-                        ? "border-yellow-accent/40 bg-[var(--lms-accent)]/10"
+                        ? "border-[var(--lms-accent)]/40 bg-[var(--lms-accent)]/10"
                         : "border-[var(--lms-border)]"
                     }`}>
                       {lesson.completed ? (

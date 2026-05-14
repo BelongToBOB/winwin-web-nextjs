@@ -85,7 +85,7 @@ export default function AdminCoursesPage() {
   if (loading) {
     return (
       <div className="flex min-h-[40vh] items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-yellow-accent border-t-transparent" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[var(--lms-accent)] border-t-transparent" />
       </div>
     );
   }
@@ -107,7 +107,7 @@ export default function AdminCoursesPage() {
           <Link
             key={course.id}
             href={`/admin/courses/${course.id}`}
-            className="flex items-center gap-4 rounded-xl border border-[var(--lms-border)] bg-[var(--lms-bg-card)] p-4 transition hover:border-yellow-accent/30 hover:bg-[var(--lms-bg-input)]"
+            className="flex items-center gap-4 rounded-xl border border-[var(--lms-border)] bg-[var(--lms-bg-card)] p-4 transition hover:border-[var(--lms-accent)] hover:bg-[var(--lms-bg-input)]"
           >
             {course.cover_url ? (
               <img src={course.cover_url} alt="" className="h-16 w-24 shrink-0 rounded-lg object-cover" />

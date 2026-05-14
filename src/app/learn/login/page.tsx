@@ -121,7 +121,7 @@ function LoginContent() {
               siteKey={TURNSTILE_SITE_KEY}
               onSuccess={setTurnstileToken}
               onExpire={() => setTurnstileToken("")}
-              options={{ theme: "dark", size: "flexible" }}
+              options={{ theme: "auto", size: "flexible" }}
             />
           </div>
 

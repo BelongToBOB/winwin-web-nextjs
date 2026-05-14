@@ -273,7 +273,7 @@ export default function CourseEditorPage() {
     show("ยกเลิกแล้ว"); loadStudents();
   };
 
-  if (loading) return <div className="flex min-h-[40vh] items-center justify-center"><div className="h-8 w-8 animate-spin rounded-full border-2 border-yellow-accent border-t-transparent" /></div>;
+  if (loading) return <div className="flex min-h-[40vh] items-center justify-center"><div className="h-8 w-8 animate-spin rounded-full border-2 border-[var(--lms-accent)] border-t-transparent" /></div>;
   if (!course) return <p className="py-10 text-center text-red-400">ไม่พบคอร์ส</p>;
 
   const ytId = getYoutubeId(lessonForm.videoId);
@@ -306,7 +306,7 @@ export default function CourseEditorPage() {
       {/* Tabs */}
       <div className="mb-6 flex gap-1 border-b border-[var(--lms-border)]">
         {([["content", "เนื้อหา"], ["students", "นักเรียน"]] as const).map(([key, label]) => (
-          <button key={key} onClick={() => setTab(key)} className={`px-4 py-2.5 text-sm font-medium transition border-b-2 -mb-px ${tab === key ? "border-yellow-accent text-[var(--lms-text)]" : "border-transparent text-[var(--lms-text-muted)] hover:text-[var(--lms-text-secondary)]"}`}>
+          <button key={key} onClick={() => setTab(key)} className={`px-4 py-2.5 text-sm font-medium transition border-b-2 -mb-px ${tab === key ? "border-[var(--lms-accent)] text-[var(--lms-text)]" : "border-transparent text-[var(--lms-text-muted)] hover:text-[var(--lms-text-secondary)]"}`}>
             {label}
             {key === "students" && students.length > 0 && <span className="ml-1.5 rounded-full bg-[var(--lms-border)] px-1.5 py-0.5 text-[10px]">{students.length}</span>}
           </button>
@@ -325,16 +325,16 @@ export default function CourseEditorPage() {
               <div className="relative group">
                 <img src={course.coverUrl} alt="" className="w-full rounded-xl border border-[var(--lms-border)]" />
                 <div className="absolute inset-0 flex items-center justify-center rounded-xl lms-bg/60 opacity-0 transition group-hover:opacity-100 cursor-pointer" onClick={() => coverRef.current?.click()}>
-                  <span className="rounded-lg bg-white/20 px-4 py-2 text-sm font-medium text-[var(--lms-text)]">เปลี่ยนรูป</span>
+                  <span className="rounded-lg bg-[var(--lms-border)] px-4 py-2 text-sm font-medium text-[var(--lms-text)]">เปลี่ยนรูป</span>
                 </div>
-                {uploadingCover && <div className="absolute inset-0 flex items-center justify-center rounded-xl lms-bg/70"><div className="h-6 w-6 animate-spin rounded-full border-2 border-yellow-accent border-t-transparent" /></div>}
+                {uploadingCover && <div className="absolute inset-0 flex items-center justify-center rounded-xl lms-bg/70"><div className="h-6 w-6 animate-spin rounded-full border-2 border-[var(--lms-accent)] border-t-transparent" /></div>}
               </div>
             ) : (
-              <div className={`flex h-48 cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed transition ${dragOver ? "border-yellow-accent bg-[var(--lms-accent)]/5" : "border-[var(--lms-border-input)] bg-[var(--lms-bg-card)] hover:border-white/30"}`}
+              <div className={`flex h-48 cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed transition ${dragOver ? "border-[var(--lms-accent)] bg-[var(--lms-accent)]/5" : "border-[var(--lms-border-input)] bg-[var(--lms-bg-card)] hover:border-[var(--lms-border-input)]"}`}
                 onClick={() => coverRef.current?.click()}
                 onDragOver={e => { e.preventDefault(); setDragOver(true); }} onDragLeave={() => setDragOver(false)}
                 onDrop={e => { e.preventDefault(); setDragOver(false); if (e.dataTransfer.files[0]) uploadCover(e.dataTransfer.files[0]); }}>
-                {uploadingCover ? <div className="h-6 w-6 animate-spin rounded-full border-2 border-yellow-accent border-t-transparent" /> : (
+                {uploadingCover ? <div className="h-6 w-6 animate-spin rounded-full border-2 border-[var(--lms-accent)] border-t-transparent" /> : (
                   <><svg className="mb-2 h-8 w-8 text-[var(--lms-text-faint)]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                   <p className="text-sm text-[var(--lms-text-muted)]">ลากรูปมาวางที่นี่ หรือกดเพื่อเลือกไฟล์</p></>
                 )}
@@ -387,13 +387,13 @@ export default function CourseEditorPage() {
                     <button onClick={() => deleteChapter(ch.id, ch.title)} className="rounded-lg px-3 py-1.5 text-xs text-red-400/60 hover:bg-red-500/10 hover:text-red-400">ลบ</button>
                   </div>
                 </div>
-                <div className="divide-y divide-white/5">
+                <div className="divide-y divide-[var(--lms-border)]">
                   {ch.lessons.map(lesson => {
                     const typeLabel = LESSON_TYPES.find(t => t.value === lesson.type)?.label || lesson.type;
                     return (
                       <div key={lesson.id} className="flex items-center gap-3 px-5 py-3 hover:bg-[var(--lms-bg-card)]">
                         <span className="w-6 text-center text-xs text-[var(--lms-text-faint)]">{lesson.order}</span>
-                        <span className={`h-2 w-2 shrink-0 rounded-full ${lesson.video_id ? "bg-green-500" : lesson.type === "text" ? "bg-blue-400" : lesson.type === "file" ? "bg-orange-400" : "bg-white/20"}`} />
+                        <span className={`h-2 w-2 shrink-0 rounded-full ${lesson.video_id ? "bg-green-500" : lesson.type === "text" ? "bg-blue-400" : lesson.type === "file" ? "bg-orange-400" : "bg-[var(--lms-border)]"}`} />
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
                             <span className="text-sm text-[var(--lms-text)] truncate">{lesson.title}</span>
@@ -408,7 +408,7 @@ export default function CourseEditorPage() {
                     );
                   })}
                 </div>
-                <button onClick={() => openLesson(ch.id)} className="w-full border-t border-white/5 px-5 py-2.5 text-left text-sm text-[var(--lms-text-muted)] hover:bg-[var(--lms-bg-card)] hover:text-[var(--lms-text-secondary)]">+ เพิ่มบทเรียน</button>
+                <button onClick={() => openLesson(ch.id)} className="w-full border-t border-[var(--lms-border)] px-5 py-2.5 text-left text-sm text-[var(--lms-text-muted)] hover:bg-[var(--lms-bg-card)] hover:text-[var(--lms-text-secondary)]">+ เพิ่มบทเรียน</button>
               </div>
             ))}
             {course.chapters.length === 0 && <div className="rounded-xl border border-dashed border-[var(--lms-border)] py-16 text-center"><p className="text-[var(--lms-text-muted)]">ยังไม่มีเนื้อหา</p></div>}
@@ -417,7 +417,7 @@ export default function CourseEditorPage() {
             <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-green-500" /> วิดีโอ</span>
             <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-blue-400" /> บทความ</span>
             <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-orange-400" /> ไฟล์</span>
-            <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-white/20" /> ยังไม่มีเนื้อหา</span>
+            <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-[var(--lms-border)]" /> ยังไม่มีเนื้อหา</span>
           </div>
         </>
       )}
@@ -440,7 +440,7 @@ export default function CourseEditorPage() {
 
           {/* Students list */}
           {studentsLoading ? (
-            <div className="flex py-10 items-center justify-center"><div className="h-6 w-6 animate-spin rounded-full border-2 border-yellow-accent border-t-transparent" /></div>
+            <div className="flex py-10 items-center justify-center"><div className="h-6 w-6 animate-spin rounded-full border-2 border-[var(--lms-accent)] border-t-transparent" /></div>
           ) : students.length === 0 ? (
             <p className="py-10 text-center text-[var(--lms-text-muted)]">ยังไม่มีนักเรียน</p>
           ) : (
@@ -455,7 +455,7 @@ export default function CourseEditorPage() {
                     <th className="px-4 py-2.5 text-right text-xs font-medium text-[var(--lms-text-muted)]"></th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/5">
+                <tbody className="divide-y divide-[var(--lms-border)]">
                   {students.map(s => {
                     const pct = totalLessons > 0 ? Math.round((s.completed_lessons / totalLessons) * 100) : 0;
                     return (
@@ -581,7 +581,7 @@ export default function CourseEditorPage() {
 
                   <div className="flex gap-2">
                     <button type="button" onClick={() => videoInputRef.current?.click()} disabled={uploadingVideo}
-                      className="flex-1 rounded-lg border border-dashed border-[var(--lms-border-input)] px-4 py-2.5 text-sm text-[var(--lms-text-secondary)] transition hover:border-white/30 hover:text-[var(--lms-text-secondary)] disabled:opacity-50">
+                      className="flex-1 rounded-lg border border-dashed border-[var(--lms-border-input)] px-4 py-2.5 text-sm text-[var(--lms-text-secondary)] transition hover:border-[var(--lms-border-input)] hover:text-[var(--lms-text-secondary)] disabled:opacity-50">
                       {uploadingVideo ? "กำลังอัพโหลด..." : lessonForm.videoId ? "เปลี่ยนวิดีโอ" : "อัพโหลดวิดีโอ"}
                     </button>
                   </div>
@@ -646,7 +646,7 @@ export default function CourseEditorPage() {
                   </div>
                 )}
                 <button onClick={() => fileInputRef.current?.click()} disabled={uploadingFile || saving}
-                  className={`rounded-lg border border-dashed border-[var(--lms-border-input)] px-4 py-3 text-sm text-[var(--lms-text-muted)] hover:border-white/30 hover:text-[var(--lms-text-secondary)] disabled:opacity-50 ${lessonForm.type === "file" ? "w-full" : ""}`}>
+                  className={`rounded-lg border border-dashed border-[var(--lms-border-input)] px-4 py-3 text-sm text-[var(--lms-text-muted)] hover:border-[var(--lms-border-input)] hover:text-[var(--lms-text-secondary)] disabled:opacity-50 ${lessonForm.type === "file" ? "w-full" : ""}`}>
                   {uploadingFile ? "กำลังอัพโหลด..." : saving ? "กำลังสร้างบทเรียน..." : lessonAttachments.length > 0 ? "+ เพิ่มไฟล์" : "+ อัพโหลดไฟล์ (PDF, เอกสาร, รูปภาพ สูงสุด 20MB)"}
                 </button>
               </div>

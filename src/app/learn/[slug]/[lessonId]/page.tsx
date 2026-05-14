@@ -93,7 +93,7 @@ export default function LessonPage() {
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-yellow-accent border-t-transparent" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[var(--lms-accent)] border-t-transparent" />
       </div>
     );
   }
@@ -116,7 +116,7 @@ export default function LessonPage() {
       {/* Video */}
       {(lesson.type === "video" || lesson.videoUrl) && (
         <div className="p-3 sm:p-5">
-          <div className="relative mx-auto max-w-4xl overflow-hidden rounded-lg lms-bg" style={{ paddingBottom: "56.25%" }}>
+          <div className="relative mx-auto max-w-4xl overflow-hidden rounded-lg bg-black" style={{ paddingBottom: "56.25%" }}>
             {lesson.videoUrl?.includes("mediadelivery.net") ? (
               <iframe
                 src={lesson.videoUrl}
@@ -192,7 +192,7 @@ export default function LessonPage() {
                   href={att.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 rounded-lg border border-[var(--lms-border)] bg-[var(--lms-bg-card)] px-4 py-3 transition hover:bg-white/[0.05]"
+                  className="flex items-center gap-3 rounded-lg border border-[var(--lms-border)] bg-[var(--lms-bg-card)] px-4 py-3 transition hover:bg-[var(--lms-bg-card-hover)]"
                 >
                   <svg className="h-5 w-5 shrink-0 text-[var(--lms-text-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />

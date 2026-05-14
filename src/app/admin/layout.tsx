@@ -33,6 +33,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
   }
 
   const links = [
+    { href: "/admin", label: "ภาพรวม", exact: true },
     { href: "/admin/courses", label: "จัดการคอร์ส" },
     { href: "/admin/students", label: "นักเรียน" },
   ];
@@ -58,20 +59,23 @@ function AdminShell({ children }: { children: React.ReactNode }) {
         </div>
 
         <nav className="flex-1 p-3 space-y-1">
-          {links.map((link) => (
+          {links.map((link: any) => {
+            const active = link.exact ? pathname === link.href : pathname.startsWith(link.href) && pathname !== "/admin";
+            return (
             <Link
               key={link.href}
               href={link.href}
               className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition"
               style={{
-                background: pathname.startsWith(link.href) ? "var(--lms-accent-bg)" : "transparent",
-                color: pathname.startsWith(link.href) ? "var(--lms-text)" : "var(--lms-text-secondary)",
-                fontWeight: pathname.startsWith(link.href) ? 500 : 400,
+                background: active ? "var(--lms-accent-bg)" : "transparent",
+                color: active ? "var(--lms-text)" : "var(--lms-text-secondary)",
+                fontWeight: active ? 500 : 400,
               }}
             >
               {link.label}
             </Link>
-          ))}
+            );
+          })}
         </nav>
 
         <div className="p-3" style={{ borderTop: "1px solid var(--lms-border)" }}>

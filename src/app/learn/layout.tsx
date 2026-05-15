@@ -182,7 +182,7 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
               <p className="truncate text-[11px]" style={{ color: "var(--lms-text-muted)" }}>{session.user.email}</p>
             </div>
           </Link>
-          <button onClick={() => signOut({ callbackUrl: "/learn/login" })} className="mt-1 w-full rounded-lg px-3 py-2 text-left text-xs transition hover:opacity-70" style={{ color: "var(--lms-text-muted)" }}>
+          <button onClick={() => { if (confirm("ยืนยันออกจากระบบ?")) signOut({ callbackUrl: "/learn/login" }); }} className="mt-1 w-full rounded-lg px-3 py-2 text-left text-xs transition hover:opacity-70" style={{ color: "var(--lms-text-muted)" }}>
             ออกจากระบบ
           </button>
         </div>

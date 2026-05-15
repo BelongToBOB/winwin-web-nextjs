@@ -63,12 +63,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         if (!res.ok) {
           console.error("Google link failed:", res.status);
-          return false;
         }
         return true;
       } catch (error) {
         console.error("Google link error:", error);
-        return false;
+        return true; // Allow login even if link fails — user still gets session
       }
     },
     async jwt({ token }) {

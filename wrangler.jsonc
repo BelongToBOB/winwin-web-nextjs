@@ -7,5 +7,10 @@
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
+  },
+  "vars": {
+    "AUTH_TRUST_HOST": "true",
+    "LMS_API_URL": "https://checkout.winwinwealth.co/api",
+    "AUTH_GOOGLE_ID": "543731038934-f7ib6d3jk3qpvnunpjfavfgbm8uue6kk.apps.googleusercontent.com"
   }
 }

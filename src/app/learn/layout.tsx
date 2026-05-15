@@ -5,8 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, createContext, useContext } from "react";
-
-const LMS_API = "https://checkout.winwinwealth.co/api";
+import { learnFetch, LMS_API } from "@/lib/learn-fetch";
 
 // --- Theme ---
 type Theme = "light" | "dark";
@@ -51,13 +50,13 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
 
   useEffect(() => {
     if (!session?.user?.email) return;
-    fetch(`${LMS_API}/learn/my-courses`, { headers: { "x-user-email": session.user.email } })
+    learnFetch("/learn/my-courses")
       .then(r => r.json()).then(d => setCourses(Array.isArray(d) ? d : [])).catch(e => console.error("API error:", e));
   }, [session?.user?.email]);
 
   useEffect(() => {
     if (!isInsideCourse || !session?.user?.email) { setChapters([]); setCourseTitle(""); return; }
-    fetch(`${LMS_API}/learn/courses/${currentSlug}`, { headers: { "x-user-email": session.user.email } })
+    learnFetch(`/learn/courses/${currentSlug}`)
       .then(r => r.ok ? r.json() : null)
       .then(d => { if (d) { setChapters(d.chapters); setCourseTitle(d.title); } })
       .catch(e => console.error("API error:", e));

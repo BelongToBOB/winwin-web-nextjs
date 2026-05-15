@@ -61,7 +61,7 @@ export default function CoursePage() {
         if (res.status === 403) {
           setNotEnrolled(true);
           // Fetch catalog info for this course
-          const catalog = await fetch(`${LMS_API}/learn/catalog`).then(r => r.json());
+          const catalog = await learnFetch("/learn/catalog").then(r => r.json());
           const info = catalog.find((c: any) => c.slug === slug);
           if (info) setCatalogInfo(info);
           return null;

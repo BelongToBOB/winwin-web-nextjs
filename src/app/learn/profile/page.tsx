@@ -1,6 +1,6 @@
 "use client";
 
-import { learnFetch, learnPut , LMS_API } from "@/lib/learn-fetch";
+import { learnFetch, learnPost, learnPut, LMS_API } from "@/lib/learn-fetch";
 
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
@@ -55,7 +55,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (!session?.user?.email) return;
-    fetch(`${LMS_API}/auth/profile?email=${encodeURIComponent(session.user.email)}`)
+    learnFetch(`/auth/profile?email=${encodeURIComponent(session.user.email)}`)
       .then(r => r.json())
       .then(d => {
         setProfile(d);
@@ -63,7 +63,7 @@ export default function ProfilePage() {
         setPhone(d?.phone || "");
         setLineId(d?.lineId || "");
         // Load community profile for business fields
-        fetch(`${LMS_API}/community/me`, { headers: { "x-user-email": session?.user?.email || "" } })
+        learnFetch("/community/me")
           .then(r => r.ok ? r.json() : null)
           .then(cp => {
             if (cp) {
@@ -82,15 +82,9 @@ export default function ProfilePage() {
     if (!session?.user?.email) return;
     setSaving(true); setError("");
     try {
-      const res = await fetch(`${LMS_API}/auth/update-profile`, {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: session.user.email, displayName, phone, lineId }),
-      });
+      const res = await learnPost("/auth/update-profile", { email: session.user.email, displayName, phone, lineId });
       // Also update community profile
-      await fetch(`${LMS_API}/community/me`, {
-        method: "PUT", headers: { "x-user-email": session?.user?.email || "", "Content-Type": "application/json" },
-        body: JSON.stringify({ displayName, bio, businessName, industry, province }),
-      });
+      await learnPut("/community/me", { displayName, bio, businessName, industry, province });
       const data = await res.json();
       if (!res.ok) { setError(data.message); return; }
       show("บันทึกชื่อแล้ว");
@@ -106,10 +100,7 @@ export default function ProfilePage() {
     if (newPassword.length < 6) { setError("รหัสผ่านใหม่ต้องมีอย่างน้อย 6 ตัวอักษร"); return; }
     setSaving(true);
     try {
-      const res = await fetch(`${LMS_API}/auth/update-profile`, {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: session.user.email, currentPassword, newPassword }),
-      });
+      const res = await learnPost("/auth/update-profile", { email: session.user.email, currentPassword, newPassword });
       const data = await res.json();
       if (!res.ok) { setError(data.message); return; }
       show("เปลี่ยนรหัสผ่านสำเร็จ");

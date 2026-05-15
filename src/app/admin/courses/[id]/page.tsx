@@ -187,9 +187,13 @@ export default function CourseEditorPage() {
     setModal("lesson");
   };
   const saveLesson = async () => {
+    const videoId = lessonForm.videoId?.trim() || null;
+    if (videoId && lessonForm.type === "video" && !isValidVideoUrl(videoId) && !videoId.match(/youtu/)) {
+      show("URL วิดีโอไม่ถูกต้อง รองรับเฉพาะ Bunny Stream และ YouTube"); return;
+    }
     setSaving(true);
     const durTotal = (Number(durH) || 0) * 3600 + (Number(durM) || 0) * 60 + (Number(durS) || 0);
-    const payload = { title: lessonForm.title.trim(), description: lessonForm.description?.trim() || null, videoId: lessonForm.videoId?.trim() || null, duration: Math.max(0, durTotal), order: Math.max(1, Number(lessonForm.order) || 1), isFree: lessonForm.isFree, type: lessonForm.type, content: lessonForm.content?.trim() || null };
+    const payload = { title: lessonForm.title.trim(), description: lessonForm.description?.trim() || null, videoId, duration: Math.max(0, durTotal), order: Math.max(1, Number(lessonForm.order) || 1), isFree: lessonForm.isFree, type: lessonForm.type, content: lessonForm.content?.trim() || null };
     if (editingLesson) await adminPut(`/admin/lessons/${editingLesson.id}`, payload);
     else await adminPost("/admin/lessons", { ...payload, chapterId: forChapterId, courseId: id });
     setSaving(false); setModal(null); show("บันทึกแล้ว"); reload();
@@ -272,7 +276,7 @@ export default function CourseEditorPage() {
     if (!enrollEmail) return;
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(enrollEmail)) { show("อีเมลไม่ถูกต้อง"); return; }
     setEnrolling(true);
-    const res = await adminPost(`/admin/courses/${id}/enroll`, { email: enrollEmail });
+    const res = await adminPost(`/admin/courses/${id}/enroll`, { email: enrollEmail.trim() });
     const data = await res.json();
     show(data.success ? "เพิ่มนักเรียนแล้ว" : data.message || "ไม่สำเร็จ");
     setEnrollEmail(""); setEnrolling(false); loadStudents();

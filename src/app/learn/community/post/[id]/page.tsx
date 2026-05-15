@@ -40,7 +40,7 @@ export default function PostDetailPage() {
 
   const loadPost = () => {
     if (!email) return;
-    fetch(`${LMS_API}/community/posts/${id}`, { headers })
+    learnFetch(`/community/posts/${id}`)
       .then(r => r.json()).then(setPost).catch(e => console.error("API error:", e)).finally(() => setLoading(false));
   };
 
@@ -49,10 +49,7 @@ export default function PostDetailPage() {
   const handleComment = async () => {
     if (!comment.trim()) return;
     setCommenting(true);
-    await fetch(`${LMS_API}/community/posts/${id}/comments`, {
-      method: "POST", headers: { ...headers, "Content-Type": "application/json" },
-      body: JSON.stringify({ content: comment }),
-    });
+    await learnPost("/community/posts/${id}/comments", { content: comment });
     setComment(""); setCommenting(false); loadPost();
   };
 
@@ -62,12 +59,12 @@ export default function PostDetailPage() {
   };
 
   const handleLikePost = async () => {
-    await fetch(`${LMS_API}/community/posts/${id}/like`, { method: "POST", headers });
+    await learnPost("/community/posts/${id}/like", {});
     loadPost();
   };
 
   const handleLikeComment = async (commentId: string) => {
-    await fetch(`${LMS_API}/community/comments/${commentId}/like`, { method: "POST", headers });
+    await learnPost("/community/comments/${commentId}/like", {});
     loadPost();
   };
 

@@ -30,7 +30,7 @@ export default function MembersPage() {
 
   useEffect(() => {
     if (!session?.user?.email) return;
-    fetch(`${LMS_API}/community/members`, { headers: { "x-user-email": session.user.email } })
+    learnFetch("/community/members")
       .then(r => r.json()).then(d => setMembers(Array.isArray(d) ? d : [])).catch(e => console.error("API error:", e)).finally(() => setLoading(false));
   }, [session?.user?.email]);
 

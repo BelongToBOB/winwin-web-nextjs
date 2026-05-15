@@ -66,7 +66,7 @@ export default function LessonPage() {
       .finally(() => setLoading(false));
 
     // Get next lesson for auto-advance
-    fetch(`${LMS_API}/learn/courses/${slug}`, { headers: { "x-user-email": email } })
+    learnFetch(`/learn/courses/${slug}`)
       .then((r) => r.json())
       .then((course) => {
         const all: { id: string; completed: boolean }[] = [];

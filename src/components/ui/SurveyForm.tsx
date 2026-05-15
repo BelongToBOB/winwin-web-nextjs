@@ -102,8 +102,8 @@ export default function SurveyForm({ apiBase = "https://checkout.winwinwealth.co
     if (needsReceipt) {
       if (!receiptName?.trim()) { alert("กรุณากรอกชื่อสำหรับใบเสร็จ"); return; }
       if (!receiptAddress?.trim()) { alert("กรุณากรอกที่อยู่สำหรับใบเสร็จ"); return; }
-      if (receiptTaxId && !/^\d{13}$/.test(receiptTaxId.trim())) { alert("เลขประจำตัวผู้เสียภาษีต้องเป็น 13 หลัก"); return; }
-      if (receiptEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(receiptEmail.trim())) { alert("อีเมลรับใบเสร็จไม่ถูกต้อง"); return; }
+      if (!receiptTaxId?.trim() || !/^\d{13}$/.test(receiptTaxId.trim())) { alert("กรุณากรอกเลขประจำตัวผู้เสียภาษี 13 หลัก"); return; }
+      if (!receiptEmail?.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(receiptEmail.trim())) { alert("กรุณากรอกอีเมลรับใบเสร็จที่ถูกต้อง"); return; }
     }
     if (needsWithholding) {
       if (!withholdingContact?.trim()) { alert("กรุณากรอกเบอร์ติดต่อสำหรับหัก ณ ที่จ่าย"); return; }

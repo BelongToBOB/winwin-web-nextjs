@@ -3,8 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
-
-const LMS_API = "https://checkout.winwinwealth.co/api";
+import { learnFetch, learnPost, learnPut, learnDelete, LMS_API } from "@/lib/learn-fetch";
 
 const CATEGORIES = [
   { value: "all", label: "ทั้งหมด" },
@@ -64,7 +63,7 @@ export default function CommunityPage() {
 
   const loadPosts = useCallback(() => {
     if (!email) return;
-    fetch(`${LMS_API}/community/posts?category=${category}&limit=30`, { headers })
+    learnFetch(`/community/posts?category=${category}&limit=30`)
       .then(r => r.json()).then(d => setPosts(Array.isArray(d) ? d : [])).catch(e => console.error("API error:", e)).finally(() => setLoading(false));
   }, [email, category]);
 
@@ -72,7 +71,7 @@ export default function CommunityPage() {
 
   useEffect(() => {
     if (!email) return;
-    fetch(`${LMS_API}/community/leaderboard?period=7d`, { headers })
+    learnFetch("/community/leaderboard?period=7d")
       .then(r => r.json()).then(d => setLeaderboard(Array.isArray(d) ? d : [])).catch(e => console.error("API error:", e));
   }, [email]);
 
@@ -86,51 +85,36 @@ export default function CommunityPage() {
   const handlePost = async () => {
     if (!newPost.trim()) return;
     setPosting(true);
-    await fetch(`${LMS_API}/community/posts`, {
-      method: "POST", headers: { ...headers, "Content-Type": "application/json" },
-      body: JSON.stringify({ content: newPost, category: postCategory }),
-    });
+    await learnPost("/community/posts", { content: newPost, category: postCategory });
     setNewPost(""); setPosting(false); loadPosts();
   };
 
   const handleLike = async (postId: string) => {
-    await fetch(`${LMS_API}/community/posts/${postId}/like`, { method: "POST", headers });
+    await learnPost("/community/posts/${postId}/like", {});
     loadPosts();
   };
 
   const handlePin = async (postId: string, pinned: boolean) => {
-    await fetch(`${LMS_API}/admin/community/posts/${postId}/pin`, {
-      method: "PUT", headers: { ...headers, "Content-Type": "application/json", "x-admin-email": email },
-      body: JSON.stringify({ pinned }),
-    });
+    await learnPut("/admin/community/posts/${postId}/pin", { pinned });
     loadPosts();
   };
 
   const handleAnnouncement = async (postId: string, announcement: boolean) => {
-    await fetch(`${LMS_API}/admin/community/posts/${postId}/announcement`, {
-      method: "PUT", headers: { ...headers, "Content-Type": "application/json", "x-admin-email": email },
-      body: JSON.stringify({ announcement }),
-    });
+    await learnPut("/admin/community/posts/${postId}/announcement", { announcement });
     loadPosts();
   };
 
   const handleDeletePost = async (postId: string) => {
     if (!confirm("ลบโพสต์นี้?")) return;
-    await fetch(`${LMS_API}/community/posts/${postId}`, { method: "DELETE", headers });
+    await learnDelete(`/community/posts/${postId}`);
     loadPosts();
   };
 
   const handleOnboard = async () => {
     const content = `👋 สวัสดีครับ/ค่ะ!\n\nชื่อ: ${onboardForm.name}\nธุรกิจ: ${onboardForm.business}\nจังหวัด: ${onboardForm.province}\nเป้าหมายปีนี้: ${onboardForm.goal}`;
-    await fetch(`${LMS_API}/community/posts`, {
-      method: "POST", headers: { ...headers, "Content-Type": "application/json" },
-      body: JSON.stringify({ content, category: "introduction" }),
-    });
+    await learnPost("/community/posts", { content, category: "introduction" });
     // Update profile
-    await fetch(`${LMS_API}/community/me`, {
-      method: "PUT", headers: { ...headers, "Content-Type": "application/json" },
-      body: JSON.stringify({ displayName: onboardForm.name, businessName: onboardForm.business, province: onboardForm.province }),
-    });
+    await learnPut("/community/me", { displayName: onboardForm.name, businessName: onboardForm.business, province: onboardForm.province });
     localStorage.setItem("community-onboarded", "true");
     setShowOnboarding(false); loadPosts();
   };

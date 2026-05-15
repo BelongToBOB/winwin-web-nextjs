@@ -87,10 +87,13 @@ export default function LessonPage() {
           router.push(`/learn/${slug}/${nextLessonId}`);
           return;
         }
-        // No next lesson — refresh to update sidebar progress
         router.refresh();
+      } else {
+        alert("บันทึกความก้าวหน้าไม่สำเร็จ กรุณาลองใหม่");
       }
-    } catch {} finally { setMarking(false); }
+    } catch {
+      alert("ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้");
+    } finally { setMarking(false); }
   };
 
   if (loading) {

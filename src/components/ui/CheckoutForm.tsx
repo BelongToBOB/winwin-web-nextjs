@@ -123,7 +123,7 @@ export default function CheckoutForm({
     fetch(`${apiBase}/checkout/bank-info`)
       .then((r) => r.json())
       .then(setBankInfo)
-      .catch(() => {});
+      .catch((err) => console.error("Failed to load bank info:", err));
   }, [courseSlug, apiBase]);
 
   // Reset installment months when channel changes

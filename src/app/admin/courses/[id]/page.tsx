@@ -181,7 +181,7 @@ export default function CourseEditorPage() {
     setLocalVideoUrl("");
     if (lesson) {
       // Load attachments
-      fetch(`${LMS_API}/learn/lessons/${lesson.id}`, { headers: { "x-user-email": "admin" } })
+      adminFetch(`/learn/lessons/${lesson.id}`)
         .then(r => r.ok ? r.json() : null).then(d => { if (d?.attachments) setLessonAttachments(d.attachments.map((a: any) => ({ id: a.id, file_url: a.url, file_name: a.name, file_size: a.size }))); }).catch(e => console.error("API error:", e));
     }
     setModal("lesson");
@@ -626,7 +626,7 @@ export default function CourseEditorPage() {
                   if (!editingLesson) {
                     setSaving(true);
                     const durTotalFile = (Number(durH) || 0) * 3600 + (Number(durM) || 0) * 60 + (Number(durS) || 0);
-                    const payload = { title: lessonForm.title || file.name, description: lessonForm.description || null, videoId: lessonForm.videoId || null, duration: durTotalFile, order: Number(lessonForm.order) || 0, isFree: lessonForm.isFree, type: lessonForm.type, content: lessonForm.content || null, chapterId: forChapterId, courseId: id };
+                    const payload = { title: (lessonForm.title || file.name).trim(), description: lessonForm.description?.trim() || null, videoId: lessonForm.videoId?.trim() || null, duration: durTotalFile, order: Math.max(1, Number(lessonForm.order) || 1), isFree: lessonForm.isFree, type: lessonForm.type, content: lessonForm.content?.trim() || null, chapterId: forChapterId, courseId: id };
                     const res = await adminPost("/admin/lessons", payload);
                     const created = await res.json();
                     setSaving(false);

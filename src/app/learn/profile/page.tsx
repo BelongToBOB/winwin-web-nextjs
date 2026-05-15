@@ -83,11 +83,13 @@ export default function ProfilePage() {
     setSaving(true); setError("");
     try {
       const res = await learnPost("/auth/update-profile", { email: session.user.email, displayName, phone, lineId });
-      // Also update community profile
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        setError(err.message || "บันทึกไม่สำเร็จ");
+        return;
+      }
       await learnPut("/community/me", { displayName, bio, businessName, industry, province });
-      const data = await res.json();
-      if (!res.ok) { setError(data.message); return; }
-      show("บันทึกชื่อแล้ว");
+      show("บันทึกแล้ว");
     } catch { setError("ไม่สามารถเชื่อมต่อได้"); }
     finally { setSaving(false); }
   };
@@ -101,8 +103,11 @@ export default function ProfilePage() {
     setSaving(true);
     try {
       const res = await learnPost("/auth/update-profile", { email: session.user.email, currentPassword, newPassword });
-      const data = await res.json();
-      if (!res.ok) { setError(data.message); return; }
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        setError(err.message || "เปลี่ยนรหัสผ่านไม่สำเร็จ");
+        return;
+      }
       show("เปลี่ยนรหัสผ่านสำเร็จ");
       setCurrentPassword(""); setNewPassword(""); setConfirmPassword("");
     } catch { setError("ไม่สามารถเชื่อมต่อได้"); }

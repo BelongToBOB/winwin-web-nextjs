@@ -30,8 +30,11 @@ function ResetContent() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token, password }),
       });
-      const data = await res.json();
-      if (!res.ok) { setError(data.message || "ไม่สำเร็จ"); return; }
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        setError(err.message || "รีเซ็ตรหัสผ่านไม่สำเร็จ");
+        return;
+      }
       setSuccess(true);
     } catch {
       setError("ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้");

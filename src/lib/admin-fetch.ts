@@ -1,7 +1,6 @@
-const LMS_API = "https://checkout.winwinwealth.co/api";
+import { fetchWithTimeout, LMS_API } from "./fetch-utils";
 
 export function getAdminEmail(): string {
-  // Get from session storage (set by admin layout)
   if (typeof window !== "undefined") {
     return sessionStorage.getItem("admin-email") || "";
   }
@@ -12,8 +11,7 @@ export async function adminFetch(path: string, init?: RequestInit): Promise<Resp
   const email = getAdminEmail();
   const headers = new Headers(init?.headers);
   if (email) headers.set("x-admin-email", email);
-
-  return fetch(`${LMS_API}${path}`, { ...init, headers });
+  return fetchWithTimeout(`${LMS_API}${path}`, { ...init, headers });
 }
 
 export async function adminPost(path: string, body: any): Promise<Response> {
@@ -42,7 +40,7 @@ export async function adminUpload(path: string, file: File): Promise<Response> {
   fd.append("file", file);
   const headers: Record<string, string> = {};
   if (email) headers["x-admin-email"] = email;
-  return fetch(`${LMS_API}${path}`, { method: "POST", headers, body: fd });
+  return fetchWithTimeout(`${LMS_API}${path}`, { method: "POST", headers, body: fd }, 60000);
 }
 
 export { LMS_API };

@@ -85,38 +85,51 @@ export default function CommunityPage() {
   const handlePost = async () => {
     if (!newPost.trim()) return;
     setPosting(true);
-    await learnPost("/community/posts", { content: newPost, category: postCategory });
-    setNewPost(""); setPosting(false); loadPosts();
+    try {
+      const res = await learnPost("/community/posts", { content: newPost, category: postCategory });
+      if (!res.ok) throw new Error("โพสต์ไม่สำเร็จ");
+      setNewPost(""); loadPosts();
+    } catch { alert("โพสต์ไม่สำเร็จ กรุณาลองใหม่"); }
+    finally { setPosting(false); }
   };
 
   const handleLike = async (postId: string) => {
-    await learnPost(`/community/posts/${postId}/like`, {});
-    loadPosts();
+    try {
+      await learnPost(`/community/posts/${postId}/like`, {});
+      loadPosts();
+    } catch { console.error("Like failed"); }
   };
 
   const handlePin = async (postId: string, pinned: boolean) => {
-    await learnPut(`/admin/community/posts/${postId}/pin`, { pinned });
-    loadPosts();
+    try {
+      await learnPut(`/admin/community/posts/${postId}/pin`, { pinned });
+      loadPosts();
+    } catch { alert("ปักหมุดไม่สำเร็จ"); }
   };
 
   const handleAnnouncement = async (postId: string, announcement: boolean) => {
-    await learnPut(`/admin/community/posts/${postId}/announcement`, { announcement });
-    loadPosts();
+    try {
+      await learnPut(`/admin/community/posts/${postId}/announcement`, { announcement });
+      loadPosts();
+    } catch { alert("ตั้งประกาศไม่สำเร็จ"); }
   };
 
   const handleDeletePost = async (postId: string) => {
     if (!confirm("ลบโพสต์นี้?")) return;
-    await learnDelete(`/community/posts/${postId}`);
-    loadPosts();
+    try {
+      await learnDelete(`/community/posts/${postId}`);
+      loadPosts();
+    } catch { alert("ลบไม่สำเร็จ กรุณาลองใหม่"); }
   };
 
   const handleOnboard = async () => {
     const content = `👋 สวัสดีครับ/ค่ะ!\n\nชื่อ: ${onboardForm.name}\nธุรกิจ: ${onboardForm.business}\nจังหวัด: ${onboardForm.province}\nเป้าหมายปีนี้: ${onboardForm.goal}`;
-    await learnPost("/community/posts", { content, category: "introduction" });
-    // Update profile
-    await learnPut("/community/me", { displayName: onboardForm.name, businessName: onboardForm.business, province: onboardForm.province });
-    localStorage.setItem("community-onboarded", "true");
-    setShowOnboarding(false); loadPosts();
+    try {
+      await learnPost("/community/posts", { content, category: "introduction" });
+      await learnPut("/community/me", { displayName: onboardForm.name, businessName: onboardForm.business, province: onboardForm.province });
+      localStorage.setItem("community-onboarded", "true");
+      setShowOnboarding(false); loadPosts();
+    } catch { alert("โพสต์แนะนำตัวไม่สำเร็จ กรุณาลองใหม่"); }
   };
 
   if (loading) return <div className="flex min-h-[60vh] items-center justify-center"><div className="h-8 w-8 animate-spin rounded-full border-2 border-t-transparent" style={{ borderColor: "var(--lms-accent)", borderTopColor: "transparent" }} /></div>;

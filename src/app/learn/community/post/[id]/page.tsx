@@ -49,8 +49,12 @@ export default function PostDetailPage() {
   const handleComment = async () => {
     if (!comment.trim()) return;
     setCommenting(true);
-    await learnPost(`/community/posts/${id}/comments`, { content: comment });
-    setComment(""); setCommenting(false); loadPost();
+    try {
+      const res = await learnPost(`/community/posts/${id}/comments`, { content: comment });
+      if (!res.ok) throw new Error();
+      setComment(""); loadPost();
+    } catch { alert("ส่งความคิดเห็นไม่สำเร็จ กรุณาลองใหม่"); }
+    finally { setCommenting(false); }
   };
 
   const handleReply = (authorName: string) => {
@@ -59,13 +63,17 @@ export default function PostDetailPage() {
   };
 
   const handleLikePost = async () => {
-    await learnPost(`/community/posts/${id}/like`, {});
-    loadPost();
+    try {
+      await learnPost(`/community/posts/${id}/like`, {});
+      loadPost();
+    } catch { console.error("Like failed"); }
   };
 
   const handleLikeComment = async (commentId: string) => {
-    await learnPost(`/community/comments/${commentId}/like`, {});
-    loadPost();
+    try {
+      await learnPost(`/community/comments/${commentId}/like`, {});
+      loadPost();
+    } catch { console.error("Comment like failed"); }
   };
 
   if (loading) return <div className="flex min-h-[40vh] items-center justify-center"><div className="h-8 w-8 animate-spin rounded-full border-2 border-t-transparent" style={{ borderColor: "var(--lms-accent)", borderTopColor: "transparent" }} /></div>;

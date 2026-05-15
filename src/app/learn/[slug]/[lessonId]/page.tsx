@@ -69,11 +69,11 @@ export default function LessonPage() {
         setNextLessonId(idx < all.length - 1 ? all[idx + 1].id : null);
         if (all[idx]?.completed) setCompleted(true);
       })
-      .catch(() => {});
+      .catch(e => console.error("API error:", e));
   }, [slug, lessonId, session?.user?.email, status]);
 
   const handleMarkComplete = async () => {
-    if (!session?.user?.email) return;
+    if (!session?.user?.email || marking || completed) return;
     setMarking(true);
     try {
       const res = await fetch(`${LMS_API}/learn/progress`, {
@@ -84,7 +84,8 @@ export default function LessonPage() {
       if (res.ok) {
         setCompleted(true);
         if (nextLessonId) {
-          setTimeout(() => router.push(`/learn/${slug}/${nextLessonId}`), 600);
+          router.push(`/learn/${slug}/${nextLessonId}`);
+          return; // don't re-enable button
         }
       }
     } catch {} finally { setMarking(false); }

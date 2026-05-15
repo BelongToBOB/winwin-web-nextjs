@@ -82,13 +82,20 @@ export default function CourseEditorPage() {
   const [saving, setSaving] = useState(false);
   const [uploadingFile, setUploadingFile] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // ESC to close modals
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => { if (e.key === "Escape") setModal(null); };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, []);
   const videoInputRef = useRef<HTMLInputElement>(null);
   const [uploadingVideo, setUploadingVideo] = useState(false);
   const [videoProgress, setVideoProgress] = useState(0);
   const [localVideoUrl, setLocalVideoUrl] = useState("");
   useEffect(() => { return () => { if (localVideoUrl) URL.revokeObjectURL(localVideoUrl); }; }, [localVideoUrl]);
 
-  const show = (msg: string) => { setToast(msg); setTimeout(() => setToast(""), 2500); };
+  const show = (msg: string) => { setToast(msg); setTimeout(() => setToast(""), 4000); };
   const setL = (key: string, value: any) => setLessonForm((f) => ({ ...f, [key]: value }));
 
   const reload = useCallback(() => {
@@ -97,7 +104,7 @@ export default function CourseEditorPage() {
       setCourseTitle(d.title || "");
       setCourseDesc(d.description || "");
       setCoursePrice(String(Number(d.price) || ""));
-    }).catch(() => {}).finally(() => setLoading(false));
+    }).catch(e => console.error("API error:", e)).finally(() => setLoading(false));
   }, [id]);
 
   const loadStudents = useCallback(() => {
@@ -105,7 +112,7 @@ export default function CourseEditorPage() {
     adminFetch(`/admin/courses/${id}/students`).then(r => r.json()).then(d => {
       setStudents(d.students || []);
       setTotalLessons(d.totalLessons || 0);
-    }).catch(() => {}).finally(() => setStudentsLoading(false));
+    }).catch(e => console.error("API error:", e)).finally(() => setStudentsLoading(false));
   }, [id]);
 
   useEffect(() => { reload(); }, [reload]);
@@ -175,7 +182,7 @@ export default function CourseEditorPage() {
     if (lesson) {
       // Load attachments
       fetch(`${LMS_API}/learn/lessons/${lesson.id}`, { headers: { "x-user-email": "admin" } })
-        .then(r => r.ok ? r.json() : null).then(d => { if (d?.attachments) setLessonAttachments(d.attachments.map((a: any) => ({ id: a.id, file_url: a.url, file_name: a.name, file_size: a.size }))); }).catch(() => {});
+        .then(r => r.ok ? r.json() : null).then(d => { if (d?.attachments) setLessonAttachments(d.attachments.map((a: any) => ({ id: a.id, file_url: a.url, file_name: a.name, file_size: a.size }))); }).catch(e => console.error("API error:", e));
     }
     setModal("lesson");
   };
@@ -262,6 +269,7 @@ export default function CourseEditorPage() {
   // === Enroll ===
   const handleEnroll = async () => {
     if (!enrollEmail) return;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(enrollEmail)) { show("อีเมลไม่ถูกต้อง"); return; }
     setEnrolling(true);
     const res = await adminPost(`/admin/courses/${id}/enroll`, { email: enrollEmail });
     const data = await res.json();

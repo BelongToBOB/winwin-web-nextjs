@@ -65,7 +65,7 @@ export default function CommunityPage() {
   const loadPosts = useCallback(() => {
     if (!email) return;
     fetch(`${LMS_API}/community/posts?category=${category}&limit=30`, { headers })
-      .then(r => r.json()).then(d => setPosts(Array.isArray(d) ? d : [])).catch(() => {}).finally(() => setLoading(false));
+      .then(r => r.json()).then(d => setPosts(Array.isArray(d) ? d : [])).catch(e => console.error("API error:", e)).finally(() => setLoading(false));
   }, [email, category]);
 
   useEffect(() => { if (status !== "loading") loadPosts(); }, [loadPosts, status]);
@@ -73,7 +73,7 @@ export default function CommunityPage() {
   useEffect(() => {
     if (!email) return;
     fetch(`${LMS_API}/community/leaderboard?period=7d`, { headers })
-      .then(r => r.json()).then(d => setLeaderboard(Array.isArray(d) ? d : [])).catch(() => {});
+      .then(r => r.json()).then(d => setLeaderboard(Array.isArray(d) ? d : [])).catch(e => console.error("API error:", e));
   }, [email]);
 
   // Check onboarding

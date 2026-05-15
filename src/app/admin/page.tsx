@@ -32,7 +32,7 @@ export default function AdminDashboard() {
     adminFetch("/admin/dashboard-stats")
       .then((r) => r.json())
       .then(setStats)
-      .catch(() => {})
+      .catch(e => console.error("API error:", e))
       .finally(() => setLoading(false));
   }, []);
 

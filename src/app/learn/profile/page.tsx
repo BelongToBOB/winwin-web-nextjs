@@ -71,9 +71,9 @@ export default function ProfilePage() {
               setIndustry(cp.industry || "");
               setProvince(cp.province || "");
             }
-          }).catch(() => {});
+          }).catch(e => console.error("API error:", e));
       })
-      .catch(() => {})
+      .catch(e => console.error("API error:", e))
       .finally(() => setLoading(false));
   }, [session?.user?.email]);
 

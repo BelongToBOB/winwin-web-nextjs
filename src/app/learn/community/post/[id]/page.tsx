@@ -40,7 +40,7 @@ export default function PostDetailPage() {
   const loadPost = () => {
     if (!email) return;
     fetch(`${LMS_API}/community/posts/${id}`, { headers })
-      .then(r => r.json()).then(setPost).catch(() => {}).finally(() => setLoading(false));
+      .then(r => r.json()).then(setPost).catch(e => console.error("API error:", e)).finally(() => setLoading(false));
   };
 
   useEffect(() => { if (status !== "loading") loadPost(); }, [id, email, status]);

@@ -18,8 +18,8 @@ export default function LearnPage() {
   useEffect(() => {
     if (status === "loading") return;
     const email = session?.user?.email;
-    const p1 = fetch(`${LMS_API}/learn/catalog`).then(r => r.json()).then(d => setCatalog(Array.isArray(d) ? d : [])).catch(() => {});
-    const p2 = email ? fetch(`${LMS_API}/learn/my-courses`, { headers: { "x-user-email": email } }).then(r => r.json()).then(d => setMyCourses(Array.isArray(d) ? d : [])).catch(() => {}) : Promise.resolve();
+    const p1 = fetch(`${LMS_API}/learn/catalog`).then(r => r.json()).then(d => setCatalog(Array.isArray(d) ? d : [])).catch(e => console.error("API error:", e));
+    const p2 = email ? fetch(`${LMS_API}/learn/my-courses`, { headers: { "x-user-email": email } }).then(r => r.json()).then(d => setMyCourses(Array.isArray(d) ? d : [])).catch(e => console.error("API error:", e)) : Promise.resolve();
     Promise.all([p1, p2]).finally(() => setLoading(false));
   }, [session?.user?.email, status]);
 

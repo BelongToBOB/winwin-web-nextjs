@@ -52,7 +52,7 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
   useEffect(() => {
     if (!session?.user?.email) return;
     fetch(`${LMS_API}/learn/my-courses`, { headers: { "x-user-email": session.user.email } })
-      .then(r => r.json()).then(d => setCourses(Array.isArray(d) ? d : [])).catch(() => {});
+      .then(r => r.json()).then(d => setCourses(Array.isArray(d) ? d : [])).catch(e => console.error("API error:", e));
   }, [session?.user?.email]);
 
   useEffect(() => {
@@ -60,7 +60,7 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
     fetch(`${LMS_API}/learn/courses/${currentSlug}`, { headers: { "x-user-email": session.user.email } })
       .then(r => r.ok ? r.json() : null)
       .then(d => { if (d) { setChapters(d.chapters); setCourseTitle(d.title); } })
-      .catch(() => {});
+      .catch(e => console.error("API error:", e));
   }, [currentSlug, isInsideCourse, session?.user?.email]);
 
   return (

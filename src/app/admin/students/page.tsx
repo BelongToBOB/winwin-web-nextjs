@@ -40,7 +40,7 @@ export default function StudentsPage() {
     adminFetch("/admin/all-students")
       .then((r) => r.json())
       .then((d) => setStudents(Array.isArray(d) ? d : []))
-      .catch(() => {})
+      .catch(e => console.error("API error:", e))
       .finally(() => setLoading(false));
   }, []);
 

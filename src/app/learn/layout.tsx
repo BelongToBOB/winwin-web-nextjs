@@ -194,9 +194,15 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
 
 // --- Shell ---
 function LearnShell({ children }: { children: React.ReactNode }) {
+  const { data: shellSession } = useSession();
   const pathname = usePathname();
   const { theme } = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  // Store email for learn-fetch
+  useEffect(() => {
+    if (shellSession?.user?.email) sessionStorage.setItem("learn-email", shellSession.user.email);
+  }, [shellSession?.user?.email]);
   const authPages = ["/learn/login", "/learn/register", "/learn/forgot-password", "/learn/reset-password"];
   const isAuthPage = authPages.includes(pathname);
 

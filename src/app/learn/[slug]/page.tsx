@@ -1,11 +1,12 @@
 "use client";
 
+import { learnFetch , LMS_API } from "@/lib/learn-fetch";
+
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 
-const LMS_API = "https://checkout.winwinwealth.co/api";
 
 interface Lesson {
   id: string;

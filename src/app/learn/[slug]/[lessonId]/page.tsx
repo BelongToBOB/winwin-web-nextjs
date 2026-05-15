@@ -1,11 +1,17 @@
 "use client";
 
+import { learnFetch, learnPost, LMS_API } from "@/lib/learn-fetch";
+
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 
-const LMS_API = "https://checkout.winwinwealth.co/api";
+
+const ALLOWED_VIDEO_HOSTS = ["iframe.mediadelivery.net", "player.mediadelivery.net", "www.youtube.com", "youtube.com"];
+function isValidVideoUrl(url: string): boolean {
+  try { return ALLOWED_VIDEO_HOSTS.includes(new URL(url).hostname); } catch { return false; }
+}
 
 interface LessonDetail {
   id: string;
@@ -120,7 +126,7 @@ export default function LessonPage() {
       {(lesson.type === "video" || lesson.videoUrl) && (
         <div className="p-3 sm:p-5">
           <div className="relative mx-auto max-w-4xl overflow-hidden rounded-lg bg-black" style={{ paddingBottom: "56.25%" }}>
-            {lesson.videoUrl?.includes("mediadelivery.net") ? (
+            {lesson.videoUrl && isValidVideoUrl(lesson.videoUrl) ? (
               <iframe
                 src={lesson.videoUrl}
                 className="absolute inset-0 h-full w-full"

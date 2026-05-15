@@ -1,10 +1,11 @@
 "use client";
 
+import { learnFetch , LMS_API } from "@/lib/learn-fetch";
+
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-const LMS_API = "https://checkout.winwinwealth.co/api";
 
 const LEVEL_COLORS: Record<number, string> = {
   1: "bg-zinc-700 text-zinc-300", 2: "bg-zinc-700 text-zinc-300",

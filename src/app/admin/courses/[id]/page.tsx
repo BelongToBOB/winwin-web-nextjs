@@ -202,6 +202,7 @@ export default function CourseEditorPage() {
   // === Attachments ===
   const uploadAttachment = async (file: File) => {
     if (!editingLesson) return;
+    if (file.size > 20 * 1024 * 1024) { show("ไฟล์แนบต้องไม่เกิน 20MB"); return; }
     setUploadingFile(true);
     try {
       const r = await adminUpload("/admin/upload", file);
@@ -560,12 +561,12 @@ export default function CourseEditorPage() {
                     <div className="mb-3">
                       <video src={localVideoUrl} controls className="aspect-video w-full rounded-lg border border-[var(--lms-border)]" />
                     </div>
-                  ) : lessonForm.videoId && lessonForm.videoId.includes("mediadelivery.net") ? (
+                  ) : lessonForm.videoId && isValidVideoUrl(lessonForm.videoId) ? (
                     <div className="mb-3">
                       <iframe src={lessonForm.videoId} className="aspect-video w-full rounded-lg border border-[var(--lms-border)]" allowFullScreen
                         allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture" />
                     </div>
-                  ) : lessonForm.videoId && ytId ? (
+                  ) : lessonForm.videoId && ytId && isValidVideoUrl(`https://www.youtube.com/embed/${ytId}`) ? (
                     <div className="mb-3">
                       <iframe src={`https://www.youtube.com/embed/${ytId}`} className="aspect-video w-full rounded-lg border border-[var(--lms-border)]" allowFullScreen />
                     </div>

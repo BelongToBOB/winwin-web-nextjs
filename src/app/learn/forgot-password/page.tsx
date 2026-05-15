@@ -17,11 +17,16 @@ export default function ForgotPasswordPage() {
     setError("");
     setLoading(true);
     try {
-      await fetch(`${LMS_API}/auth/forgot-password`, {
+      const res = await fetch(`${LMS_API}/auth/forgot-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: email.trim() }),
       });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        setError(err.message || "เกิดข้อผิดพลาด กรุณาลองใหม่");
+        return;
+      }
       setSent(true);
     } catch {
       setError("ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้");

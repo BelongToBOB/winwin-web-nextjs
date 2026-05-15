@@ -37,6 +37,11 @@ const LESSON_TYPES = [
 
 const selectOnFocus = (e: React.FocusEvent<HTMLInputElement>) => e.target.select();
 
+const ALLOWED_VIDEO_HOSTS = ["iframe.mediadelivery.net", "player.mediadelivery.net", "www.youtube.com", "youtube.com"];
+function isValidVideoUrl(url: string): boolean {
+  try { return ALLOWED_VIDEO_HOSTS.includes(new URL(url).hostname); } catch { return false; }
+}
+
 export default function CourseEditorPage() {
   const { id } = useParams<{ id: string }>();
   const [course, setCourse] = useState<CourseContent | null>(null);
@@ -81,6 +86,7 @@ export default function CourseEditorPage() {
   const [uploadingVideo, setUploadingVideo] = useState(false);
   const [videoProgress, setVideoProgress] = useState(0);
   const [localVideoUrl, setLocalVideoUrl] = useState("");
+  useEffect(() => { return () => { if (localVideoUrl) URL.revokeObjectURL(localVideoUrl); }; }, [localVideoUrl]);
 
   const show = (msg: string) => { setToast(msg); setTimeout(() => setToast(""), 2500); };
   const setL = (key: string, value: any) => setLessonForm((f) => ({ ...f, [key]: value }));
@@ -132,6 +138,8 @@ export default function CourseEditorPage() {
   const togglePublish = async () => {
     if (!course) return;
     const next = !course.is_active;
+    const msg = next ? "ยืนยันเผยแพร่คอร์สนี้?" : "ยืนยันซ่อนคอร์ส? นักเรียนจะไม่เห็นคอร์สนี้";
+    if (!confirm(msg)) return;
     await adminPut(`/admin/courses/${id}/publish`, { isActive: next });
     show(next ? "เผยแพร่คอร์สแล้ว" : "ซ่อนคอร์สแล้ว (Draft)");
     reload();
@@ -206,6 +214,7 @@ export default function CourseEditorPage() {
 
   // === Video Upload ===
   const uploadVideo = async (file: File) => {
+    if (file.size > 500 * 1024 * 1024) { show("ไฟล์วิดีโอต้องไม่เกิน 500MB"); return; }
     setUploadingVideo(true);
     setVideoProgress(0);
     // Show local preview + auto-detect duration
@@ -224,10 +233,11 @@ export default function CourseEditorPage() {
       const createRes = await adminPost("/admin/video/create", { title: lessonForm.title || file.name });
       const videoData = await createRes.json();
 
-      // 2. Upload file directly to Bunny
+      // 2. Get upload URL from backend (key stays server-side)
+      const uploadInfo = await adminFetch(`/admin/video/upload-url/${videoData.videoId}`).then(r => r.json());
       const xhr = new XMLHttpRequest();
-      xhr.open("PUT", `https://video.bunnycdn.com/library/659470/videos/${videoData.videoId}`, true);
-      xhr.setRequestHeader("AccessKey", "e03fd3d9-f4a9-4aee-8bb6976287e1-32bf-4166");
+      xhr.open("PUT", uploadInfo.uploadUrl, true);
+      xhr.setRequestHeader("AccessKey", uploadInfo.accessKey);
       xhr.setRequestHeader("Content-Type", "application/octet-stream");
       xhr.upload.onprogress = (e) => {
         if (e.lengthComputable) setVideoProgress(Math.round((e.loaded / e.total) * 100));

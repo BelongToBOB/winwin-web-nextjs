@@ -31,6 +31,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
+  // AUTH-C-04: Session config
+  session: {
+    strategy: "jwt",
+    maxAge: 24 * 60 * 60, // 24 hours
+  },
   pages: {
     signIn: "/learn/login",
     error: "/learn/login",
@@ -40,8 +45,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (account?.provider === "credentials") return true;
 
       if (!user.email) return false;
+
+      // AUTH-C-03: Deny login if google-link fails
       try {
-        await fetch(`${LMS_API}/auth/google-link`, {
+        const res = await fetch(`${LMS_API}/auth/google-link`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -51,20 +58,26 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           }),
         });
 
+        if (!res.ok) {
+          console.error("Google link failed:", res.status);
+          return false;
+        }
         return true;
-      } catch {
-        return true;
+      } catch (error) {
+        console.error("Google link error:", error);
+        return false;
       }
     },
     async jwt({ token }) {
-      // Fetch role from backend on first sign-in or periodically
       if (token.email && !token.role) {
         try {
           const res = await fetch(
             `${LMS_API}/auth/check-enrollment?email=${encodeURIComponent(token.email as string)}`
           );
-          const data = await res.json();
-          token.role = data.role || "user";
+          if (res.ok) {
+            const data = await res.json();
+            token.role = data.role || "user";
+          }
         } catch {
           token.role = "user";
         }

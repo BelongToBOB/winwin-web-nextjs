@@ -1,0 +1,34 @@
+export const LMS_API =
+  process.env.NEXT_PUBLIC_LMS_API_URL ||
+  process.env.LMS_API_URL ||
+  "https://checkout.winwinwealth.co/api";
+
+export function fetchWithTimeout(
+  url: string,
+  opts: RequestInit = {},
+  timeoutMs = 15000
+): Promise<Response> {
+  const controller = new AbortController();
+  const merged = opts.signal ? opts : { ...opts, signal: controller.signal };
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  return fetch(url, merged).finally(() => clearTimeout(timer));
+}
+
+export async function apiFetch<T = unknown>(
+  endpoint: string,
+  opts: RequestInit = {},
+  timeoutMs = 15000
+): Promise<T> {
+  const res = await fetchWithTimeout(
+    `${LMS_API}${endpoint}`,
+    { headers: { "Content-Type": "application/json", ...opts.headers }, ...opts },
+    timeoutMs
+  );
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.message || `HTTP ${res.status}`);
+  }
+
+  return res.json();
+}

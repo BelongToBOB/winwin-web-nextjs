@@ -39,6 +39,7 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
   const { theme, toggle } = useTheme();
   const pathname = usePathname();
   const [courses, setCourses] = useState<SidebarCourse[]>([]);
+  const [logoutToast, setLogoutToast] = useState(false);
   const [chapters, setChapters] = useState<CurriculumChapter[]>([]);
   const [courseTitle, setCourseTitle] = useState("");
 
@@ -182,9 +183,19 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
               <p className="truncate text-[11px]" style={{ color: "var(--lms-text-muted)" }}>{session.user.email}</p>
             </div>
           </Link>
-          <button onClick={() => { if (confirm("ยืนยันออกจากระบบ?")) signOut({ callbackUrl: "/learn/login" }); }} className="mt-1 w-full rounded-lg px-3 py-2 text-left text-xs transition hover:opacity-70" style={{ color: "var(--lms-text-muted)" }}>
+          <button onClick={() => {
+            if (confirm("ยืนยันออกจากระบบ?")) {
+              setLogoutToast(true);
+              setTimeout(() => signOut({ callbackUrl: "/learn/login" }), 1000);
+            }
+          }} className="mt-1 w-full rounded-lg px-3 py-2 text-left text-xs transition hover:opacity-70" style={{ color: "var(--lms-text-muted)" }}>
             ออกจากระบบ
           </button>
+          {logoutToast && (
+            <div className="mt-2 rounded-lg px-3 py-2 text-xs text-center" style={{ background: "var(--lms-accent-bg)", color: "var(--lms-accent-text)" }}>
+              กำลังออกจากระบบ...
+            </div>
+          )}
         </div>
       )}
     </>

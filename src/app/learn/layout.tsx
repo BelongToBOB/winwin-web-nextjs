@@ -39,7 +39,8 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
   const { theme, toggle } = useTheme();
   const pathname = usePathname();
   const [courses, setCourses] = useState<SidebarCourse[]>([]);
-  const [logoutToast, setLogoutToast] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
   const [chapters, setChapters] = useState<CurriculumChapter[]>([]);
   const [courseTitle, setCourseTitle] = useState("");
 
@@ -183,19 +184,41 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
               <p className="truncate text-[11px]" style={{ color: "var(--lms-text-muted)" }}>{session.user.email}</p>
             </div>
           </Link>
-          <button onClick={() => {
-            if (confirm("ยืนยันออกจากระบบ?")) {
-              setLogoutToast(true);
-              setTimeout(() => signOut({ callbackUrl: "/learn/login" }), 1000);
-            }
-          }} className="mt-1 w-full rounded-lg px-3 py-2 text-left text-xs transition hover:opacity-70" style={{ color: "var(--lms-text-muted)" }}>
+          <button onClick={() => setShowLogoutModal(true)} className="mt-1 w-full rounded-lg px-3 py-2 text-left text-xs transition hover:opacity-70" style={{ color: "var(--lms-text-muted)" }}>
             ออกจากระบบ
           </button>
-          {logoutToast && (
-            <div className="mt-2 rounded-lg px-3 py-2 text-xs text-center" style={{ background: "var(--lms-accent-bg)", color: "var(--lms-accent-text)" }}>
-              กำลังออกจากระบบ...
-            </div>
-          )}
+        </div>
+      )}
+
+      {/* Logout Modal */}
+      {showLogoutModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center px-4" style={{ background: "var(--lms-bg-overlay)" }} onClick={() => !loggingOut && setShowLogoutModal(false)}>
+          <div className="w-full max-w-xs rounded-2xl p-6 text-center" style={{ background: "var(--lms-bg-secondary)", border: "1px solid var(--lms-border)", boxShadow: "0 25px 50px rgba(0,0,0,0.25)" }} onClick={e => e.stopPropagation()}>
+            {loggingOut ? (
+              <>
+                <div className="mx-auto mb-3 h-8 w-8 animate-spin rounded-full border-2 border-t-transparent" style={{ borderColor: "var(--lms-accent)", borderTopColor: "transparent" }} />
+                <p className="text-sm" style={{ color: "var(--lms-text-muted)" }}>กำลังออกจากระบบ...</p>
+              </>
+            ) : (
+              <>
+                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full" style={{ background: "var(--lms-accent-bg)" }}>
+                  <svg className="h-6 w-6" style={{ color: "var(--lms-accent-text)" }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                  </svg>
+                </div>
+                <h3 className="mb-1 text-base font-semibold" style={{ color: "var(--lms-text)" }}>ออกจากระบบ</h3>
+                <p className="mb-5 text-sm" style={{ color: "var(--lms-text-muted)" }}>ยืนยันว่าต้องการออกจากระบบ?</p>
+                <div className="flex gap-3">
+                  <button onClick={() => setShowLogoutModal(false)} className="flex-1 rounded-lg py-2.5 text-sm font-medium transition" style={{ background: "var(--lms-bg-card)", color: "var(--lms-text-secondary)", border: "1px solid var(--lms-border)" }}>
+                    ยกเลิก
+                  </button>
+                  <button onClick={() => { setLoggingOut(true); setTimeout(() => signOut({ callbackUrl: "/learn/login" }), 800); }} className="flex-1 rounded-lg py-2.5 text-sm font-semibold text-black transition hover:opacity-90" style={{ background: "var(--lms-accent)" }}>
+                    ออกจากระบบ
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       )}
     </>

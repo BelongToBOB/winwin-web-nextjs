@@ -9,36 +9,39 @@ export function getUserEmail(): string {
   return "";
 }
 
-export async function learnFetch(path: string, init?: RequestInit): Promise<Response> {
-  const email = getUserEmail();
-  const headers = new Headers(init?.headers);
-  if (email) headers.set("x-user-email", email);
+function resolveEmail(email?: string): string {
+  return email || getUserEmail();
+}
 
+export async function learnFetch(path: string, init?: RequestInit, email?: string): Promise<Response> {
+  const e = resolveEmail(email);
+  const headers = new Headers(init?.headers);
+  if (e) headers.set("x-user-email", e);
   return fetchWithTimeout(`${LMS_API}${path}`, { ...init, headers });
 }
 
-export async function learnPost(path: string, body: any): Promise<Response> {
-  const email = getUserEmail();
+export async function learnPost(path: string, body: any, email?: string): Promise<Response> {
+  const e = resolveEmail(email);
   return fetchWithTimeout(`${LMS_API}${path}`, {
     method: "POST",
-    headers: { "Content-Type": "application/json", "x-user-email": email },
+    headers: { "Content-Type": "application/json", "x-user-email": e },
     body: JSON.stringify(body),
   });
 }
 
-export async function learnPut(path: string, body: any): Promise<Response> {
-  const email = getUserEmail();
+export async function learnPut(path: string, body: any, email?: string): Promise<Response> {
+  const e = resolveEmail(email);
   return fetchWithTimeout(`${LMS_API}${path}`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json", "x-user-email": email },
+    headers: { "Content-Type": "application/json", "x-user-email": e },
     body: JSON.stringify(body),
   });
 }
 
-export async function learnDelete(path: string): Promise<Response> {
-  const email = getUserEmail();
+export async function learnDelete(path: string, email?: string): Promise<Response> {
+  const e = resolveEmail(email);
   return fetchWithTimeout(`${LMS_API}${path}`, {
     method: "DELETE",
-    headers: { "x-user-email": email },
+    headers: { "x-user-email": e },
   });
 }

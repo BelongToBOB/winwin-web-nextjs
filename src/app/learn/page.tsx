@@ -18,9 +18,10 @@ export default function LearnPage() {
 
   useEffect(() => {
     if (status === "loading") return;
-    const email = session?.user?.email;
-    const p1 = learnFetch("/learn/catalog").then(r => r.json()).then(d => setCatalog(Array.isArray(d) ? d : [])).catch(e => console.error("API error:", e));
-    const p2 = email ? learnFetch("/learn/my-courses").then(r => r.json()).then(d => setMyCourses(Array.isArray(d) ? d : [])).catch(e => console.error("API error:", e)) : Promise.resolve();
+    const email = session?.user?.email || "";
+    if (email) sessionStorage.setItem("learn-email", email);
+    const p1 = learnFetch("/learn/catalog", undefined, email).then(r => r.json()).then(d => setCatalog(Array.isArray(d) ? d : [])).catch(e => console.error("API error:", e));
+    const p2 = email ? learnFetch("/learn/my-courses", undefined, email).then(r => r.json()).then(d => setMyCourses(Array.isArray(d) ? d : [])).catch(e => console.error("API error:", e)) : Promise.resolve();
     Promise.all([p1, p2]).finally(() => setLoading(false));
   }, [session?.user?.email, status]);
 

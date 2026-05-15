@@ -34,6 +34,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="th" className={prompt.variable}>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `(function(){var t=localStorage.getItem("lms-theme")||"dark";document.documentElement.setAttribute("data-theme",t)})()` }} />
+      </head>
       <body className="bg-black text-gray-50 font-sans antialiased overflow-x-hidden">
         <SiteShell>{children}</SiteShell>
       </body>

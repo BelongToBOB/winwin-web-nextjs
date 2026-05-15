@@ -8,7 +8,7 @@ import { useState, useRef } from "react";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 
 const LMS_API = "https://checkout.winwinwealth.co/api";
-const TURNSTILE_SITE_KEY = "0x4AAAAAADOTTgnDHUu3NEb3";
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "0x4AAAAAADOTTgnDHUu3NEb3";
 
 export default function RegisterPage() {
   const router = useRouter();

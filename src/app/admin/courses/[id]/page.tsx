@@ -121,7 +121,7 @@ export default function CourseEditorPage() {
   // === Course Info ===
   const saveCourseInfo = async () => {
     setSavingInfo(true);
-    await adminPut(`/admin/courses/${id}`, { title: courseTitle, description: courseDesc, price: Number(coursePrice) || 0
+    await adminPut(`/admin/courses/${id}`, { title: courseTitle.trim(), description: courseDesc.trim(), price: Math.max(0, Number(coursePrice) || 0)
     });
     setSavingInfo(false);
     show("บันทึกข้อมูลคอร์สแล้ว");
@@ -159,8 +159,8 @@ export default function CourseEditorPage() {
   const saveChapter = async () => {
     setSaving(true);
     const orderNum = Number(chapterOrder) || 0;
-    if (editingChapter) await adminPut(`/admin/chapters/${editingChapter.id}`, { title: chapterTitle, order: orderNum });
-    else await adminPost("/admin/chapters", { courseId: id, title: chapterTitle, order: orderNum });
+    if (editingChapter) await adminPut(`/admin/chapters/${editingChapter.id}`, { title: chapterTitle.trim(), order: Math.max(1, orderNum) });
+    else await adminPost("/admin/chapters", { courseId: id, title: chapterTitle.trim(), order: Math.max(1, orderNum) });
     setSaving(false); setModal(null); show("บันทึกแล้ว"); reload();
   };
   const deleteChapter = async (chId: string, title: string) => {
@@ -189,7 +189,7 @@ export default function CourseEditorPage() {
   const saveLesson = async () => {
     setSaving(true);
     const durTotal = (Number(durH) || 0) * 3600 + (Number(durM) || 0) * 60 + (Number(durS) || 0);
-    const payload = { title: lessonForm.title, description: lessonForm.description || null, videoId: lessonForm.videoId || null, duration: durTotal, order: Number(lessonForm.order) || 0, isFree: lessonForm.isFree, type: lessonForm.type, content: lessonForm.content || null };
+    const payload = { title: lessonForm.title.trim(), description: lessonForm.description?.trim() || null, videoId: lessonForm.videoId?.trim() || null, duration: Math.max(0, durTotal), order: Math.max(1, Number(lessonForm.order) || 1), isFree: lessonForm.isFree, type: lessonForm.type, content: lessonForm.content?.trim() || null };
     if (editingLesson) await adminPut(`/admin/lessons/${editingLesson.id}`, payload);
     else await adminPost("/admin/lessons", { ...payload, chapterId: forChapterId, courseId: id });
     setSaving(false); setModal(null); show("บันทึกแล้ว"); reload();

@@ -85,8 +85,10 @@ export default function LessonPage() {
         setCompleted(true);
         if (nextLessonId) {
           router.push(`/learn/${slug}/${nextLessonId}`);
-          return; // don't re-enable button
+          return;
         }
+        // No next lesson — refresh to update sidebar progress
+        router.refresh();
       }
     } catch {} finally { setMarking(false); }
   };

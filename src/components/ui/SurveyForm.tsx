@@ -99,6 +99,14 @@ export default function SurveyForm({ apiBase = "https://checkout.winwinwealth.co
 
   const handleSubmit = async () => {
     if (!regInfo) return;
+    if (needsReceipt) {
+      if (!receiptName?.trim()) { alert("กรุณากรอกชื่อสำหรับใบเสร็จ"); return; }
+      if (!receiptAddress?.trim()) { alert("กรุณากรอกที่อยู่สำหรับใบเสร็จ"); return; }
+      if (receiptTaxId && !/^\d{13}$/.test(receiptTaxId.trim())) { alert("เลขประจำตัวผู้เสียภาษีต้องเป็น 13 หลัก"); return; }
+    }
+    if (needsWithholding && !withholdingAcknowledged) {
+      alert("กรุณายืนยันรับทราบเงื่อนไขหัก ณ ที่จ่าย"); return;
+    }
     setSubmitting(true);
     try {
       const res = await fetch(`${apiBase}/survey/${regInfo.customerCode}`, {

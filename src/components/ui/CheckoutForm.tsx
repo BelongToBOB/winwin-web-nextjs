@@ -165,6 +165,10 @@ export default function CheckoutForm({
       setError("กรุณากรอกอีเมลที่ถูกต้อง");
       return;
     }
+    if (phone.trim() && !/^0\d{8,9}$/.test(phone.trim())) {
+      setError("เบอร์โทรไม่ถูกต้อง (เช่น 0812345678)");
+      return;
+    }
     if (!slipFile) {
       setError("กรุณาอัพโหลดสลิปการชำระเงิน");
       return;

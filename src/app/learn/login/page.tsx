@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Suspense, useState, useRef } from "react";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 
-const TURNSTILE_SITE_KEY = "0x4AAAAAADOTTgnDHUu3NEb3";
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "0x4AAAAAADOTTgnDHUu3NEb3";
 
 function LoginContent() {
   const searchParams = useSearchParams();

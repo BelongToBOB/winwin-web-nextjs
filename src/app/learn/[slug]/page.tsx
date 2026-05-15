@@ -54,9 +54,7 @@ export default function CoursePage() {
     if (status === "loading") return;
     if (!session?.user?.email) return;
 
-    fetch(`${LMS_API}/learn/courses/${slug}`, {
-      headers: { "x-user-email": session.user.email },
-    })
+    learnFetch(`/learn/courses/${slug}`)
       .then(async (res) => {
         if (res.status === 403) {
           setNotEnrolled(true);

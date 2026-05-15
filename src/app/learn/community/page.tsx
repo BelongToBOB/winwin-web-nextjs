@@ -90,17 +90,17 @@ export default function CommunityPage() {
   };
 
   const handleLike = async (postId: string) => {
-    await learnPost("/community/posts/${postId}/like", {});
+    await learnPost(`/community/posts/${postId}/like`, {});
     loadPosts();
   };
 
   const handlePin = async (postId: string, pinned: boolean) => {
-    await learnPut("/admin/community/posts/${postId}/pin", { pinned });
+    await learnPut(`/admin/community/posts/${postId}/pin`, { pinned });
     loadPosts();
   };
 
   const handleAnnouncement = async (postId: string, announcement: boolean) => {
-    await learnPut("/admin/community/posts/${postId}/announcement", { announcement });
+    await learnPut(`/admin/community/posts/${postId}/announcement`, { announcement });
     loadPosts();
   };
 

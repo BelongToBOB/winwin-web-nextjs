@@ -49,7 +49,7 @@ export default function PostDetailPage() {
   const handleComment = async () => {
     if (!comment.trim()) return;
     setCommenting(true);
-    await learnPost("/community/posts/${id}/comments", { content: comment });
+    await learnPost(`/community/posts/${id}/comments`, { content: comment });
     setComment(""); setCommenting(false); loadPost();
   };
 
@@ -59,12 +59,12 @@ export default function PostDetailPage() {
   };
 
   const handleLikePost = async () => {
-    await learnPost("/community/posts/${id}/like", {});
+    await learnPost(`/community/posts/${id}/like`, {});
     loadPost();
   };
 
   const handleLikeComment = async (commentId: string) => {
-    await learnPost("/community/comments/${commentId}/like", {});
+    await learnPost(`/community/comments/${commentId}/like`, {});
     loadPost();
   };
 

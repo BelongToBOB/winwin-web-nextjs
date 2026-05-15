@@ -54,9 +54,7 @@ export default function LessonPage() {
 
     const email = session.user.email;
 
-    fetch(`${LMS_API}/learn/lessons/${lessonId}`, {
-      headers: { "x-user-email": email },
-    })
+    learnFetch(`/learn/lessons/${lessonId}`)
       .then((res) => {
         if (!res.ok) throw new Error("ไม่สามารถโหลดบทเรียนได้");
         return res.json();
@@ -82,11 +80,7 @@ export default function LessonPage() {
     if (!session?.user?.email || marking || completed) return;
     setMarking(true);
     try {
-      const res = await fetch(`${LMS_API}/learn/progress`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "x-user-email": session.user.email },
-        body: JSON.stringify({ lessonId, completed: true }),
-      });
+      const res = await learnPost("/learn/progress", { lessonId, completed: true });
       if (res.ok) {
         setCompleted(true);
         if (nextLessonId) {

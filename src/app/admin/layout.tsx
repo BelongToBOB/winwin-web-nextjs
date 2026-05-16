@@ -11,12 +11,10 @@ type Theme = "light" | "dark";
 function AdminShell({ children }: { children: React.ReactNode }) {
   const { data: session, status } = useSession();
 
-  // Store admin email for API auth
-  useEffect(() => {
-    if (session?.user?.email) {
-      sessionStorage.setItem("admin-email", session.user.email);
-    }
-  }, [session?.user?.email]);
+  // Store admin email for API auth — sync before children render
+  if (typeof window !== "undefined" && session?.user?.email) {
+    sessionStorage.setItem("admin-email", session.user.email);
+  }
   const pathname = usePathname();
   const [theme, setTheme] = useState<Theme>("light");
 

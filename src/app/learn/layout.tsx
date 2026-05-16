@@ -232,10 +232,10 @@ function LearnShell({ children }: { children: React.ReactNode }) {
   const { theme } = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  // Store email for learn-fetch
-  useEffect(() => {
-    if (shellSession?.user?.email) sessionStorage.setItem("learn-email", shellSession.user.email);
-  }, [shellSession?.user?.email]);
+  // Store email for learn-fetch — sync before children render
+  if (typeof window !== "undefined" && shellSession?.user?.email) {
+    sessionStorage.setItem("learn-email", shellSession.user.email);
+  }
   const authPages = ["/learn/login", "/learn/register", "/learn/forgot-password", "/learn/reset-password"];
   const isAuthPage = authPages.includes(pathname);
 

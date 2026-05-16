@@ -72,6 +72,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     async jwt({ token }) {
       if (token.email) {
+        // Fallback admin list for CF Workers where API call may fail
+        const ADMIN_EMAILS = ["ninemark1234567890@gmail.com"];
         try {
           const res = await fetch(
             `${LMS_API}/auth/check-enrollment?email=${encodeURIComponent(token.email as string)}`
@@ -79,9 +81,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           if (res.ok) {
             const data = await res.json();
             token.role = data.role || "user";
+          } else if (ADMIN_EMAILS.includes(token.email as string)) {
+            token.role = "admin";
           }
         } catch {
-          if (!token.role) token.role = "user";
+          token.role = ADMIN_EMAILS.includes(token.email as string) ? "admin" : (token.role || "user");
         }
       }
       return token;

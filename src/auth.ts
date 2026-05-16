@@ -71,7 +71,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
     },
     async jwt({ token }) {
-      if (token.email && !token.role) {
+      if (token.email) {
         try {
           const res = await fetch(
             `${LMS_API}/auth/check-enrollment?email=${encodeURIComponent(token.email as string)}`
@@ -81,7 +81,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             token.role = data.role || "user";
           }
         } catch {
-          token.role = "user";
+          if (!token.role) token.role = "user";
         }
       }
       return token;

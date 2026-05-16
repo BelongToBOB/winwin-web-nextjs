@@ -18,7 +18,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
     }
   }, [session?.user?.email]);
   const pathname = usePathname();
-  const [theme, setTheme] = useState<Theme>("dark");
+  const [theme, setTheme] = useState<Theme>("light");
 
   useEffect(() => {
     const saved = localStorage.getItem("lms-theme") as Theme;

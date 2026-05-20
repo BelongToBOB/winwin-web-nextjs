@@ -28,6 +28,7 @@ function secondsToMinutes(sec: number) { return Math.round((sec / 60) * 10) / 10
 function formatDuration(s: number) { const m = Math.floor(s / 60); return `${m}:${(s % 60).toString().padStart(2, "0")}`; }
 function formatBytes(b: number) { if (b < 1024) return b + " B"; if (b < 1048576) return (b / 1024).toFixed(0) + " KB"; return (b / 1048576).toFixed(1) + " MB"; }
 function getYoutubeId(url: string) { return url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/)?.[1]; }
+function getVimeoId(url: string) { return url.match(/(?:vimeo\.com\/|player\.vimeo\.com\/video\/)(\d+)/)?.[1]; }
 
 const LESSON_TYPES = [
   { value: "video", label: "วิดีโอ" },
@@ -37,7 +38,7 @@ const LESSON_TYPES = [
 
 const selectOnFocus = (e: React.FocusEvent<HTMLInputElement>) => e.target.select();
 
-const ALLOWED_VIDEO_HOSTS = ["iframe.mediadelivery.net", "player.mediadelivery.net", "www.youtube.com", "youtube.com"];
+const ALLOWED_VIDEO_HOSTS = ["iframe.mediadelivery.net", "player.mediadelivery.net", "www.youtube.com", "youtube.com", "player.vimeo.com", "vimeo.com"];
 function isValidVideoUrl(url: string): boolean {
   try { return ALLOWED_VIDEO_HOSTS.includes(new URL(url).hostname); } catch { return false; }
 }
@@ -188,8 +189,8 @@ export default function CourseEditorPage() {
   };
   const saveLesson = async () => {
     const videoId = lessonForm.videoId?.trim() || null;
-    if (videoId && lessonForm.type === "video" && !isValidVideoUrl(videoId) && !videoId.match(/youtu/)) {
-      show("URL วิดีโอไม่ถูกต้อง รองรับเฉพาะ Bunny Stream และ YouTube"); return;
+    if (videoId && lessonForm.type === "video" && !isValidVideoUrl(videoId) && !videoId.match(/youtu/) && !videoId.match(/vimeo/)) {
+      show("URL วิดีโอไม่ถูกต้อง รองรับ Vimeo, YouTube, Bunny Stream"); return;
     }
     setSaving(true);
     const durTotal = (Number(durH) || 0) * 3600 + (Number(durM) || 0) * 60 + (Number(durS) || 0);
@@ -291,6 +292,7 @@ export default function CourseEditorPage() {
   if (!course) return <p className="py-10 text-center text-red-400">ไม่พบคอร์ส</p>;
 
   const ytId = getYoutubeId(lessonForm.videoId);
+  const vimeoId = getVimeoId(lessonForm.videoId);
 
   return (
     <div>
@@ -570,9 +572,14 @@ export default function CourseEditorPage() {
                       <iframe src={lessonForm.videoId} className="aspect-video w-full rounded-lg border border-[var(--lms-border)]" allowFullScreen
                         allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture" />
                     </div>
-                  ) : lessonForm.videoId && ytId && isValidVideoUrl(`https://www.youtube.com/embed/${ytId}`) ? (
+                  ) : lessonForm.videoId && ytId ? (
                     <div className="mb-3">
                       <iframe src={`https://www.youtube.com/embed/${ytId}`} className="aspect-video w-full rounded-lg border border-[var(--lms-border)]" allowFullScreen />
+                    </div>
+                  ) : lessonForm.videoId && vimeoId ? (
+                    <div className="mb-3">
+                      <iframe src={`https://player.vimeo.com/video/${vimeoId}`} className="aspect-video w-full rounded-lg border border-[var(--lms-border)]" allowFullScreen
+                        allow="autoplay; fullscreen; picture-in-picture" />
                     </div>
                   ) : lessonForm.videoId ? (
                     <div className="mb-3 rounded-lg border border-[var(--lms-border)] bg-[var(--lms-bg-card)] px-4 py-3 text-sm text-[var(--lms-text-secondary)] break-all">

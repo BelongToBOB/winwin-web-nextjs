@@ -8,10 +8,11 @@ import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 
 
-const ALLOWED_VIDEO_HOSTS = ["iframe.mediadelivery.net", "player.mediadelivery.net", "www.youtube.com", "youtube.com"];
+const ALLOWED_VIDEO_HOSTS = ["iframe.mediadelivery.net", "player.mediadelivery.net", "www.youtube.com", "youtube.com", "player.vimeo.com", "vimeo.com"];
 function isValidVideoUrl(url: string): boolean {
   try { return ALLOWED_VIDEO_HOSTS.includes(new URL(url).hostname); } catch { return false; }
 }
+function getVimeoId(url: string) { return url?.match(/(?:vimeo\.com\/|player\.vimeo\.com\/video\/)(\d+)/)?.[1]; }
 
 interface LessonDetail {
   id: string;
@@ -116,6 +117,7 @@ export default function LessonPage() {
   }
 
   const ytMatch = lesson.videoUrl?.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  const vimeoId = getVimeoId(lesson.videoUrl || "");
 
   return (
     <div>
@@ -135,6 +137,13 @@ export default function LessonPage() {
                 src={`https://www.youtube.com/embed/${ytMatch[1]}?rel=0`}
                 className="absolute inset-0 h-full w-full"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            ) : vimeoId ? (
+              <iframe
+                src={`https://player.vimeo.com/video/${vimeoId}?badge=0&autopause=0`}
+                className="absolute inset-0 h-full w-full"
+                allow="autoplay; fullscreen; picture-in-picture"
                 allowFullScreen
               />
             ) : lesson.videoUrl ? (

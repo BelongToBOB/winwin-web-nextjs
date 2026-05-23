@@ -78,8 +78,7 @@ export const bankUncensoredData: SalePageData = {
   bonusTotalValue: "15,000 บาท",
 
   pricing: [
-    { label: "Early Bird", price: "5,900.-", originalPrice: "15,900.-", tag: "★ ราคาพิเศษช่วงนี้เท่านั้น ★", highlighted: true },
-    { label: "Regular", price: "7,900.-", originalPrice: "15,900.-" },
+    { label: "ราคาพิเศษ", price: "7,900.-", originalPrice: "15,900.-", highlighted: true },
   ],
   pricingTag: "ราคาสำหรับคนที่พร้อมเตรียมตัวก่อนคนอื่น",
 

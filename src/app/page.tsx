@@ -104,8 +104,10 @@ export default function HomePage() {
 
   return (
     <main>
-      {/* Section 1 — Hero แบบต้นแบบ (bg image เติมทีหลัง) */}
+      {/* Section 1 — Hero แบบต้นแบบ */}
       <HeroSpotlight
+        bgImage="/images/home-hero-kv.jpg"
+        bgAlt="บรรยากาศสัมมนา WinWin Wealth Creation"
         eyebrow={hero.badge}
         headline={hero.headline}
         highlight="เจ้าของธุรกิจ"

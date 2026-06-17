@@ -133,9 +133,9 @@ export default function HomePage() {
         secondaryCta={{ text: hero.ctaSecondary.text, url: hero.ctaSecondary.url }}
       />
 
-      {/* Before / After — โชว์ผลลัพธ์ */}
+      {/* Before / After — เลือกเฉพาะคำถามที่ trigger สุด 5 ข้อ */}
       <Reveal>
-        <Transformation rows={bucBeforeAfterRows} />
+        <Transformation rows={[0, 5, 1, 2, 6].map((i) => bucBeforeAfterRows[i])} />
       </Reveal>
 
       {/* Section 2 — แนะนำตัวสั้น */}

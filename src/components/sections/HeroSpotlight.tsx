@@ -74,7 +74,7 @@ export default function HeroSpotlight({
         <img
           src={bgImage}
           alt={bgAlt}
-          className={`absolute inset-0 -z-10 h-full w-full object-cover object-center ${flipBg ? "-scale-x-100" : ""}`}
+          className={`absolute inset-y-0 left-0 -z-10 h-full w-[135%] max-w-none object-cover object-center md:w-[135%] ${flipBg ? "-scale-x-100" : ""}`}
         />
       ) : (
         <div
@@ -88,7 +88,7 @@ export default function HeroSpotlight({
       )}
       {/* Overlay — เน้นอ่านข้อความฝั่งซ้าย แต่ไม่กินภาพฝั่งขวา (วิทยากร) */}
       <div
-        className="absolute inset-0 -z-10 bg-gradient-to-r from-bg from-0% via-bg/45 via-38% to-transparent to-62%"
+        className="absolute inset-0 -z-10 bg-gradient-to-r from-bg from-0% via-bg/55 via-45% to-transparent to-72%"
         aria-hidden="true"
       />
       <div
@@ -98,14 +98,14 @@ export default function HeroSpotlight({
 
       {/* Content */}
       <div className="mx-auto w-full max-w-[var(--container-marketing)] px-4 py-20 sm:px-6 lg:px-8">
-        <div className="flex max-w-xl flex-col gap-6 [text-shadow:0_2px_16px_rgba(0,0,0,0.6)]">
+        <div className="flex max-w-2xl flex-col gap-6 [text-shadow:0_2px_16px_rgba(0,0,0,0.6)]">
           {eyebrow && (
             <Eyebrow mark tone="accent">
               {eyebrow}
             </Eyebrow>
           )}
 
-          <h1 className="text-[clamp(2rem,1.1rem+4.2vw,3.9rem)] font-bold leading-[1.06] text-fg">
+          <h1 className="text-display font-bold text-fg">
             {renderHeadline(headline, highlight, highlightItalic)}
           </h1>
 

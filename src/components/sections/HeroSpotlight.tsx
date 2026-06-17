@@ -86,13 +86,17 @@ export default function HeroSpotlight({
           aria-hidden="true"
         />
       )}
-      {/* Overlay — เน้นอ่านข้อความฝั่งซ้าย แต่ไม่กินภาพฝั่งขวา (วิทยากร) */}
+      {/* Overlay แบบ cinematic — ดำเข้มซ้าย + คลุมทั้งภาพให้ moody + ไล่ดำล่าง/บน */}
       <div
-        className="absolute inset-0 -z-10 bg-gradient-to-r from-bg from-0% via-bg/55 via-45% to-transparent to-72%"
+        className="absolute inset-0 -z-10 bg-gradient-to-r from-bg from-0% via-bg/75 via-42% to-bg/35"
         aria-hidden="true"
       />
       <div
-        className="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-t from-bg to-transparent"
+        className="absolute inset-x-0 bottom-0 -z-10 h-2/3 bg-gradient-to-t from-bg via-bg/45 via-30% to-transparent"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute inset-x-0 top-0 -z-10 h-32 bg-gradient-to-b from-bg/70 to-transparent"
         aria-hidden="true"
       />
 

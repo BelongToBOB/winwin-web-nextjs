@@ -17,6 +17,8 @@ interface Props {
   /** รูปพื้นหลังเต็มจอ — ถ้าไม่ใส่จะใช้ gradient placeholder ไปก่อน */
   bgImage?: string;
   bgAlt?: string;
+  /** กลับด้านรูปแนวนอน (mirror) */
+  flipBg?: boolean;
   eyebrow?: React.ReactNode;
   headline: string;
   /** คำใน headline ที่ไฮไลต์เป็นทอง (แบบต้นแบบ) */
@@ -52,6 +54,7 @@ function renderHeadline(headline: string, highlight: Props["highlight"], italic?
 export default function HeroSpotlight({
   bgImage,
   bgAlt = "",
+  flipBg = false,
   eyebrow,
   headline,
   highlight,
@@ -71,7 +74,7 @@ export default function HeroSpotlight({
         <img
           src={bgImage}
           alt={bgAlt}
-          className="absolute inset-0 -z-10 h-full w-full object-cover object-center"
+          className={`absolute inset-0 -z-10 h-full w-full object-cover object-center ${flipBg ? "-scale-x-100" : ""}`}
         />
       ) : (
         <div

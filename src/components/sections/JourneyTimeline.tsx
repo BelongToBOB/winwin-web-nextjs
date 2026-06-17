@@ -1,3 +1,4 @@
+import CTAButton from "@/components/ui/CTAButton";
 import Eyebrow from "@/components/ui/Eyebrow";
 import Badge from "@/components/ui/Badge";
 import SectionHeading from "@/components/ui/SectionHeading";
@@ -75,7 +76,7 @@ export default function JourneyTimeline({ eyebrow, heading, highlight, subtitle,
 
                 {/* Side card: รูป | เนื้อหา (สลับซ้าย-ขวา) */}
                 <article className="surface-card grid overflow-hidden rounded-card md:grid-cols-2">
-                  <div className="relative aspect-video md:aspect-auto md:min-h-[16rem]">
+                  <div className="relative aspect-video bg-bg-subtle md:aspect-auto md:min-h-[16rem]">
                     {step.image ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
@@ -83,7 +84,7 @@ export default function JourneyTimeline({ eyebrow, heading, highlight, subtitle,
                         alt={step.imageAlt ?? step.title}
                         loading="lazy"
                         decoding="async"
-                        className="absolute inset-0 h-full w-full object-cover"
+                        className="absolute inset-0 h-full w-full object-contain"
                       />
                     ) : (
                       <div
@@ -120,12 +121,19 @@ export default function JourneyTimeline({ eyebrow, heading, highlight, subtitle,
                     <div className="mt-2 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-4">
                       {step.badge && <Badge>{step.badge}</Badge>}
                       {step.href && (
-                        <a
-                          href={step.href}
-                          className="mkt-focus ml-auto text-sm font-semibold text-accent hover:text-accent-hover"
-                        >
-                          {step.ctaText ?? "ดูรายละเอียด"} →
-                        </a>
+                        <CTAButton href={step.href} variant="outline" className="group ml-auto">
+                          {step.ctaText ?? "ดูรายละเอียด"}
+                          <svg
+                            className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-1"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M13 6l6 6-6 6" />
+                          </svg>
+                        </CTAButton>
                       )}
                     </div>
                   </div>

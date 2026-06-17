@@ -2,8 +2,8 @@ import HeroSpotlight from "@/components/sections/HeroSpotlight";
 import LandingHero from "@/components/landing/LandingHero";
 import LandingAbout from "@/components/landing/LandingAbout";
 import JourneyTimeline, { type JourneyStep } from "@/components/sections/JourneyTimeline";
-import PainPoints from "@/components/sections/PainPoints";
-import BeforeAfterTable from "@/components/sections/BeforeAfterTable";
+import PainPointsShowcase from "@/components/sections/PainPointsShowcase";
+import Transformation from "@/components/sections/Transformation";
 import PhotoTestimonials from "@/components/sections/PhotoTestimonials";
 import VideoTestimonials from "@/components/sections/VideoTestimonials";
 import PricingCards, { type PricingPackage } from "@/components/sections/PricingCards";
@@ -119,16 +119,12 @@ export default function HomePage() {
 
       {/* Pain points — เปิดแผล */}
       <Reveal>
-        <section className="w-full bg-bg-subtle py-section">
-          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-            <PainPoints items={insideBankData.painPoints.items} />
-          </div>
-        </section>
+        <PainPointsShowcase items={insideBankData.painPoints.items} />
       </Reveal>
 
       {/* Before / After — โชว์ผลลัพธ์ */}
       <Reveal>
-        <BeforeAfterTable rows={bucBeforeAfterRows} />
+        <Transformation rows={bucBeforeAfterRows} />
       </Reveal>
 
       {/* Section 2 — แนะนำตัวสั้น */}

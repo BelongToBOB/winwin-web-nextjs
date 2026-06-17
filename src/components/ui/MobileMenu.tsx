@@ -43,7 +43,7 @@ export default function MobileMenu({ navLinks, courseLinks, currentPath }: Props
   const overlay = isOpen ? (
     <div
       id="mobile-menu-panel"
-      className="fixed inset-0 top-16 z-[9999] bg-black/95 backdrop-blur-md overflow-y-auto"
+      className="fixed inset-0 top-16 z-[9999] bg-bg/95 backdrop-blur-md overflow-y-auto"
       onClick={(e) => {
         if (e.target === e.currentTarget) setIsOpen(false);
       }}
@@ -55,8 +55,8 @@ export default function MobileMenu({ navLinks, courseLinks, currentPath }: Props
             href={link.href}
             className={`block px-4 py-3 rounded-lg text-base font-medium transition-colors ${
               currentPath === link.href
-                ? "text-yellow-400 bg-zinc-900"
-                : "text-gray-300 hover:text-white hover:bg-zinc-900"
+                ? "text-accent bg-surface"
+                : "text-fg-2 hover:text-fg hover:bg-surface"
             }`}
             onClick={() => setIsOpen(false)}
           >
@@ -66,7 +66,7 @@ export default function MobileMenu({ navLinks, courseLinks, currentPath }: Props
 
         {/* Courses section */}
         <div className="pt-2 pb-1 px-4">
-          <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+          <span className="text-xs font-semibold text-fg-muted uppercase tracking-wider">
             คลาสทั้งหมด
           </span>
         </div>
@@ -76,8 +76,8 @@ export default function MobileMenu({ navLinks, courseLinks, currentPath }: Props
             href={link.href}
             className={`block px-4 py-3 rounded-lg text-base font-medium transition-colors ${
               currentPath === link.href
-                ? "text-yellow-400 bg-zinc-900"
-                : "text-gray-300 hover:text-white hover:bg-zinc-900"
+                ? "text-accent bg-surface"
+                : "text-fg-2 hover:text-fg hover:bg-surface"
             }`}
             onClick={() => setIsOpen(false)}
           >
@@ -87,7 +87,7 @@ export default function MobileMenu({ navLinks, courseLinks, currentPath }: Props
 
         <a
           href="/#about"
-          className="block px-4 py-3 rounded-lg text-base font-medium text-gray-300 hover:text-white hover:bg-zinc-900 transition-colors"
+          className="block px-4 py-3 rounded-lg text-base font-medium text-fg-2 hover:text-fg hover:bg-surface transition-colors"
           onClick={() => setIsOpen(false)}
         >
           เกี่ยวกับวิน
@@ -95,7 +95,7 @@ export default function MobileMenu({ navLinks, courseLinks, currentPath }: Props
 
         <a
           href="/learn"
-          className="block px-4 py-3 rounded-lg text-base font-medium text-yellow-400 hover:text-yellow-300 hover:bg-zinc-900 transition-colors"
+          className="block px-4 py-3 rounded-lg text-base font-medium text-accent hover:text-accent-hover hover:bg-surface transition-colors"
           onClick={() => setIsOpen(false)}
         >
           เข้าเรียน
@@ -123,7 +123,7 @@ export default function MobileMenu({ navLinks, courseLinks, currentPath }: Props
       {/* Hamburger button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="p-2 text-gray-300 hover:text-white transition-colors"
+        className="p-2 text-fg-2 hover:text-fg transition-colors"
         aria-label={isOpen ? "ปิดเมนู" : "เปิดเมนู"}
       >
         {isOpen ? (

@@ -11,10 +11,10 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
   if (isApp) return <>{children}</>;
 
   return (
-    <>
+    <div className="min-h-screen bg-bg">
       <Navbar />
       {children}
       <Footer />
-    </>
+    </div>
   );
 }

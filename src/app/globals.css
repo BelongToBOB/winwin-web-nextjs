@@ -22,12 +22,12 @@
    ห้ามใช้กับ /learn /admin (คนละระบบ — ใช้ --lms-*)
    ============================================================ */
 @theme {
-  /* ----- Background / Surface (warm near-black แบบต้นแบบ) ----- */
-  --color-bg: #14110d;
-  --color-bg-subtle: #1a1611;
-  --color-surface: #1b1814;       /* การ์ด */
-  --color-surface-2: #232019;     /* การ์ด hover / ยกระดับ */
-  --color-surface-3: #2c281f;     /* input / chip */
+  /* ----- Background / Surface (neutral charcoal — ตรงกับ ref #1a1a19) ----- */
+  --color-bg: #1a1a19;            /* = --bg ของ ref */
+  --color-bg-subtle: #151514;     /* section สลับชั้น (เข้มกว่านิด) */
+  --color-surface: #232220;       /* การ์ด */
+  --color-surface-2: #2b2a27;     /* การ์ด hover / ยกระดับ */
+  --color-surface-3: #34322d;     /* input / chip (= --dark-600 ของ ref) */
 
   /* ----- Text ----- */
   --color-fg: #f4f5f7;            /* หัวข้อ/ข้อความหลัก */

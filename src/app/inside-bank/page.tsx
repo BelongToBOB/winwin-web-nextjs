@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import HeroSpotlight from "@/components/sections/HeroSpotlight";
 import HeroKV from "@/components/sections/HeroKV";
 import PainPoints from "@/components/sections/PainPoints";
 import SolutionTransition from "@/components/sections/SolutionTransition";
@@ -20,16 +19,6 @@ export const metadata: Metadata = {
 export default function InsideBankPage() {
   return (
     <main>
-      {/* Section 1 — Hero แบบต้นแบบ (bg image + stats + announcement เติมทีหลัง) */}
-      <HeroSpotlight
-        eyebrow="INSIDE BANK"
-        headline={d.hero.headline}
-        highlight="แบงก์ใช้จริง"
-        lead={d.hero.description}
-        primaryCta={{ text: "ดูราคาและสมัคร", url: "#details" }}
-      />
-
-      {/* Section 2 — Key Visual เดิม (ย้ายลงมาจาก section 1) */}
       <HeroKV
         heroImage={d.hero.heroImage}
         heroAlt={d.hero.heroAlt}
@@ -38,7 +27,7 @@ export default function InsideBankPage() {
         instructor={d.hero.instructor}
       />
 
-      <section id="details" className="w-full bg-[#0a0a0a] py-16 md:py-24 border-t border-yellow-500/10">
+      <section className="w-full bg-[#0a0a0a] py-16 md:py-24 border-t border-yellow-500/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-4xl mx-auto mb-16">
             <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight" dangerouslySetInnerHTML={{ __html: d.sectionHeadline.heading }} />

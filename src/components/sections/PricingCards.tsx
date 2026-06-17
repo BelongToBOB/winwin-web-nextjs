@@ -8,6 +8,7 @@ export interface PricingPackage {
   eyebrowTone?: "accent" | "teal";
   title: string;
   description?: string;
+  image?: string;
   features: string[];
   /** บรรทัดประหยัด เช่น "ประหยัด ฿8,000 · 50% off" */
   savings?: string;
@@ -58,18 +59,27 @@ export default function PricingCards({ eyebrow, heading, highlight, subtitle, pa
             return (
               <article
                 key={i}
-                className={`surface-card relative flex flex-col rounded-card p-6 md:p-7 ${
+                className={`surface-card relative flex flex-col overflow-hidden rounded-card ${
                   pkg.highlighted ? `border-2 ${ringTone[tone]}` : ""
                 }`}
               >
+                {pkg.image && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={pkg.image}
+                    alt={pkg.title}
+                    className="aspect-video w-full object-cover"
+                  />
+                )}
                 {pkg.badge && (
                   <span
-                    className={`absolute -top-3 left-1/2 -translate-x-1/2 rounded-pill px-4 py-1 text-xs font-bold uppercase tracking-wide ${badgeTone[pkg.badge.tone]}`}
+                    className={`absolute left-1/2 top-3 -translate-x-1/2 rounded-pill px-4 py-1 text-xs font-bold uppercase tracking-wide ${badgeTone[pkg.badge.tone]}`}
                   >
                     {pkg.badge.label}
                   </span>
                 )}
 
+                <div className="flex flex-1 flex-col p-6 md:p-7">
                 {pkg.eyebrow && (
                   <p
                     className={`text-eyebrow font-semibold uppercase tracking-[0.14em] ${toneText[pkg.eyebrowTone ?? "accent"]}`}
@@ -111,6 +121,7 @@ export default function PricingCards({ eyebrow, heading, highlight, subtitle, pa
                   >
                     {pkg.ctaText ?? "ดูรายละเอียด"}
                   </CTAButton>
+                </div>
                 </div>
               </article>
             );

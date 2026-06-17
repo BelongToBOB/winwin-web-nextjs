@@ -35,6 +35,7 @@ export default function HomePage() {
       eyebrow: "ออนไลน์",
       title: "Bank Uncensored",
       description: "คอร์สออนไลน์ความลับของธนาคาร",
+      image: "/images/mainkvbuc2.webp",
       features: [
         "Statement ดี vs น่าสงสัย ต่างกันตรงไหน",
         "ติดบูโรกู้ได้ไหม?",
@@ -49,6 +50,7 @@ export default function HomePage() {
       eyebrow: "คอร์ส",
       title: "Inside Business Finance",
       description: "การเงินธุรกิจและการวางแผนภายใน",
+      image: "/images/KVIBF2.webp",
       features: [
         "Owner Finance Thinking (100M Method)",
         "Cashflow 4 ชั้น",
@@ -65,6 +67,7 @@ export default function HomePage() {
       eyebrow: "Workshop",
       title: "Inside Bank",
       description: "Workshop สินเชื่อธนาคาร 1 วันเต็ม",
+      image: "/images/IBKv-Hero.webp",
       features: [
         "Coaching แก้ไขเคสเฉพาะบุคคล (1 วันเต็ม)",
         "Template แผนธุรกิจฉบับยื่นจริง",
@@ -82,6 +85,7 @@ export default function HomePage() {
       eyebrow: "ตัวต่อตัว",
       title: "Private Consult",
       description: "การปรึกษาส่วนตัวเพื่อธุรกิจคุณโดยเฉพาะ",
+      image: "/images/EPCmainKV.webp",
       features: [
         "เปิดงบการเงินธุรกิจคุณ",
         "วิเคราะห์จุดอ่อนเฉพาะเคสคุณ",

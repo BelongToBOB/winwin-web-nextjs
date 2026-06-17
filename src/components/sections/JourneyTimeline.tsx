@@ -115,7 +115,7 @@ export default function JourneyTimeline({ eyebrow, heading, highlight, subtitle,
                                   alt={sc.title}
                                   loading="lazy"
                                   decoding="async"
-                                  className="absolute inset-0 h-full w-full object-contain"
+                                  className="absolute inset-0 h-full w-full object-cover"
                                 />
                               ) : (
                                 <div className="absolute inset-0 bg-gradient-to-br from-surface-3 to-surface" aria-hidden="true" />

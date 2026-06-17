@@ -76,7 +76,7 @@ export default function JourneyTimeline({ eyebrow, heading, highlight, subtitle,
 
                 {/* Side card: รูป | เนื้อหา (สลับซ้าย-ขวา) */}
                 <article className="surface-card grid overflow-hidden rounded-card md:grid-cols-2">
-                  <div className="relative aspect-video bg-bg-subtle md:aspect-auto md:min-h-[16rem]">
+                  <div className="relative aspect-video">
                     {step.image ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
@@ -84,7 +84,7 @@ export default function JourneyTimeline({ eyebrow, heading, highlight, subtitle,
                         alt={step.imageAlt ?? step.title}
                         loading="lazy"
                         decoding="async"
-                        className="absolute inset-0 h-full w-full object-contain"
+                        className="absolute inset-0 h-full w-full object-cover"
                       />
                     ) : (
                       <div

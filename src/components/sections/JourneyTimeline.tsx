@@ -118,7 +118,7 @@ export default function JourneyTimeline({ eyebrow, heading, highlight, subtitle,
                           <div className="flex flex-1 flex-col gap-1 p-4">
                             <h4 className="font-bold text-fg">{sc.title}</h4>
                             {sc.subtitle && <p className="text-sm text-fg-2">{sc.subtitle}</p>}
-                            <span className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-accent">
+                            <span className="mt-3 inline-flex items-center gap-1.5 self-start rounded-pill border border-accent/40 px-4 py-2 text-sm font-semibold text-accent transition-colors group-hover/sc:border-accent group-hover/sc:bg-accent group-hover/sc:text-on-accent">
                               {sc.ctaText ?? "ดูรายละเอียด"}
                               <svg
                                 className="h-4 w-4 transition-transform group-hover/sc:translate-x-1"

@@ -15,6 +15,83 @@
   --color-tiktok: #010101;
 }
 
+/* ============================================================
+   Marketing design tokens (ui-refactor) — premium dark + gold
+   ต่อท้ายของเดิม: yellow-* เดิมยังใช้ได้ระหว่าง migrate ทีละ section
+   อ้างอิงสไตล์: limitlessclub (dark อมอุ่น + ทอง + teal รอง)
+   ห้ามใช้กับ /learn /admin (คนละระบบ — ใช้ --lms-*)
+   ============================================================ */
+@theme {
+  /* ----- Background / Surface (warm near-black แบบต้นแบบ) ----- */
+  --color-bg: #14110d;
+  --color-bg-subtle: #1a1611;
+  --color-surface: #1b1814;       /* การ์ด */
+  --color-surface-2: #232019;     /* การ์ด hover / ยกระดับ */
+  --color-surface-3: #2c281f;     /* input / chip */
+
+  /* ----- Text ----- */
+  --color-fg: #f4f5f7;            /* หัวข้อ/ข้อความหลัก */
+  --color-fg-2: #b4b0a6;          /* ข้อความรอง (AA ผ่านบน bg) */
+  --color-fg-muted: #8a857a;      /* eyebrow/caption (AA ผ่าน) */
+
+  /* ----- Accent หลัก (แบรนด์เหลืองทอง) ----- */
+  --color-accent: #facc15;
+  --color-accent-hover: #fde047;
+  --color-accent-pressed: #eab308;
+  --color-on-accent: #1a1205;     /* ข้อความบนปุ่มเหลือง */
+
+  /* ----- Accent รอง (teal/มิ้นต์ แบบต้นแบบ) ----- */
+  --color-teal: #5ec9a7;
+  --color-teal-hover: #7ad9bb;
+  --color-teal-soft: rgba(94, 201, 167, 0.12);
+
+  /* ----- Semantic ----- */
+  --color-positive: #5ec9a7;      /* ✓ ใช้ teal แบบต้นแบบ */
+  --color-negative: #ef4444;      /* ✗ */
+
+  /* ----- Typography scale (responsive) ----- */
+  --text-eyebrow: 0.8125rem;
+  --text-eyebrow--line-height: 1.2;
+  --text-display: clamp(2.75rem, 1.2rem + 7vw, 6rem);
+  --text-display--line-height: 1.05;
+  --text-h1: clamp(2rem, 1.3rem + 3.5vw, 4rem);
+  --text-h1--line-height: 1.08;
+  --text-h2: clamp(1.6rem, 1.2rem + 2vw, 2.75rem);
+  --text-h2--line-height: 1.12;
+  --text-h3: clamp(1.2rem, 1rem + 1vw, 1.6rem);
+  --text-h3--line-height: 1.2;
+  --text-lead: clamp(1.0625rem, 1rem + 0.4vw, 1.3rem);
+  --text-lead--line-height: 1.6;
+
+  /* ----- Radius / Shadow / Motion ----- */
+  --radius-card: 1.25rem;         /* มุมโค้งใหญ่แบบต้นแบบ */
+  --radius-pill: 999px;
+  --shadow-glow: 0 0 40px -8px rgba(250, 204, 21, 0.35);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* ----- Semantic spacing ----- */
+  --spacing-section: 6rem;        /* py-section */
+
+  /* ----- Container (คุม section width ให้นิ่ง) ----- */
+  --container-marketing: 80rem;
+}
+
+/* การ์ดแบบต้นแบบ: gradient อ่อน + ขอบจาง (ใช้เป็น utility) */
+.surface-card {
+  background-image: linear-gradient(160deg, var(--color-surface-2), var(--color-surface));
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* focus ring กลาง — ปิดช่อง a11y ทีเดียวทั้ง marketing */
+.mkt-focus:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mkt-reveal { opacity: 1 !important; transform: none !important; }
+}
+
 html {
   scroll-behavior: smooth;
 }

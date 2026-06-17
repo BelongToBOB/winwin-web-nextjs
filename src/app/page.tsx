@@ -13,14 +13,17 @@ export default function HomePage() {
   const { hero, services } = landingData;
 
   // เส้นทางบริการ 4 ขั้น — map จาก services จริง, ปลดล็อก→ขั้นถัดไปอัตโนมัติ
-  // (bullets / ประโยคผลลัพธ์ เติมทีหลังได้ผ่าน data)
-  const journeySteps: JourneyStep[] = services.cards.map((card, i) => ({
+  // ลำดับ: BUC → IBF → Inside Bank → Private (สลับ IBF มาก่อน IB)
+  const orderedCards = [...services.cards];
+  [orderedCards[1], orderedCards[2]] = [orderedCards[2], orderedCards[1]];
+
+  const journeySteps: JourneyStep[] = orderedCards.map((card, i) => ({
     eyebrow: `ขั้นที่ ${i + 1}`,
     title: card.title,
     lead: card.subtitle,
     image: card.image,
     imageAlt: card.title,
-    unlockLabel: services.cards[i + 1]?.title,
+    unlockLabel: orderedCards[i + 1]?.title,
     href: card.url,
     ctaText: "ดูรายละเอียด",
   }));

@@ -82,11 +82,11 @@ export default function JourneyTimeline({ eyebrow, heading, highlight, subtitle,
                     <img
                       src={step.image}
                       alt={step.imageAlt ?? step.title}
-                      className="aspect-[21/9] w-full object-cover"
+                      className="aspect-video w-full object-cover"
                     />
                   ) : (
                     <div
-                      className="aspect-[21/9] w-full bg-gradient-to-br from-surface-2 to-bg"
+                      className="aspect-video w-full bg-gradient-to-br from-surface-2 to-bg"
                       aria-hidden="true"
                     />
                   )}

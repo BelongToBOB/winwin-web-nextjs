@@ -51,8 +51,8 @@ export default function HomePage() {
       ],
     },
     {
-      eyebrow: "ขั้นที่ 3 · EXCLUSIVE",
-      title: "Private Consult",
+      eyebrow: "ขั้นที่ 3 · ตัวต่อตัว",
+      title: "Exclusive Private Consult",
       lead: "ที่ปรึกษาส่วนตัวแบบ Exclusive — วางแผนเฉพาะธุรกิจคุณโดยตรง",
       image: "/images/EPCmainKV.webp",
       imageAlt: "Private Consult WinWin",

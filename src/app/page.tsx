@@ -48,6 +48,7 @@ export default function HomePage() {
       url: "/bank-uncensored",
     },
     {
+      badge: { label: "MOST POPULAR", tone: "accent" },
       eyebrow: "คอร์ส",
       title: "Inside Business Finance",
       description: "การเงินธุรกิจและการวางแผนภายใน",
@@ -61,10 +62,11 @@ export default function HomePage() {
       savings: "ประหยัด ฿10,000 · 39% off",
       price: "฿15,900",
       originalPrice: "฿25,900",
+      highlighted: true,
+      highlightTone: "accent",
       url: "/inside-business-finance",
     },
     {
-      badge: { label: "MOST POPULAR", tone: "accent" },
       eyebrow: "Workshop",
       title: "Inside Bank",
       description: "Workshop สินเชื่อธนาคาร 1 วันเต็ม",
@@ -78,8 +80,6 @@ export default function HomePage() {
       savings: "ประหยัด ฿31,100 · 53% off",
       price: "฿27,900",
       originalPrice: "฿59,000",
-      highlighted: true,
-      highlightTone: "accent",
       url: "/inside-bank",
     },
     {

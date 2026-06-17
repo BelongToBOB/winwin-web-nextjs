@@ -2,6 +2,7 @@ import CTAButton from "@/components/ui/CTAButton";
 import Eyebrow from "@/components/ui/Eyebrow";
 import Badge from "@/components/ui/Badge";
 import SectionHeading from "@/components/ui/SectionHeading";
+import HeroSpotlight from "@/components/sections/HeroSpotlight";
 
 // หน้า dev ชั่วคราว — โชว์ design tokens + primitives (ลบทิ้งก่อน merge prod ได้)
 // เปิดที่ http://localhost:3000/styleguide
@@ -35,6 +36,27 @@ function Block({ title, children }: { title: string; children: React.ReactNode }
 export default function StyleguidePage() {
   return (
     <main className="min-h-screen bg-bg text-fg">
+      {/* HeroSpotlight demo — placeholder content (โชว์ look ต้นแบบเต็มรูปแบบ) */}
+      <HeroSpotlight
+        eyebrow="LIMITLESS CLUB · AI EXPERT JOURNEY"
+        headline="6 วัน ปลดล็อก ธุรกิจคุณ"
+        highlight="ปลดล็อก"
+        lead="เจ้าของธุรกิจที่เลิกลงมือทำเองทุกอย่าง แล้วกลายเป็นคนสั่งการระบบ"
+        subnote="ไม่ใช่คอร์สแยกกัน — เป็นการไต่ระดับที่ออกแบบมาเป็นชุดเดียว"
+        primaryCta={{ text: "ดู TRANSFORMATION", url: "#" }}
+        secondaryCta={{ text: "ดู Package ทั้งหมด", url: "#" }}
+        stats={[
+          { value: "1,000+", label: "ผู้เรียน" },
+          { value: "6", label: "วัน" },
+          { value: "3", label: "เฟส" },
+        ]}
+        announcement={{
+          tag: "NEW",
+          text: "รอบใหม่! Shortcut to AI Expert Day 1 — ส. 20 มิถุนายน 2569",
+          url: "#",
+        }}
+      />
+
       <div className="mx-auto w-full max-w-[var(--container-marketing)] px-4 py-16 sm:px-6 lg:px-8">
         <Eyebrow mark>UI REFACTOR · STYLEGUIDE</Eyebrow>
         <h1 className="mt-4 text-h1 font-bold">Design tokens & primitives</h1>

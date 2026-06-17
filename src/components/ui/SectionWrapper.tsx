@@ -1,34 +1,40 @@
 interface Props {
   id?: string;
   className?: string;
-  bg?: "black" | "darker" | "zinc";
-  borderTop?: "yellow" | "red" | "none";
+  bg?: "bg" | "subtle" | "surface" | "black" | "darker" | "zinc";
+  borderTop?: "accent" | "teal" | "none" | "yellow" | "red";
   padding?: "normal" | "large" | "none";
   children: React.ReactNode;
 }
 
+// token-based; legacy keys (black/darker/zinc/yellow/red) kept for backward compat during migrate
 const bgMap = {
-  black: "bg-black",
-  darker: "bg-[#0a0a0a]",
-  zinc: "bg-zinc-900",
+  bg: "bg-bg",
+  subtle: "bg-bg-subtle",
+  surface: "bg-surface",
+  black: "bg-bg",
+  darker: "bg-bg-subtle",
+  zinc: "bg-surface",
 };
 
 const borderMap = {
-  yellow: "border-t border-yellow-400/20",
-  red: "border-t border-red-500/20",
+  accent: "border-t border-accent/20",
+  teal: "border-t border-teal/20",
   none: "",
+  yellow: "border-t border-accent/20",
+  red: "border-t border-negative/20",
 };
 
 const paddingMap = {
-  normal: "py-16 md:py-24",
-  large: "py-24 md:py-32",
+  normal: "py-section",
+  large: "py-section md:py-32",
   none: "",
 };
 
 export default function SectionWrapper({
   id,
   className = "",
-  bg = "black",
+  bg = "bg",
   borderTop = "none",
   padding = "normal",
   children,
@@ -38,7 +44,7 @@ export default function SectionWrapper({
       id={id}
       className={`${bgMap[bg]} ${borderMap[borderTop]} ${paddingMap[padding]} ${className}`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto w-full max-w-[var(--container-marketing)] px-4 sm:px-6 lg:px-8">
         {children}
       </div>
     </section>

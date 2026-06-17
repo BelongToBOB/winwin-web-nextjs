@@ -75,6 +75,8 @@ export default function PricingCards({ eyebrow, heading, highlight, subtitle, pa
                   <img
                     src={pkg.image}
                     alt={pkg.title}
+                    loading="lazy"
+                    decoding="async"
                     className="aspect-video w-full rounded-t-card object-cover"
                   />
                 )}

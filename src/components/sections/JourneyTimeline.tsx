@@ -82,6 +82,8 @@ export default function JourneyTimeline({ eyebrow, heading, highlight, subtitle,
                     <img
                       src={step.image}
                       alt={step.imageAlt ?? step.title}
+                      loading="lazy"
+                      decoding="async"
                       className="aspect-video w-full object-cover"
                     />
                   ) : (

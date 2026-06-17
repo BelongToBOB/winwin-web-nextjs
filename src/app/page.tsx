@@ -4,6 +4,7 @@ import LandingAbout from "@/components/landing/LandingAbout";
 import JourneyTimeline, { type JourneyStep } from "@/components/sections/JourneyTimeline";
 import PricingCards, { type PricingPackage } from "@/components/sections/PricingCards";
 import LandingCTA from "@/components/landing/LandingCTA";
+import Reveal from "@/components/ui/Reveal";
 import { landingData } from "@/data/landing";
 
 export const metadata = {
@@ -111,27 +112,37 @@ export default function HomePage() {
       />
 
       {/* Section 2 — แนะนำตัวสั้น */}
-      <LandingHero />
-      <LandingAbout />
+      <Reveal>
+        <LandingHero />
+      </Reveal>
+      <Reveal>
+        <LandingAbout />
+      </Reveal>
 
       {/* Section บริการ — ไทม์ไลน์เส้นทาง 4 ขั้น (แทนกริดเดิม) */}
-      <JourneyTimeline
-        eyebrow="เส้นทาง 4 ขั้น"
-        heading={services.heading}
-        subtitle={services.subtitle}
-        steps={journeySteps}
-      />
+      <Reveal>
+        <JourneyTimeline
+          eyebrow="เส้นทาง 4 ขั้น"
+          heading={services.heading}
+          subtitle={services.subtitle}
+          steps={journeySteps}
+        />
+      </Reveal>
 
       {/* Section การ์ดราคา — เลือกบริการ + สมัคร */}
-      <PricingCards
-        eyebrow="สมัครเรียน"
-        heading="เลือกบริการที่ใช่"
-        highlight="ที่ใช่"
-        subtitle={services.subtitle}
-        packages={pricingPackages}
-      />
+      <Reveal>
+        <PricingCards
+          eyebrow="สมัครเรียน"
+          heading="เลือกบริการที่ใช่"
+          highlight="ที่ใช่"
+          subtitle={services.subtitle}
+          packages={pricingPackages}
+        />
+      </Reveal>
 
-      <LandingCTA />
+      <Reveal>
+        <LandingCTA />
+      </Reveal>
     </main>
   );
 }

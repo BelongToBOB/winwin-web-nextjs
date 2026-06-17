@@ -16,14 +16,7 @@ export const metadata = {
 export default function HomePage() {
   const { hero, services } = landingData;
 
-  // เส้นทางบริการ 4 ขั้น — map จาก services จริง, ปลดล็อก→ขั้นถัดไปอัตโนมัติ
-  // ลำดับ: BUC → IBF → Inside Bank → Private (สลับ IBF มาก่อน IB)
-  const orderedCards = [...services.cards];
-  [orderedCards[1], orderedCards[2]] = [orderedCards[2], orderedCards[1]];
-
-  // step 1 = หมวด "คลาสออนไลน์" (ไม่ผูกชื่อคอร์สเดียว เผื่อเพิ่มคอร์สออนไลน์อื่น)
-  // step 2-4 = คอร์ส onsite (IBF → Inside Bank → Private)
-  const onsiteCards = orderedCards.slice(1);
+  // เส้นทางบริการ 3 ขั้น: ออนไลน์ → Onsite (รวม IB+IBF) → Exclusive (Private)
   const journeySteps: JourneyStep[] = [
     {
       eyebrow: "ขั้นที่ 1 · ออนไลน์",
@@ -38,15 +31,28 @@ export default function HomePage() {
       href: "/bank-uncensored",
       ctaText: "ดูคลาสออนไลน์",
     },
-    ...onsiteCards.map((card, i) => ({
-      eyebrow: `ขั้นที่ ${i + 2} · Onsite`,
-      title: card.title,
-      lead: card.subtitle,
-      image: card.image,
-      imageAlt: card.title,
-      href: card.url,
+    {
+      eyebrow: "ขั้นที่ 2 · ONSITE",
+      title: "คลาส Onsite",
+      lead: "ลงลึกแบบลงมือจริง เรียนสดกับผู้เชี่ยวชาญตัวต่อตัว",
+      bullets: [
+        "Inside Bank — Workshop สินเชื่อธนาคาร 1 วันเต็ม",
+        "Inside Business Finance — การเงินธุรกิจและการวางแผนภายใน",
+      ],
+      image: "/images/IBKv-Hero.webp",
+      imageAlt: "คลาส Onsite WinWin",
+      href: "/inside-bank",
+      ctaText: "ดูคลาส Onsite",
+    },
+    {
+      eyebrow: "ขั้นที่ 3 · EXCLUSIVE",
+      title: "Private Consult",
+      lead: "ที่ปรึกษาส่วนตัวแบบ Exclusive — วางแผนเฉพาะธุรกิจคุณโดยตรง",
+      image: "/images/EPCmainKV.webp",
+      imageAlt: "Private Consult WinWin",
+      href: "/private-consult",
       ctaText: "ดูรายละเอียด",
-    })),
+    },
   ];
 
   // การ์ดราคา — ราคา/ส่วนลด/bullet จาก data จริงในไฟล์คอร์สแต่ละตัว
@@ -149,7 +155,7 @@ export default function HomePage() {
       {/* Section บริการ — ไทม์ไลน์เส้นทาง 4 ขั้น (แทนกริดเดิม) */}
       <Reveal>
         <JourneyTimeline
-          eyebrow="เส้นทาง 4 ขั้น"
+          eyebrow="เส้นทาง 3 ขั้น"
           heading={services.heading}
           subtitle={services.subtitle}
           steps={journeySteps}

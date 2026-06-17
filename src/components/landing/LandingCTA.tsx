@@ -14,31 +14,31 @@ export default function LandingCTA() {
   const { cta } = landingData;
 
   return (
-    <section className="relative bg-[#0a0a0a] border-t border-yellow-400/20 py-16 md:py-24 overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] bg-yellow-900/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <section className="relative bg-bg border-t border-accent/10 py-section overflow-hidden">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] bg-accent/10 rounded-full blur-[120px] pointer-events-none"></div>
       <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="flex justify-center mb-6">
-          <div className="w-16 h-16 rounded-full bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center">
-            <svg className="w-8 h-8 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="w-16 h-16 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center">
+            <svg className="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
             </svg>
           </div>
         </div>
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+        <h2 className="text-h2 font-bold text-fg mb-4">
           {cta.heading}
         </h2>
-        <p className="text-gray-400 text-lg mb-8 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-fg-2 text-lg mb-8 max-w-2xl mx-auto leading-relaxed">
           {cta.body}
         </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="mx-auto grid w-full max-w-2xl grid-cols-1 gap-4 sm:grid-cols-2">
           {cta.buttons.map((btn) => (
             <a
               key={btn.text}
               href={btn.url}
               target="_blank"
               rel="noopener noreferrer"
-              className={`inline-flex w-full max-w-xs items-center justify-center gap-3 whitespace-nowrap rounded-xl px-6 py-4 text-base font-semibold transition-all duration-200 hover:scale-105 sm:w-72 ${
-                buttonStyles[btn.text] || "bg-yellow-500 hover:bg-yellow-400 text-black"
+              className={`flex w-full items-center justify-center gap-3 whitespace-nowrap rounded-xl px-6 py-4 text-base font-semibold transition-all duration-200 hover:scale-105 ${
+                buttonStyles[btn.text] || "bg-accent hover:bg-accent-hover text-on-accent"
               }`}
             >
               {buttonIcons[btn.text] === "messenger" && (

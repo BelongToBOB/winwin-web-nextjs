@@ -37,7 +37,7 @@ export default function LandingCTA() {
               href={btn.url}
               target="_blank"
               rel="noopener noreferrer"
-              className={`inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl text-base font-semibold transition-all duration-200 hover:scale-105 min-w-[220px] ${
+              className={`inline-flex w-full max-w-xs items-center justify-center gap-3 rounded-xl px-8 py-4 text-base font-semibold transition-all duration-200 hover:scale-105 sm:w-64 ${
                 buttonStyles[btn.text] || "bg-yellow-500 hover:bg-yellow-400 text-black"
               }`}
             >

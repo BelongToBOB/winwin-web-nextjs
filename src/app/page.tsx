@@ -2,7 +2,7 @@ import HeroSpotlight from "@/components/sections/HeroSpotlight";
 import LandingHero from "@/components/landing/LandingHero";
 import LandingAbout from "@/components/landing/LandingAbout";
 import JourneyTimeline, { type JourneyStep } from "@/components/sections/JourneyTimeline";
-import ServiceCards, { type ServiceCardItem } from "@/components/sections/ServiceCards";
+import PricingCards, { type PricingPackage } from "@/components/sections/PricingCards";
 import LandingCTA from "@/components/landing/LandingCTA";
 import { landingData } from "@/data/landing";
 
@@ -28,14 +28,70 @@ export default function HomePage() {
     ctaText: "ดูรายละเอียด",
   }));
 
-  // การ์ดขาย — บริการเดียวกัน ลำดับเดียวกับ timeline
-  const serviceCards: ServiceCardItem[] = orderedCards.map((card) => ({
-    title: card.title,
-    subtitle: card.subtitle,
-    image: card.image,
-    url: card.url,
-    ctaText: "ดูรายละเอียด",
-  }));
+  // การ์ดราคา — ราคา/ส่วนลด/bullet จาก data จริงในไฟล์คอร์สแต่ละตัว
+  // (highlight "MOST POPULAR" = Inside Bank เป็นค่าเริ่ม ปรับได้)
+  const pricingPackages: PricingPackage[] = [
+    {
+      eyebrow: "ออนไลน์",
+      title: "Bank Uncensored",
+      description: "คอร์สออนไลน์ความลับของธนาคาร",
+      features: [
+        "Statement ดี vs น่าสงสัย ต่างกันตรงไหน",
+        "ติดบูโรกู้ได้ไหม?",
+        "Checklist 6 เอกสาร + Roadmap ก่อนยื่นกู้",
+      ],
+      savings: "ประหยัด ฿8,000 · 50% off",
+      price: "฿7,900",
+      originalPrice: "฿15,900",
+      url: "/bank-uncensored",
+    },
+    {
+      eyebrow: "คอร์ส",
+      title: "Inside Business Finance",
+      description: "การเงินธุรกิจและการวางแผนภายใน",
+      features: [
+        "Owner Finance Thinking (100M Method)",
+        "Cashflow 4 ชั้น",
+        "Real Profit Framework",
+        "Bank POV Check",
+      ],
+      savings: "ประหยัด ฿10,000 · 39% off",
+      price: "฿15,900",
+      originalPrice: "฿25,900",
+      url: "/inside-business-finance",
+    },
+    {
+      badge: { label: "MOST POPULAR", tone: "accent" },
+      eyebrow: "Workshop",
+      title: "Inside Bank",
+      description: "Workshop สินเชื่อธนาคาร 1 วันเต็ม",
+      features: [
+        "Coaching แก้ไขเคสเฉพาะบุคคล (1 วันเต็ม)",
+        "Template แผนธุรกิจฉบับยื่นจริง",
+        "Checklist 15 ข้อ ที่แบงก์ใช้ดูคุณ",
+        "เครื่องมือคำนวณความสามารถชำระหนี้",
+      ],
+      savings: "ประหยัด ฿31,100 · 53% off",
+      price: "฿27,900",
+      originalPrice: "฿59,000",
+      highlighted: true,
+      highlightTone: "accent",
+      url: "/inside-bank",
+    },
+    {
+      eyebrow: "ตัวต่อตัว",
+      title: "Private Consult",
+      description: "การปรึกษาส่วนตัวเพื่อธุรกิจคุณโดยเฉพาะ",
+      features: [
+        "เปิดงบการเงินธุรกิจคุณ",
+        "วิเคราะห์จุดอ่อนเฉพาะเคสคุณ",
+        "FORMULA APPROVE เฉพาะของธุรกิจคุณ",
+        "เลือกสินเชื่อที่ใช่",
+      ],
+      price: "฿35,000",
+      url: "/private-consult",
+    },
+  ];
 
   return (
     <main>
@@ -62,13 +118,13 @@ export default function HomePage() {
         steps={journeySteps}
       />
 
-      {/* Section การ์ดขาย — เลือกบริการ + สมัคร */}
-      <ServiceCards
+      {/* Section การ์ดราคา — เลือกบริการ + สมัคร */}
+      <PricingCards
         eyebrow="สมัครเรียน"
         heading="เลือกบริการที่ใช่"
         highlight="ที่ใช่"
         subtitle={services.subtitle}
-        cards={serviceCards}
+        packages={pricingPackages}
       />
 
       <LandingCTA />

@@ -98,7 +98,11 @@ export default function JourneyTimeline({ eyebrow, heading, highlight, subtitle,
                         <p className="border-l-2 border-accent pl-4 text-fg-2">{step.lead}</p>
                       )}
                     </div>
-                    <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                    <div
+                      className={`mt-6 grid gap-4 sm:grid-cols-2 ${
+                        step.subCards.length >= 3 ? "lg:grid-cols-3" : ""
+                      }`}
+                    >
                       {step.subCards.map((sc, si) => (
                         <a
                           key={si}

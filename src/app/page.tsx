@@ -22,15 +22,26 @@ export default function HomePage() {
       eyebrow: "ขั้นที่ 1 · ออนไลน์",
       title: "คลาสออนไลน์",
       lead: "เริ่มปูพื้นความเข้าใจการเงินธุรกิจและมุมมองแบงก์ — เรียนออนไลน์ได้ทุกที่ทุกเวลา",
-      bullets: [
-        "Bank Uncensored — รู้ทันแบงก์ ก่อนยื่นกู้",
-        "Business Health Check — เช็กสุขภาพการเงินธุรกิจ รู้จุดอ่อนก่อนแบงก์เจอ",
-        "และคอร์สออนไลน์ใหม่ ๆ เพิ่มเรื่อย ๆ",
+      subCards: [
+        {
+          title: "Bank Uncensored",
+          subtitle: "รู้ทันแบงก์ ก่อนยื่นกู้",
+          image: "/images/mainkvbuc2.webp",
+          href: "/bank-uncensored",
+        },
+        {
+          title: "Business Health Check",
+          subtitle: "เช็กสุขภาพการเงินธุรกิจ รู้จุดอ่อนก่อนแบงก์เจอ",
+          image: "/images/business-health-check.png",
+          href: "/learn/business-health-check",
+        },
+        {
+          title: "Owner Finance Check",
+          subtitle: "อ่านงบก่อนเซ็น — รู้ตัวเลขที่ควรดู",
+          image: "/images/owner-finance-check.jpg",
+          href: "https://lin.ee/gGDzjTi",
+        },
       ],
-      image: "/images/mainkvbuc2.webp",
-      imageAlt: "คลาสออนไลน์ WinWin",
-      href: "/bank-uncensored",
-      ctaText: "ดูคลาสออนไลน์",
     },
     {
       eyebrow: "ขั้นที่ 2 · ONSITE",

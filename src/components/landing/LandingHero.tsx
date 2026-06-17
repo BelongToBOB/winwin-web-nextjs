@@ -1,34 +1,28 @@
 import { landingData } from "@/data/landing";
 import CTAButton from "@/components/ui/CTAButton";
-import Badge from "@/components/ui/Badge";
+import Eyebrow from "@/components/ui/Eyebrow";
 
 export default function LandingHero() {
   const { hero } = landingData;
 
   return (
-    <section className="relative bg-bg overflow-hidden">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/10 rounded-full blur-[120px] pointer-events-none"></div>
-
+    <section className="relative bg-bg-subtle overflow-hidden">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-section">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
-          <div className="order-2 md:order-1 space-y-6">
-            <Badge variant="accent">{hero.badge}</Badge>
-            <p className="text-fg-2 text-sm font-medium">{hero.name}</p>
-            <h1 className="text-h1 font-bold text-fg leading-tight">
-              {hero.headline}
-            </h1>
-            <p className="text-fg-2 text-lg md:text-xl leading-relaxed">
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-10 md:gap-16 items-center">
+          <div className="order-2 md:order-1 space-y-5">
+            <Eyebrow mark>แนะนำตัว</Eyebrow>
+            <h2 className="text-h2 font-bold text-fg leading-tight">
+              {hero.name}
+            </h2>
+            <p className="text-lead text-fg-2 leading-relaxed">
               {hero.subheadline}
             </p>
-            <p className="text-accent text-xl md:text-2xl font-bold">
+            <p className="text-accent text-lg md:text-xl font-semibold">
               {hero.highlight}
             </p>
-            <div className="flex flex-wrap gap-4 pt-2">
-              <CTAButton href={hero.ctaPrimary.url} variant="yellow" size="large" target="_blank">
+            <div className="flex flex-wrap items-center gap-4 pt-2">
+              <CTAButton href={hero.ctaPrimary.url} variant="yellow" target="_blank">
                 {hero.ctaPrimary.text}
-              </CTAButton>
-              <CTAButton href={hero.ctaSecondary.url} variant="outline" size="large">
-                {hero.ctaSecondary.text}
               </CTAButton>
             </div>
             <div className="flex items-center gap-4 pt-2">
@@ -64,7 +58,7 @@ export default function LandingHero() {
           <div className="order-1 md:order-2 flex justify-center">
             <div className="relative">
               <div className="absolute -inset-4 bg-accent/10 rounded-card blur-2xl"></div>
-              <div className="relative w-72 md:w-96 aspect-[3/4] rounded-card border-2 border-accent/30 overflow-hidden shadow-[0_20px_50px_-12px_rgba(250,204,21,0.15)] bg-gradient-to-b from-surface-2 via-surface to-bg">
+              <div className="relative w-52 md:w-64 aspect-[3/4] rounded-card border-2 border-accent/30 overflow-hidden shadow-[0_20px_50px_-12px_rgba(250,204,21,0.15)] bg-gradient-to-b from-surface-2 via-surface to-bg">
                 <img
                   src={hero.profileImage}
                   alt={hero.name}

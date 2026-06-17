@@ -1,0 +1,145 @@
+import Eyebrow from "@/components/ui/Eyebrow";
+import Badge from "@/components/ui/Badge";
+import SectionHeading from "@/components/ui/SectionHeading";
+
+export interface JourneyStep {
+  /** ป้ายขั้น เช่น "ขั้นที่ 1 · ออนไลน์" */
+  eyebrow?: React.ReactNode;
+  title: string;
+  /** คำใน title ที่ไฮไลต์เป็น teal (ถ้าต้องการ) */
+  highlight?: string | string[];
+  /** ประโยคผลลัพธ์ (มีเส้นทองด้านซ้าย) */
+  lead?: React.ReactNode;
+  /** จุดเด่นแบบ bullet ลูกศรทอง (เติมทีหลังได้) */
+  bullets?: string[];
+  image?: string;
+  imageAlt?: string;
+  /** ป้ายล่างซ้าย เช่น "เริ่มต้น · ออนไลน์" */
+  badge?: string;
+  /** ลิงก์ "ปลดล็อก → X" ไปขั้นถัดไป */
+  unlockLabel?: string;
+  href?: string;
+  ctaText?: string;
+}
+
+interface Props {
+  eyebrow?: React.ReactNode;
+  heading: string;
+  highlight?: string | string[];
+  subtitle?: React.ReactNode;
+  steps: JourneyStep[];
+}
+
+function renderTitle(title: string, highlight: Props["highlight"]) {
+  if (!highlight) return title;
+  const terms = (Array.isArray(highlight) ? highlight : [highlight]).filter(Boolean);
+  if (terms.length === 0) return title;
+  const escaped = terms.map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+  const parts = title.split(new RegExp(`(${escaped.join("|")})`, "g"));
+  return parts.map((part, i) =>
+    terms.includes(part) ? (
+      <span key={i} className="text-teal">
+        {part}
+      </span>
+    ) : (
+      part
+    )
+  );
+}
+
+export default function JourneyTimeline({ eyebrow, heading, highlight, subtitle, steps }: Props) {
+  return (
+    <section className="w-full bg-bg py-section">
+      <div className="mx-auto w-full max-w-[var(--container-marketing)] px-4 sm:px-6 lg:px-8">
+        <SectionHeading
+          eyebrow={eyebrow}
+          eyebrowMark
+          title={heading}
+          highlight={highlight}
+          highlightTone="accent"
+          lead={subtitle}
+          align="center"
+          className="mb-16"
+        />
+
+        <ol className="relative">
+          {steps.map((step, i) => {
+            const n = i + 1;
+            return (
+              <li key={i} className="relative pb-12 last:pb-0 md:pl-24">
+                {/* เส้นเชื่อมแนวตั้ง + วงกลมเลข (เดสก์ท็อป) */}
+                <span
+                  className="absolute left-6 top-0 hidden h-full w-px bg-accent/25 md:block"
+                  aria-hidden="true"
+                />
+                <span className="absolute left-0 top-0 hidden h-12 w-12 items-center justify-center rounded-full border border-accent/40 bg-bg text-lg font-bold text-accent md:flex">
+                  {n}
+                </span>
+
+                <article className="surface-card overflow-hidden rounded-card">
+                  {step.image ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={step.image}
+                      alt={step.imageAlt ?? step.title}
+                      className="aspect-[21/9] w-full object-cover"
+                    />
+                  ) : (
+                    <div
+                      className="aspect-[21/9] w-full bg-gradient-to-br from-surface-2 to-bg"
+                      aria-hidden="true"
+                    />
+                  )}
+                  <div className="flex flex-col gap-4 p-6 md:p-8">
+                    {step.eyebrow && <Eyebrow tone="accent">{step.eyebrow}</Eyebrow>}
+
+                    <h3 className="text-h3 font-bold text-fg">
+                      {renderTitle(step.title, step.highlight)}
+                    </h3>
+
+                    {step.lead && (
+                      <p className="border-l-2 border-accent pl-4 text-fg-2">{step.lead}</p>
+                    )}
+
+                    {step.bullets && step.bullets.length > 0 && (
+                      <ul className="flex flex-col gap-2">
+                        {step.bullets.map((b, bi) => (
+                          <li key={bi} className="flex items-start gap-2 text-fg-2">
+                            <span className="mt-1 text-accent" aria-hidden="true">
+                              ›
+                            </span>
+                            <span>{b}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+
+                    <div className="mt-2 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-4">
+                      {step.badge && <Badge>{step.badge}</Badge>}
+                      <div className="flex items-center gap-4">
+                        {step.unlockLabel && (
+                          <span className="text-sm text-fg-muted">
+                            ปลดล็อก →{" "}
+                            <span className="font-semibold text-teal">{step.unlockLabel}</span>
+                          </span>
+                        )}
+                        {step.href && (
+                          <a
+                            href={step.href}
+                            className="mkt-focus text-sm font-semibold text-accent hover:text-accent-hover"
+                          >
+                            {step.ctaText ?? "ดูรายละเอียด"} →
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </li>
+            );
+          })}
+        </ol>
+      </div>
+    </section>
+  );
+}

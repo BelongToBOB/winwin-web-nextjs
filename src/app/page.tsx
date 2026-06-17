@@ -1,7 +1,7 @@
 import HeroSpotlight from "@/components/sections/HeroSpotlight";
 import LandingHero from "@/components/landing/LandingHero";
 import LandingAbout from "@/components/landing/LandingAbout";
-import LandingServices from "@/components/landing/LandingServices";
+import JourneyTimeline, { type JourneyStep } from "@/components/sections/JourneyTimeline";
 import LandingCTA from "@/components/landing/LandingCTA";
 import { landingData } from "@/data/landing";
 
@@ -10,7 +10,20 @@ export const metadata = {
 };
 
 export default function HomePage() {
-  const { hero } = landingData;
+  const { hero, services } = landingData;
+
+  // เส้นทางบริการ 4 ขั้น — map จาก services จริง, ปลดล็อก→ขั้นถัดไปอัตโนมัติ
+  // (bullets / ประโยคผลลัพธ์ เติมทีหลังได้ผ่าน data)
+  const journeySteps: JourneyStep[] = services.cards.map((card, i) => ({
+    eyebrow: `ขั้นที่ ${i + 1}`,
+    title: card.title,
+    lead: card.subtitle,
+    image: card.image,
+    imageAlt: card.title,
+    unlockLabel: services.cards[i + 1]?.title,
+    href: card.url,
+    ctaText: "ดูรายละเอียด",
+  }));
 
   return (
     <main>
@@ -25,10 +38,18 @@ export default function HomePage() {
         secondaryCta={{ text: hero.ctaSecondary.text, url: hero.ctaSecondary.url }}
       />
 
-      {/* Section 2 — Hero เดิม (ย้ายลงมาจาก section 1) */}
+      {/* Section 2 — แนะนำตัวสั้น */}
       <LandingHero />
       <LandingAbout />
-      <LandingServices />
+
+      {/* Section บริการ — ไทม์ไลน์เส้นทาง 4 ขั้น (แทนกริดเดิม) */}
+      <JourneyTimeline
+        eyebrow="เส้นทาง 4 ขั้น"
+        heading={services.heading}
+        subtitle={services.subtitle}
+        steps={journeySteps}
+      />
+
       <LandingCTA />
     </main>
   );

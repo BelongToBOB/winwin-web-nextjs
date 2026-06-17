@@ -25,7 +25,8 @@ export interface JourneyStep {
     title: string;
     subtitle?: string;
     image?: string;
-    href: string;
+    /** ถ้าไม่ใส่ = การ์ดโชว์เฉย ๆ (ไม่มีปุ่ม/ไม่เป็นลิงก์) สำหรับคอร์สที่ยังไม่มี sale page */
+    href?: string;
     ctaText?: string;
   }[];
 }
@@ -103,45 +104,60 @@ export default function JourneyTimeline({ eyebrow, heading, highlight, subtitle,
                         step.subCards.length >= 3 ? "lg:grid-cols-3" : ""
                       }`}
                     >
-                      {step.subCards.map((sc, si) => (
-                        <a
-                          key={si}
-                          href={sc.href}
-                          className="mkt-focus group/sc flex flex-col overflow-hidden rounded-card border border-white/10 bg-surface-2 transition-all duration-200 ease-out hover:-translate-y-1 hover:border-accent/40"
-                        >
-                          <div className="relative aspect-video">
-                            {sc.image ? (
-                              // eslint-disable-next-line @next/next/no-img-element
-                              <img
-                                src={sc.image}
-                                alt={sc.title}
-                                loading="lazy"
-                                decoding="async"
-                                className="absolute inset-0 h-full w-full object-cover"
-                              />
-                            ) : (
-                              <div className="absolute inset-0 bg-gradient-to-br from-surface-3 to-surface" aria-hidden="true" />
-                            )}
+                      {step.subCards.map((sc, si) => {
+                        const inner = (
+                          <>
+                            <div className="relative aspect-video bg-bg-subtle">
+                              {sc.image ? (
+                                // eslint-disable-next-line @next/next/no-img-element
+                                <img
+                                  src={sc.image}
+                                  alt={sc.title}
+                                  loading="lazy"
+                                  decoding="async"
+                                  className="absolute inset-0 h-full w-full object-contain"
+                                />
+                              ) : (
+                                <div className="absolute inset-0 bg-gradient-to-br from-surface-3 to-surface" aria-hidden="true" />
+                              )}
+                            </div>
+                            <div className="flex flex-1 flex-col gap-1 p-4">
+                              <h4 className="font-bold text-fg">{sc.title}</h4>
+                              {sc.subtitle && <p className="text-sm text-fg-2">{sc.subtitle}</p>}
+                              {sc.href && (
+                                <span className="mt-3 inline-flex items-center gap-1.5 self-start rounded-pill border border-accent/40 px-4 py-2 text-sm font-semibold text-accent transition-colors group-hover/sc:border-accent group-hover/sc:bg-accent group-hover/sc:text-on-accent">
+                                  {sc.ctaText ?? "ดูรายละเอียด"}
+                                  <svg
+                                    className="h-4 w-4 transition-transform group-hover/sc:translate-x-1"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth={2}
+                                    viewBox="0 0 24 24"
+                                    aria-hidden="true"
+                                  >
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M13 6l6 6-6 6" />
+                                  </svg>
+                                </span>
+                              )}
+                            </div>
+                          </>
+                        );
+                        const cardClass =
+                          "group/sc flex flex-col overflow-hidden rounded-card border border-white/10 bg-surface-2";
+                        return sc.href ? (
+                          <a
+                            key={si}
+                            href={sc.href}
+                            className={`mkt-focus ${cardClass} transition-all duration-200 ease-out hover:-translate-y-1 hover:border-accent/40`}
+                          >
+                            {inner}
+                          </a>
+                        ) : (
+                          <div key={si} className={cardClass}>
+                            {inner}
                           </div>
-                          <div className="flex flex-1 flex-col gap-1 p-4">
-                            <h4 className="font-bold text-fg">{sc.title}</h4>
-                            {sc.subtitle && <p className="text-sm text-fg-2">{sc.subtitle}</p>}
-                            <span className="mt-3 inline-flex items-center gap-1.5 self-start rounded-pill border border-accent/40 px-4 py-2 text-sm font-semibold text-accent transition-colors group-hover/sc:border-accent group-hover/sc:bg-accent group-hover/sc:text-on-accent">
-                              {sc.ctaText ?? "ดูรายละเอียด"}
-                              <svg
-                                className="h-4 w-4 transition-transform group-hover/sc:translate-x-1"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth={2}
-                                viewBox="0 0 24 24"
-                                aria-hidden="true"
-                              >
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M13 6l6 6-6 6" />
-                              </svg>
-                            </span>
-                          </div>
-                        </a>
-                      ))}
+                        );
+                      })}
                     </div>
                   </article>
                 ) : (

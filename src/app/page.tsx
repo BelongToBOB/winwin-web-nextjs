@@ -33,13 +33,11 @@ export default function HomePage() {
           title: "Business Health Check",
           subtitle: "เช็กสุขภาพการเงินธุรกิจ รู้จุดอ่อนก่อนแบงก์เจอ",
           image: "/images/business-health-check.png",
-          href: "/learn/business-health-check",
         },
         {
           title: "Owner Finance Check",
           subtitle: "อ่านงบก่อนเซ็น — รู้ตัวเลขที่ควรดู",
           image: "/images/owner-finance-check.jpg",
-          href: "https://lin.ee/gGDzjTi",
         },
       ],
     },

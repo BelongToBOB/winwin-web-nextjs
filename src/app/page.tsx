@@ -167,7 +167,7 @@ export default function HomePage() {
       {/* Section การ์ดราคา — เลือกบริการ + สมัคร (มี stagger ในตัว) */}
       <PricingCards
         eyebrow="สมัครเรียน"
-        heading="เลือกบริการที่ใช่"
+        heading="เลือกคอร์สที่ใช่สำหรับธุรกิจคุณ"
         highlight="ที่ใช่"
         subtitle={services.subtitle}
         packages={pricingPackages}

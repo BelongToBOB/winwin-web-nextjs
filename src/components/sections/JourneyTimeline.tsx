@@ -62,7 +62,6 @@ export default function JourneyTimeline({ eyebrow, heading, highlight, subtitle,
         <ol className="relative">
           {steps.map((step, i) => {
             const n = i + 1;
-            const imageRight = i % 2 === 1;
             return (
               <li key={i} className="relative pb-10 last:pb-0 md:pl-24">
                 {/* เส้นเชื่อมแนวตั้ง + วงกลมเลข (เดสก์ท็อป) */}
@@ -76,11 +75,7 @@ export default function JourneyTimeline({ eyebrow, heading, highlight, subtitle,
 
                 {/* Side card: รูป | เนื้อหา (สลับซ้าย-ขวา) */}
                 <article className="surface-card grid overflow-hidden rounded-card md:grid-cols-2">
-                  <div
-                    className={`relative aspect-video md:aspect-auto md:min-h-[16rem] ${
-                      imageRight ? "md:order-2" : ""
-                    }`}
-                  >
+                  <div className="relative aspect-video md:aspect-auto md:min-h-[16rem]">
                     {step.image ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img

@@ -75,7 +75,7 @@ export default function JourneyTimeline({ eyebrow, heading, highlight, subtitle,
                 </span>
 
                 {/* Side card: รูป | เนื้อหา (สลับซ้าย-ขวา) */}
-                <article className="surface-card grid overflow-hidden rounded-card md:grid-cols-2">
+                <article className="surface-card grid overflow-hidden rounded-card md:grid-cols-[3fr_2fr]">
                   <div className="relative aspect-video">
                     {step.image ? (
                       // eslint-disable-next-line @next/next/no-img-element

@@ -21,11 +21,8 @@ export default function Navbar() {
       <nav className="fixed top-0 left-0 right-0 z-50 bg-bg border-b border-surface-3 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <Link href="/" className="flex items-center gap-2">
-              <img src="/images/winwinlogo.webp" alt="WinWin Consult" className="h-8 w-auto" />
-              <span className="hidden sm:inline text-sm font-semibold tracking-[0.1em] uppercase text-accent">
-                WinWin Wealth Creation
-              </span>
+            <Link href="/" className="flex items-center">
+              <img src="/images/winwinlogo.webp" alt="WinWin Consult" className="h-12 w-auto" />
             </Link>
 
             <div className="hidden md:flex items-center gap-1">

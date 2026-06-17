@@ -23,7 +23,6 @@ export default function HomePage() {
     lead: card.subtitle,
     image: card.image,
     imageAlt: card.title,
-    unlockLabel: orderedCards[i + 1]?.title,
     href: card.url,
     ctaText: "ดูรายละเอียด",
   }));

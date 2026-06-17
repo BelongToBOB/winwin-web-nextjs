@@ -2,6 +2,7 @@ import HeroSpotlight from "@/components/sections/HeroSpotlight";
 import LandingHero from "@/components/landing/LandingHero";
 import LandingAbout from "@/components/landing/LandingAbout";
 import JourneyTimeline, { type JourneyStep } from "@/components/sections/JourneyTimeline";
+import ServiceCards, { type ServiceCardItem } from "@/components/sections/ServiceCards";
 import LandingCTA from "@/components/landing/LandingCTA";
 import { landingData } from "@/data/landing";
 
@@ -24,6 +25,15 @@ export default function HomePage() {
     image: card.image,
     imageAlt: card.title,
     href: card.url,
+    ctaText: "ดูรายละเอียด",
+  }));
+
+  // การ์ดขาย — บริการเดียวกัน ลำดับเดียวกับ timeline
+  const serviceCards: ServiceCardItem[] = orderedCards.map((card) => ({
+    title: card.title,
+    subtitle: card.subtitle,
+    image: card.image,
+    url: card.url,
     ctaText: "ดูรายละเอียด",
   }));
 
@@ -50,6 +60,15 @@ export default function HomePage() {
         heading={services.heading}
         subtitle={services.subtitle}
         steps={journeySteps}
+      />
+
+      {/* Section การ์ดขาย — เลือกบริการ + สมัคร */}
+      <ServiceCards
+        eyebrow="สมัครเรียน"
+        heading="เลือกบริการที่ใช่"
+        highlight="ที่ใช่"
+        subtitle={services.subtitle}
+        cards={serviceCards}
       />
 
       <LandingCTA />

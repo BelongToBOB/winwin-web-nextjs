@@ -32,7 +32,7 @@ const toneText = { accent: "text-accent", teal: "text-teal" };
 const toneDot = { accent: "text-accent", teal: "text-teal" };
 const badgeTone = {
   accent: "bg-accent text-on-accent",
-  teal: "bg-teal text-on-accent",
+  teal: "bg-teal text-on-teal",
 };
 const ringTone = {
   accent: "border-accent/50",
@@ -59,7 +59,7 @@ export default function PricingCards({ eyebrow, heading, highlight, subtitle, pa
             return (
               <article
                 key={i}
-                className={`surface-card relative flex flex-col rounded-card ${
+                className={`surface-card relative flex flex-col rounded-card transition-transform duration-200 ease-out hover:-translate-y-1 ${
                   pkg.highlighted ? `border-2 ${ringTone[tone]}` : ""
                 }`}
               >
@@ -106,17 +106,17 @@ export default function PricingCards({ eyebrow, heading, highlight, subtitle, pa
 
                 <div className="mt-auto pt-6">
                   {pkg.savings && (
-                    <p className="text-sm font-semibold text-teal">{pkg.savings}</p>
+                    <p className="text-sm font-semibold text-teal tabular-nums">{pkg.savings}</p>
                   )}
-                  <p className="mt-1 flex items-baseline gap-2">
+                  <p className="mt-1 flex items-baseline gap-2 tabular-nums">
                     <span className="text-3xl font-bold text-fg">{pkg.price}</span>
                     {pkg.originalPrice && (
-                      <span className="text-base text-fg-muted line-through">{pkg.originalPrice}</span>
+                      <span className="text-base text-fg-2 line-through">{pkg.originalPrice}</span>
                     )}
                   </p>
                   <CTAButton
                     href={pkg.url}
-                    variant={tone === "teal" ? "teal" : "outline"}
+                    variant={pkg.highlighted ? "yellow" : tone === "teal" ? "teal" : "outline"}
                     className="mt-5 w-full"
                   >
                     {pkg.ctaText ?? "ดูรายละเอียด"}

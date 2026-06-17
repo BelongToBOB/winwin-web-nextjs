@@ -44,6 +44,7 @@
   --color-teal: #5ec9a7;
   --color-teal-hover: #7ad9bb;
   --color-teal-soft: rgba(94, 201, 167, 0.12);
+  --color-on-teal: #06251c;       /* ข้อความบนพื้น teal ทึบ */
 
   /* ----- Semantic ----- */
   --color-positive: #5ec9a7;      /* ✓ ใช้ teal แบบต้นแบบ */

@@ -4,8 +4,6 @@ import LandingAbout from "@/components/landing/LandingAbout";
 import JourneyTimeline, { type JourneyStep } from "@/components/sections/JourneyTimeline";
 import PainPointsShowcase from "@/components/sections/PainPointsShowcase";
 import Transformation from "@/components/sections/Transformation";
-import PhotoTestimonials from "@/components/sections/PhotoTestimonials";
-import VideoTestimonials from "@/components/sections/VideoTestimonials";
 import PricingCards, { type PricingPackage } from "@/components/sections/PricingCards";
 import LandingCTA from "@/components/landing/LandingCTA";
 import Reveal from "@/components/ui/Reveal";
@@ -143,14 +141,6 @@ export default function HomePage() {
           subtitle={services.subtitle}
           steps={journeySteps}
         />
-      </Reveal>
-
-      {/* Social proof — รีวิว (วางก่อน Pricing ตาม conversion best practice) */}
-      <Reveal>
-        <PhotoTestimonials photos={insideBankData.photos} />
-      </Reveal>
-      <Reveal>
-        <VideoTestimonials videos={insideBankData.videos} />
       </Reveal>
 
       {/* Section การ์ดราคา — เลือกบริการ + สมัคร */}

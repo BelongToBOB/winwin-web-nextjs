@@ -86,9 +86,9 @@ export default function HeroSpotlight({
           aria-hidden="true"
         />
       )}
-      {/* Overlay — เน้นอ่านข้อความฝั่งซ้าย + vignette ล่าง */}
+      {/* Overlay — เน้นอ่านข้อความฝั่งซ้าย แต่ไม่กินภาพฝั่งขวา (วิทยากร) */}
       <div
-        className="absolute inset-0 -z-10 bg-gradient-to-r from-bg via-bg/85 to-bg/30"
+        className="absolute inset-0 -z-10 bg-gradient-to-r from-bg from-5% via-bg/55 via-45% to-transparent to-80%"
         aria-hidden="true"
       />
       <div
@@ -98,7 +98,7 @@ export default function HeroSpotlight({
 
       {/* Content */}
       <div className="mx-auto w-full max-w-[var(--container-marketing)] px-4 py-20 sm:px-6 lg:px-8">
-        <div className="flex max-w-2xl flex-col gap-6">
+        <div className="flex max-w-2xl flex-col gap-6 [text-shadow:0_2px_16px_rgba(0,0,0,0.55)]">
           {eyebrow && (
             <Eyebrow mark tone="accent">
               {eyebrow}

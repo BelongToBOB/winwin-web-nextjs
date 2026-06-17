@@ -108,7 +108,6 @@ export default function HomePage() {
       <HeroSpotlight
         bgImage="/images/home-hero-kv.jpg"
         bgAlt="บรรยากาศสัมมนา WinWin Wealth Creation"
-        flipBg
         eyebrow={hero.badge}
         headline={hero.headline}
         highlight="เจ้าของธุรกิจ"

@@ -1,6 +1,9 @@
+"use client";
+
 import CTAButton from "@/components/ui/CTAButton";
 import Eyebrow from "@/components/ui/Eyebrow";
 import Badge from "@/components/ui/Badge";
+import { Stagger, StaggerItem } from "@/components/ui/Stagger";
 
 interface CtaLink {
   text: string;
@@ -102,22 +105,34 @@ export default function HeroSpotlight({
 
       {/* Content */}
       <div className="mx-auto w-full max-w-[var(--container-marketing)] px-4 py-20 sm:px-6 lg:px-8">
-        <div className="flex max-w-2xl flex-col gap-6 [text-shadow:0_2px_16px_rgba(0,0,0,0.6)]">
+        <Stagger onMount className="flex max-w-2xl flex-col gap-6 [text-shadow:0_2px_16px_rgba(0,0,0,0.6)]">
           {eyebrow && (
-            <Eyebrow mark tone="accent">
-              {eyebrow}
-            </Eyebrow>
+            <StaggerItem>
+              <Eyebrow mark tone="accent">
+                {eyebrow}
+              </Eyebrow>
+            </StaggerItem>
           )}
 
-          <h1 className="text-display font-bold text-fg">
-            {renderHeadline(headline, highlight, highlightItalic)}
-          </h1>
+          <StaggerItem>
+            <h1 className="text-display font-bold text-fg">
+              {renderHeadline(headline, highlight, highlightItalic)}
+            </h1>
+          </StaggerItem>
 
-          {lead && <p className="text-lead text-fg-2">{lead}</p>}
-          {subnote && <p className="text-sm text-fg-muted">{subnote}</p>}
+          {lead && (
+            <StaggerItem>
+              <p className="text-lead text-fg-2">{lead}</p>
+            </StaggerItem>
+          )}
+          {subnote && (
+            <StaggerItem>
+              <p className="text-sm text-fg-muted">{subnote}</p>
+            </StaggerItem>
+          )}
 
           {(primaryCta || secondaryCta) && (
-            <div className="flex flex-wrap gap-4 pt-2">
+            <StaggerItem className="flex flex-wrap gap-4 pt-2">
               {primaryCta && (
                 <CTAButton href={primaryCta.url} variant="yellow" size="large" target={primaryCta.target}>
                   {primaryCta.text}
@@ -128,20 +143,22 @@ export default function HeroSpotlight({
                   {secondaryCta.text}
                 </CTAButton>
               )}
-            </div>
+            </StaggerItem>
           )}
 
           {stats && stats.length > 0 && (
-            <dl className="mt-4 flex flex-wrap gap-x-10 gap-y-4">
-              {stats.map((s, i) => (
-                <div key={i} className="flex flex-col">
-                  <dt className="text-3xl font-bold text-fg md:text-4xl">{s.value}</dt>
-                  <dd className="text-sm text-fg-muted">{s.label}</dd>
-                </div>
-              ))}
-            </dl>
+            <StaggerItem>
+              <dl className="mt-4 flex flex-wrap gap-x-10 gap-y-4">
+                {stats.map((s, i) => (
+                  <div key={i} className="flex flex-col">
+                    <dt className="text-3xl font-bold text-fg md:text-4xl">{s.value}</dt>
+                    <dd className="text-sm text-fg-muted">{s.label}</dd>
+                  </div>
+                ))}
+              </dl>
+            </StaggerItem>
           )}
-        </div>
+        </Stagger>
       </div>
 
       {/* Announcement bar */}

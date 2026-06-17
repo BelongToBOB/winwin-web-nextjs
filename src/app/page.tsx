@@ -168,16 +168,14 @@ export default function HomePage() {
         />
       </Reveal>
 
-      {/* Section การ์ดราคา — เลือกบริการ + สมัคร */}
-      <Reveal>
-        <PricingCards
-          eyebrow="สมัครเรียน"
-          heading="เลือกบริการที่ใช่"
-          highlight="ที่ใช่"
-          subtitle={services.subtitle}
-          packages={pricingPackages}
-        />
-      </Reveal>
+      {/* Section การ์ดราคา — เลือกบริการ + สมัคร (มี stagger ในตัว) */}
+      <PricingCards
+        eyebrow="สมัครเรียน"
+        heading="เลือกบริการที่ใช่"
+        highlight="ที่ใช่"
+        subtitle={services.subtitle}
+        packages={pricingPackages}
+      />
 
       <Reveal>
         <LandingCTA />

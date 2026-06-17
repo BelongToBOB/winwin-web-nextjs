@@ -1,43 +1,44 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion, type Variants } from "motion/react";
 
 interface Props {
   children: React.ReactNode;
   className?: string;
-  /** หน่วงเวลาก่อน reveal (ms) — ใช้ทำ stagger */
+  /** หน่วงก่อน reveal (ms) */
   delay?: number;
+  /** ทิศทางเข้า */
+  from?: "up" | "down" | "left" | "right";
 }
 
-// Scroll reveal เบา ๆ ด้วย IntersectionObserver (ไม่เพิ่ม dependency)
-// เคารพ prefers-reduced-motion ผ่าน CSS (.mkt-reveal ใน globals.css)
-export default function Reveal({ children, className = "", delay = 0 }: Props) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
+const OFFSET = 28;
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          io.disconnect();
-        }
-      },
-      { rootMargin: "0px 0px -10% 0px", threshold: 0.12 }
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
+// Scroll reveal ด้วย Framer Motion — fade + slide, spring-ish ease, เคารพ reduced-motion
+export default function Reveal({ children, className = "", delay = 0, from = "up" }: Props) {
+  const reduce = useReducedMotion();
+
+  const axis = from === "left" || from === "right" ? "x" : "y";
+  const sign = from === "up" || from === "left" ? 1 : -1;
+
+  const variants: Variants = {
+    hidden: { opacity: 0, [axis]: OFFSET * sign },
+    show: {
+      opacity: 1,
+      x: 0,
+      y: 0,
+      transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: delay / 1000 },
+    },
+  };
 
   return (
-    <div
-      ref={ref}
-      className={`mkt-reveal ${visible ? "is-visible" : ""} ${className}`}
-      style={delay ? { transitionDelay: `${delay}ms` } : undefined}
+    <motion.div
+      className={className}
+      variants={reduce ? undefined : variants}
+      initial={reduce ? false : "hidden"}
+      whileInView={reduce ? undefined : "show"}
+      viewport={{ once: true, margin: "0px 0px -12% 0px" }}
     >
       {children}
-    </div>
+    </motion.div>
   );
 }

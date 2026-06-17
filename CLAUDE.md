@@ -1,5 +1,18 @@
 # WinWin Web (Next.js)
 
+## Skills (load first)
+
+This project is part of the WinWin Wealth Creation stack. **Load `winwin-context` first** — it covers infrastructure, projects, conventions, and landmines that apply across all WinWin codebases (installed via the `winwin-skills` bundle at `~/Documents/Claude/Projects/winwin dev skill/winwin-skills/`).
+
+Then load the right sibling skill for the task:
+- Debugging anything → `winwin-debug-mantra`
+- Reviewing / sanity-checking → `winwin-scrutinize`
+- Writing up a fix → `winwin-post-mortem`
+- Deploying (CF Pages, VPS, wrangler) → `winwin-deploy`
+- Schema changes (Prisma / Postgres) → `winwin-db-safety`
+- Touching `CheckoutForm.tsx` / payment / slip → check `winwin-context/references/landmines.md` first (ChillPay flow, EasySlip fallback)
+- Reframing a fix for วิน / ทีม / ลูกค้า → `winwin-management-talk`
+
 ## Project
 - **Repo:** winwin-web-nextjs (GitHub → Cloudflare Pages)
 - **Domain:** programs.winwinwealth.co

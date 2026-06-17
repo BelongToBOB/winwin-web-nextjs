@@ -1,5 +1,7 @@
 import CTAButton from "@/components/ui/CTAButton";
 import SectionHeading from "@/components/ui/SectionHeading";
+import Reveal from "@/components/ui/Reveal";
+import { Stagger, StaggerItem } from "@/components/ui/Stagger";
 
 export interface PricingPackage {
   /** ป้ายบนการ์ด เช่น MOST POPULAR / ทุกอย่างครบ */
@@ -43,23 +45,25 @@ export default function PricingCards({ eyebrow, heading, highlight, subtitle, pa
   return (
     <section className="w-full bg-bg py-section">
       <div className="mx-auto w-full max-w-[var(--container-marketing)] px-4 sm:px-6 lg:px-8">
-        <SectionHeading
-          eyebrow={eyebrow}
-          eyebrowMark
-          title={heading}
-          highlight={highlight}
-          lead={subtitle}
-          align="center"
-          className="mb-16"
-        />
+        <Reveal>
+          <SectionHeading
+            eyebrow={eyebrow}
+            eyebrowMark
+            title={heading}
+            highlight={highlight}
+            lead={subtitle}
+            align="center"
+            className="mb-16"
+          />
+        </Reveal>
 
-        <div className="grid items-stretch gap-6 md:grid-cols-2 xl:grid-cols-4">
+        <Stagger className="grid items-stretch gap-6 md:grid-cols-2 xl:grid-cols-4">
           {packages.map((pkg, i) => {
             const tone = pkg.highlightTone ?? "accent";
             return (
+              <StaggerItem key={i} className="h-full">
               <article
-                key={i}
-                className={`surface-card relative flex flex-col rounded-card transition-transform duration-200 ease-out hover:-translate-y-1 ${
+                className={`surface-card relative flex h-full flex-col rounded-card transition-transform duration-200 ease-out hover:-translate-y-1 ${
                   pkg.highlighted ? `border-2 ${ringTone[tone]}` : ""
                 }`}
               >
@@ -126,9 +130,10 @@ export default function PricingCards({ eyebrow, heading, highlight, subtitle, pa
                 </div>
                 </div>
               </article>
+              </StaggerItem>
             );
           })}
-        </div>
+        </Stagger>
       </div>
     </section>
   );

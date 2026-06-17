@@ -1,4 +1,6 @@
 import Eyebrow from "@/components/ui/Eyebrow";
+import Reveal from "@/components/ui/Reveal";
+import { Stagger, StaggerItem } from "@/components/ui/Stagger";
 
 interface Props {
   rows: { before: string; after: string }[];
@@ -17,15 +19,18 @@ export default function Transformation({
   return (
     <section className="w-full border-t border-accent/10 bg-bg py-section">
       <div className="mx-auto w-full max-w-4xl px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto mb-14 flex max-w-2xl flex-col items-center gap-3 text-center">
-          <Eyebrow mark>{eyebrow}</Eyebrow>
-          <h2 className="text-h2 font-bold leading-tight text-fg">{heading}</h2>
-          <p className="text-lead text-fg-2">{subtitle}</p>
-        </div>
+        <Reveal>
+          <div className="mx-auto mb-14 flex max-w-2xl flex-col items-center gap-3 text-center">
+            <Eyebrow mark>{eyebrow}</Eyebrow>
+            <h2 className="text-h2 font-bold leading-tight text-fg">{heading}</h2>
+            <p className="text-lead text-fg-2">{subtitle}</p>
+          </div>
+        </Reveal>
 
-        <ul className="flex flex-col gap-4">
+        <Stagger as="ul" className="flex flex-col gap-4">
           {rows.map((row, i) => (
-            <li
+            <StaggerItem
+              as="li"
               key={i}
               className="group grid grid-cols-1 overflow-hidden rounded-card border border-white/10 transition-colors hover:border-teal/30 md:grid-cols-[1fr_auto_1fr]"
             >
@@ -60,9 +65,9 @@ export default function Transformation({
                 </span>
                 <p className="font-medium text-fg">{row.after}</p>
               </div>
-            </li>
+            </StaggerItem>
           ))}
-        </ul>
+        </Stagger>
       </div>
     </section>
   );

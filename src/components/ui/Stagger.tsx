@@ -14,19 +14,25 @@ const itemV: Variants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
 };
 
-interface WrapProps {
+const containerTags = { div: motion.div, ul: motion.ul, ol: motion.ol } as const;
+const itemTags = { div: motion.div, li: motion.li } as const;
+
+interface ContainerProps {
   children: React.ReactNode;
   className?: string;
+  as?: keyof typeof containerTags;
   /** true = เล่นตอน mount (above-fold เช่น hero), false = เล่นตอนเลื่อนเจอ */
   onMount?: boolean;
 }
 
 // container ที่ไล่ลูกทีละชิ้น (stagger)
-export function Stagger({ children, className = "", onMount = false }: WrapProps) {
+export function Stagger({ children, className = "", as = "div", onMount = false }: ContainerProps) {
   const reduce = useReducedMotion();
-  if (reduce) return <div className={className}>{children}</div>;
+  const Tag = containerTags[as];
+  const Plain = as;
+  if (reduce) return <Plain className={className}>{children}</Plain>;
   return (
-    <motion.div
+    <Tag
       className={className}
       variants={containerV}
       initial="hidden"
@@ -35,17 +41,25 @@ export function Stagger({ children, className = "", onMount = false }: WrapProps
         : { whileInView: "show", viewport: { once: true, margin: "0px 0px -10% 0px" } })}
     >
       {children}
-    </motion.div>
+    </Tag>
   );
 }
 
+interface ItemProps {
+  children: React.ReactNode;
+  className?: string;
+  as?: keyof typeof itemTags;
+}
+
 // ลูกแต่ละชิ้นใน Stagger
-export function StaggerItem({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+export function StaggerItem({ children, className = "", as = "div" }: ItemProps) {
   const reduce = useReducedMotion();
-  if (reduce) return <div className={className}>{children}</div>;
+  const Tag = itemTags[as];
+  const Plain = as;
+  if (reduce) return <Plain className={className}>{children}</Plain>;
   return (
-    <motion.div className={className} variants={itemV}>
+    <Tag className={className} variants={itemV}>
       {children}
-    </motion.div>
+    </Tag>
   );
 }

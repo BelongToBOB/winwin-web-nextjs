@@ -145,10 +145,8 @@ export default function HomePage() {
         secondaryCta={{ text: hero.ctaSecondary.text, url: hero.ctaSecondary.url }}
       />
 
-      {/* Before / After — เลือกเฉพาะคำถามที่ trigger สุด 5 ข้อ */}
-      <Reveal>
-        <Transformation rows={[0, 5, 1, 2, 6].map((i) => bucBeforeAfterRows[i])} />
-      </Reveal>
+      {/* Before / After — เลือกเฉพาะคำถามที่ trigger สุด 5 ข้อ (มี stagger ในตัว) */}
+      <Transformation rows={[0, 5, 1, 2, 6].map((i) => bucBeforeAfterRows[i])} />
 
       {/* Section 2 — แนะนำตัวสั้น */}
       <Reveal>
@@ -158,15 +156,13 @@ export default function HomePage() {
         <LandingAbout />
       </Reveal>
 
-      {/* Section บริการ — ไทม์ไลน์เส้นทาง 4 ขั้น (แทนกริดเดิม) */}
-      <Reveal>
-        <JourneyTimeline
-          eyebrow="เส้นทาง 3 ขั้น"
-          heading={services.heading}
-          subtitle={services.subtitle}
-          steps={journeySteps}
-        />
-      </Reveal>
+      {/* Section บริการ — ไทม์ไลน์เส้นทาง 3 ขั้น (มี stagger ในตัว) */}
+      <JourneyTimeline
+        eyebrow="เส้นทาง 3 ขั้น"
+        heading={services.heading}
+        subtitle={services.subtitle}
+        steps={journeySteps}
+      />
 
       {/* Section การ์ดราคา — เลือกบริการ + สมัคร (มี stagger ในตัว) */}
       <PricingCards

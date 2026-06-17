@@ -2,6 +2,8 @@ import CTAButton from "@/components/ui/CTAButton";
 import Eyebrow from "@/components/ui/Eyebrow";
 import Badge from "@/components/ui/Badge";
 import SectionHeading from "@/components/ui/SectionHeading";
+import Reveal from "@/components/ui/Reveal";
+import { Stagger, StaggerItem } from "@/components/ui/Stagger";
 
 export interface JourneyStep {
   /** ป้ายขั้น เช่น "ขั้นที่ 1 · ออนไลน์" */
@@ -57,22 +59,24 @@ export default function JourneyTimeline({ eyebrow, heading, highlight, subtitle,
   return (
     <section className="w-full bg-bg py-section">
       <div className="mx-auto w-full max-w-[var(--container-marketing)] px-4 sm:px-6 lg:px-8">
-        <SectionHeading
-          eyebrow={eyebrow}
-          eyebrowMark
-          title={heading}
-          highlight={highlight}
-          highlightTone="accent"
-          lead={subtitle}
-          align="center"
-          className="mb-16"
-        />
+        <Reveal>
+          <SectionHeading
+            eyebrow={eyebrow}
+            eyebrowMark
+            title={heading}
+            highlight={highlight}
+            highlightTone="accent"
+            lead={subtitle}
+            align="center"
+            className="mb-16"
+          />
+        </Reveal>
 
-        <ol className="relative">
+        <Stagger as="ol" className="relative">
           {steps.map((step, i) => {
             const n = i + 1;
             return (
-              <li key={i} className="relative pb-10 last:pb-0 md:pl-24">
+              <StaggerItem as="li" key={i} className="relative pb-10 last:pb-0 md:pl-24">
                 {/* เส้นเชื่อมแนวตั้ง + วงกลมเลข (เดสก์ท็อป) */}
                 <span
                   className="absolute left-6 top-0 hidden h-full w-px bg-accent/25 md:block"
@@ -202,10 +206,10 @@ export default function JourneyTimeline({ eyebrow, heading, highlight, subtitle,
                   </div>
                 </article>
                 )}
-              </li>
+              </StaggerItem>
             );
           })}
-        </ol>
+        </Stagger>
       </div>
     </section>
   );

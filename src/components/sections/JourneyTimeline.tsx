@@ -10,14 +10,11 @@ export interface JourneyStep {
   highlight?: string | string[];
   /** ประโยคผลลัพธ์ (มีเส้นทองด้านซ้าย) */
   lead?: React.ReactNode;
-  /** จุดเด่นแบบ bullet ลูกศรทอง (เติมทีหลังได้) */
+  /** จุดเด่นแบบ bullet ลูกศรทอง */
   bullets?: string[];
   image?: string;
   imageAlt?: string;
-  /** ป้ายล่างซ้าย เช่น "เริ่มต้น · ออนไลน์" */
   badge?: string;
-  /** ลิงก์ "ปลดล็อก → X" ไปขั้นถัดไป */
-  unlockLabel?: string;
   href?: string;
   ctaText?: string;
 }
@@ -65,8 +62,9 @@ export default function JourneyTimeline({ eyebrow, heading, highlight, subtitle,
         <ol className="relative">
           {steps.map((step, i) => {
             const n = i + 1;
+            const imageRight = i % 2 === 1;
             return (
-              <li key={i} className="relative pb-12 last:pb-0 md:pl-24">
+              <li key={i} className="relative pb-10 last:pb-0 md:pl-24">
                 {/* เส้นเชื่อมแนวตั้ง + วงกลมเลข (เดสก์ท็อป) */}
                 <span
                   className="absolute left-6 top-0 hidden h-full w-px bg-accent/25 md:block"
@@ -76,23 +74,31 @@ export default function JourneyTimeline({ eyebrow, heading, highlight, subtitle,
                   {n}
                 </span>
 
-                <article className="surface-card overflow-hidden rounded-card">
-                  {step.image ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={step.image}
-                      alt={step.imageAlt ?? step.title}
-                      loading="lazy"
-                      decoding="async"
-                      className="aspect-video w-full object-cover"
-                    />
-                  ) : (
-                    <div
-                      className="aspect-video w-full bg-gradient-to-br from-surface-2 to-bg"
-                      aria-hidden="true"
-                    />
-                  )}
-                  <div className="flex flex-col gap-4 p-6 md:p-8">
+                {/* Side card: รูป | เนื้อหา (สลับซ้าย-ขวา) */}
+                <article className="surface-card grid overflow-hidden rounded-card md:grid-cols-2">
+                  <div
+                    className={`relative aspect-video md:aspect-auto md:min-h-[16rem] ${
+                      imageRight ? "md:order-2" : ""
+                    }`}
+                  >
+                    {step.image ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={step.image}
+                        alt={step.imageAlt ?? step.title}
+                        loading="lazy"
+                        decoding="async"
+                        className="absolute inset-0 h-full w-full object-cover"
+                      />
+                    ) : (
+                      <div
+                        className="absolute inset-0 bg-gradient-to-br from-surface-2 to-bg"
+                        aria-hidden="true"
+                      />
+                    )}
+                  </div>
+
+                  <div className="flex flex-col justify-center gap-4 p-6 md:p-8">
                     {step.eyebrow && <Eyebrow tone="accent">{step.eyebrow}</Eyebrow>}
 
                     <h3 className="text-h3 font-bold text-fg">
@@ -118,22 +124,14 @@ export default function JourneyTimeline({ eyebrow, heading, highlight, subtitle,
 
                     <div className="mt-2 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-4">
                       {step.badge && <Badge>{step.badge}</Badge>}
-                      <div className="flex items-center gap-4">
-                        {step.unlockLabel && (
-                          <span className="text-sm text-fg-muted">
-                            ปลดล็อก →{" "}
-                            <span className="font-semibold text-teal">{step.unlockLabel}</span>
-                          </span>
-                        )}
-                        {step.href && (
-                          <a
-                            href={step.href}
-                            className="mkt-focus text-sm font-semibold text-accent hover:text-accent-hover"
-                          >
-                            {step.ctaText ?? "ดูรายละเอียด"} →
-                          </a>
-                        )}
-                      </div>
+                      {step.href && (
+                        <a
+                          href={step.href}
+                          className="mkt-focus ml-auto text-sm font-semibold text-accent hover:text-accent-hover"
+                        >
+                          {step.ctaText ?? "ดูรายละเอียด"} →
+                        </a>
+                      )}
                     </div>
                   </div>
                 </article>

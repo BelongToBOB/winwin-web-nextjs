@@ -23,15 +23,33 @@ export default function HomePage() {
   const orderedCards = [...services.cards];
   [orderedCards[1], orderedCards[2]] = [orderedCards[2], orderedCards[1]];
 
-  const journeySteps: JourneyStep[] = orderedCards.map((card, i) => ({
-    eyebrow: `ขั้นที่ ${i + 1}`,
-    title: card.title,
-    lead: card.subtitle,
-    image: card.image,
-    imageAlt: card.title,
-    href: card.url,
-    ctaText: "ดูรายละเอียด",
-  }));
+  // step 1 = หมวด "คลาสออนไลน์" (ไม่ผูกชื่อคอร์สเดียว เผื่อเพิ่มคอร์สออนไลน์อื่น)
+  // step 2-4 = คอร์ส onsite (IBF → Inside Bank → Private)
+  const onsiteCards = orderedCards.slice(1);
+  const journeySteps: JourneyStep[] = [
+    {
+      eyebrow: "ขั้นที่ 1 · ออนไลน์",
+      title: "คลาสออนไลน์",
+      lead: "เริ่มปูพื้นความเข้าใจการเงินธุรกิจและมุมมองแบงก์ — เรียนออนไลน์ได้ทุกที่ทุกเวลา",
+      bullets: [
+        "Bank Uncensored — รู้ทันแบงก์ ก่อนยื่นกู้",
+        "คอร์สออนไลน์ใหม่ ๆ กำลังจะเพิ่มเร็ว ๆ นี้",
+      ],
+      image: "/images/mainkvbuc2.webp",
+      imageAlt: "คลาสออนไลน์ WinWin",
+      href: "/bank-uncensored",
+      ctaText: "ดูคลาสออนไลน์",
+    },
+    ...onsiteCards.map((card, i) => ({
+      eyebrow: `ขั้นที่ ${i + 2} · Onsite`,
+      title: card.title,
+      lead: card.subtitle,
+      image: card.image,
+      imageAlt: card.title,
+      href: card.url,
+      ctaText: "ดูรายละเอียด",
+    })),
+  ];
 
   // การ์ดราคา — ราคา/ส่วนลด/bullet จาก data จริงในไฟล์คอร์สแต่ละตัว
   // (highlight "MOST POPULAR" = Inside Bank เป็นค่าเริ่ม ปรับได้)

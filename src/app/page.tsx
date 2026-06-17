@@ -35,14 +35,20 @@ export default function HomePage() {
       eyebrow: "ขั้นที่ 2 · ONSITE",
       title: "คลาส Onsite",
       lead: "ลงลึกแบบลงมือจริง เรียนสดกับผู้เชี่ยวชาญตัวต่อตัว",
-      bullets: [
-        "Inside Bank — Workshop สินเชื่อธนาคาร 1 วันเต็ม",
-        "Inside Business Finance — การเงินธุรกิจและการวางแผนภายใน",
+      subCards: [
+        {
+          title: "Inside Bank",
+          subtitle: "Workshop สินเชื่อธนาคาร 1 วันเต็ม",
+          image: "/images/IBKv-Hero.webp",
+          href: "/inside-bank",
+        },
+        {
+          title: "Inside Business Finance",
+          subtitle: "การเงินธุรกิจและการวางแผนภายใน",
+          image: "/images/KVIBF2.webp",
+          href: "/inside-business-finance",
+        },
       ],
-      image: "/images/IBKv-Hero.webp",
-      imageAlt: "คลาส Onsite WinWin",
-      href: "/inside-bank",
-      ctaText: "ดูคลาส Onsite",
     },
     {
       eyebrow: "ขั้นที่ 3 · EXCLUSIVE",

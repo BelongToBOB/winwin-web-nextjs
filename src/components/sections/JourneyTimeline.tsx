@@ -18,6 +18,14 @@ export interface JourneyStep {
   badge?: string;
   href?: string;
   ctaText?: string;
+  /** ถ้ามี = render เป็นการ์ดย่อยหลายคอร์สแทน layout รูปข้าง (เช่น Onsite รวม 2 คอร์ส) */
+  subCards?: {
+    title: string;
+    subtitle?: string;
+    image?: string;
+    href: string;
+    ctaText?: string;
+  }[];
 }
 
 interface Props {
@@ -74,7 +82,62 @@ export default function JourneyTimeline({ eyebrow, heading, highlight, subtitle,
                   {n}
                 </span>
 
-                {/* Side card: รูป | เนื้อหา (สลับซ้าย-ขวา) */}
+                {step.subCards ? (
+                  /* หมวดที่มีหลายคอร์ส (เช่น Onsite) — header + การ์ดย่อย */
+                  <article className="surface-card overflow-hidden rounded-card p-6 md:p-8">
+                    <div className="flex flex-col gap-4">
+                      {step.eyebrow && <Eyebrow tone="accent">{step.eyebrow}</Eyebrow>}
+                      <h3 className="text-h3 font-bold text-fg">
+                        {renderTitle(step.title, step.highlight)}
+                      </h3>
+                      {step.lead && (
+                        <p className="border-l-2 border-accent pl-4 text-fg-2">{step.lead}</p>
+                      )}
+                    </div>
+                    <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                      {step.subCards.map((sc, si) => (
+                        <a
+                          key={si}
+                          href={sc.href}
+                          className="mkt-focus group/sc flex flex-col overflow-hidden rounded-card border border-white/10 bg-surface-2 transition-all duration-200 ease-out hover:-translate-y-1 hover:border-accent/40"
+                        >
+                          <div className="relative aspect-video">
+                            {sc.image ? (
+                              // eslint-disable-next-line @next/next/no-img-element
+                              <img
+                                src={sc.image}
+                                alt={sc.title}
+                                loading="lazy"
+                                decoding="async"
+                                className="absolute inset-0 h-full w-full object-cover"
+                              />
+                            ) : (
+                              <div className="absolute inset-0 bg-gradient-to-br from-surface-3 to-surface" aria-hidden="true" />
+                            )}
+                          </div>
+                          <div className="flex flex-1 flex-col gap-1 p-4">
+                            <h4 className="font-bold text-fg">{sc.title}</h4>
+                            {sc.subtitle && <p className="text-sm text-fg-2">{sc.subtitle}</p>}
+                            <span className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-accent">
+                              {sc.ctaText ?? "ดูรายละเอียด"}
+                              <svg
+                                className="h-4 w-4 transition-transform group-hover/sc:translate-x-1"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth={2}
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                              >
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M13 6l6 6-6 6" />
+                              </svg>
+                            </span>
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                  </article>
+                ) : (
+                /* Side card: รูป | เนื้อหา */
                 <article className="surface-card grid overflow-hidden rounded-card md:grid-cols-[3fr_2fr]">
                   <div className="relative aspect-video">
                     {step.image ? (
@@ -138,6 +201,7 @@ export default function JourneyTimeline({ eyebrow, heading, highlight, subtitle,
                     </div>
                   </div>
                 </article>
+                )}
               </li>
             );
           })}

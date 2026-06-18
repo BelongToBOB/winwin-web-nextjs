@@ -119,6 +119,7 @@ export default function HomePage() {
   const LINE_URL = "https://lin.ee/gGDzjTi";
   const pricingPackages: PricingPackage[] = [
     {
+      group: "เรียนออนไลน์",
       eyebrow: "ออนไลน์",
       title: "Bank Uncensored",
       description: "คอร์สออนไลน์ความลับของธนาคาร",
@@ -134,6 +135,7 @@ export default function HomePage() {
       detailUrl: "/bank-uncensored",
     },
     {
+      group: "เรียนออนไลน์",
       eyebrow: "ออนไลน์",
       title: "Business Health Check",
       description: "ตรวจสุขภาพการเงินธุรกิจ รู้จุดอ่อนก่อนแบงก์เจอ",
@@ -146,6 +148,7 @@ export default function HomePage() {
       price: "฿7,900",
     },
     {
+      group: "เรียนออนไลน์",
       eyebrow: "ออนไลน์ · Zoom",
       title: "Owner Finance Check",
       description: "อ่านงบก่อนเซ็น — รู้ตัวเลขที่ควรดู",
@@ -161,6 +164,7 @@ export default function HomePage() {
       originalPrice: "฿5,900",
     },
     {
+      group: "เรียนสด (Onsite)",
       badge: { label: "MOST POPULAR", tone: "accent" },
       eyebrow: "คอร์ส",
       title: "Inside Business Finance",
@@ -180,6 +184,7 @@ export default function HomePage() {
       detailUrl: "/inside-business-finance",
     },
     {
+      group: "เรียนสด (Onsite)",
       eyebrow: "Workshop",
       title: "Inside Bank",
       description: "Workshop สินเชื่อธนาคาร 1 วันเต็ม",
@@ -196,6 +201,7 @@ export default function HomePage() {
       detailUrl: "/inside-bank",
     },
     {
+      group: "เรียนสด (Onsite)",
       eyebrow: "ตัวต่อตัว",
       title: "Private Consult",
       description: "การปรึกษาส่วนตัวเพื่อธุรกิจคุณโดยเฉพาะ",

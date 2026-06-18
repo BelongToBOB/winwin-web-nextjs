@@ -20,6 +20,8 @@ export interface PricingPackage {
   highlightTone?: "accent" | "teal";
   /** หน้า sale page (ถ้ามี) — แสดงปุ่ม "ดูรายละเอียด" คู่กับ "ติดต่อ Line" */
   detailUrl?: string;
+  /** กลุ่มของการ์ด เช่น "ออนไลน์" / "เรียนสด (Onsite)" — ใช้แยกหัวข้อย่อย */
+  group?: string;
 }
 
 interface Props {
@@ -44,26 +46,10 @@ const ringTone = {
 };
 
 export default function PricingCards({ eyebrow, heading, highlight, subtitle, packages, lineUrl }: Props) {
-  return (
-    <section className="w-full border-t border-accent/10 bg-bg py-section">
-      <div className="mx-auto w-full max-w-[var(--container-marketing)] px-4 sm:px-6 lg:px-8">
-        <Reveal>
-          <SectionHeading
-            eyebrow={eyebrow}
-            eyebrowMark
-            title={heading}
-            highlight={highlight}
-            lead={subtitle}
-            align="center"
-            className="mb-16"
-          />
-        </Reveal>
-
-        <Stagger className="grid items-stretch gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {packages.map((pkg, i) => {
-            const tone = pkg.highlightTone ?? "accent";
-            return (
-              <StaggerItem key={i} className="h-full">
+  const renderCard = (pkg: PricingPackage, i: number) => {
+    const tone = pkg.highlightTone ?? "accent";
+    return (
+      <StaggerItem key={i} className="h-full">
               <article
                 className={`surface-card relative flex h-full flex-col rounded-card transition-transform duration-200 ease-out hover:-translate-y-1 ${
                   pkg.highlighted ? `border ${ringTone[tone]}` : ""
@@ -135,10 +121,63 @@ export default function PricingCards({ eyebrow, heading, highlight, subtitle, pa
                 </div>
                 </div>
               </article>
-              </StaggerItem>
-            );
-          })}
-        </Stagger>
+      </StaggerItem>
+    );
+  };
+
+  // จัดกลุ่มตาม field group (เรียงตามลำดับที่พบครั้งแรก)
+  const groups: { label: string; items: { pkg: PricingPackage; index: number }[] }[] = [];
+  packages.forEach((pkg, index) => {
+    const label = pkg.group ?? "";
+    let g = groups.find((x) => x.label === label);
+    if (!g) {
+      g = { label, items: [] };
+      groups.push(g);
+    }
+    g.items.push({ pkg, index });
+  });
+  const isGrouped = groups.length > 1 || (groups[0]?.label ?? "") !== "";
+
+  const gridClass = "grid items-stretch gap-6 md:grid-cols-2 xl:grid-cols-3";
+
+  return (
+    <section className="w-full border-t border-accent/10 bg-bg py-section">
+      <div className="mx-auto w-full max-w-[var(--container-marketing)] px-4 sm:px-6 lg:px-8">
+        <Reveal>
+          <SectionHeading
+            eyebrow={eyebrow}
+            eyebrowMark
+            title={heading}
+            highlight={highlight}
+            lead={subtitle}
+            align="center"
+            className="mb-16"
+          />
+        </Reveal>
+
+        {isGrouped ? (
+          <div className="space-y-14">
+            {groups.map((g) => (
+              <div key={g.label}>
+                <Reveal>
+                  <div className="mb-8 flex items-center gap-4">
+                    <h3 className="shrink-0 text-eyebrow font-semibold uppercase tracking-[0.18em] text-accent">
+                      {g.label}
+                    </h3>
+                    <span className="h-px flex-1 bg-white/10" aria-hidden="true" />
+                  </div>
+                </Reveal>
+                <Stagger className={gridClass}>
+                  {g.items.map(({ pkg, index }) => renderCard(pkg, index))}
+                </Stagger>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <Stagger className={gridClass}>
+            {packages.map((pkg, i) => renderCard(pkg, i))}
+          </Stagger>
+        )}
       </div>
     </section>
   );

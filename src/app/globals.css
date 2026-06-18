@@ -153,32 +153,72 @@ body {
   animation-play-state: paused;
 }
 
-/* Reveal / Stagger — CSS-only (default มองเห็น แม้ JS ไม่รัน)
-   กัน Android in-app webview ที่ JS พังแล้วตัวหนังสือไม่ขึ้น */
+/* Reveal / Stagger — เนื้อหา default มองเห็นเสมอ (กัน Android จอเปล่า)
+   - เบราว์เซอร์ใหม่ (Chromium 115+/Android WebView ใหม่): scroll-driven ล้วน ไม่พึ่ง JS ลื่นบน compositor
+   - iOS Safari / เก่า: JS เพิ่ม is-armed/is-in (IntersectionObserver)
+   - hero (onMount): เล่นตอนโหลดด้วย CSS (.mkt-stagger-load) */
 @keyframes mkt-reveal {
   from { opacity: 0; transform: var(--mkt-reveal-from, translateY(28px)); }
   to { opacity: 1; transform: translate(0, 0); }
 }
-.mkt-reveal-play {
-  animation: mkt-reveal var(--mkt-reveal-dur, 0.7s) cubic-bezier(0.16, 1, 0.3, 1) both;
-  animation-delay: var(--mkt-reveal-delay, 0s);
-}
-.mkt-stagger-play > * {
+
+/* entrance ตอนโหลด (hero) */
+.mkt-stagger-load > * {
   animation: mkt-reveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
-.mkt-stagger-play > *:nth-child(1) { animation-delay: 0.04s; }
-.mkt-stagger-play > *:nth-child(2) { animation-delay: 0.13s; }
-.mkt-stagger-play > *:nth-child(3) { animation-delay: 0.22s; }
-.mkt-stagger-play > *:nth-child(4) { animation-delay: 0.31s; }
-.mkt-stagger-play > *:nth-child(5) { animation-delay: 0.40s; }
-.mkt-stagger-play > *:nth-child(6) { animation-delay: 0.49s; }
-.mkt-stagger-play > *:nth-child(7) { animation-delay: 0.58s; }
-.mkt-stagger-play > *:nth-child(8) { animation-delay: 0.67s; }
-.mkt-stagger-play > *:nth-child(n + 9) { animation-delay: 0.76s; }
+
+/* scroll-driven (ไม่พึ่ง JS) */
+@supports (animation-timeline: view()) {
+  .mkt-reveal {
+    animation-name: mkt-reveal;
+    animation-fill-mode: both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 62%;
+  }
+  .mkt-stagger > * {
+    animation-name: mkt-reveal;
+    animation-fill-mode: both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 70%;
+  }
+}
+
+/* JS fallback (ไม่รองรับ scroll-timeline เช่น iOS Safari) */
+@supports not (animation-timeline: view()) {
+  .mkt-reveal.is-armed { opacity: 0; transform: var(--mkt-reveal-from, translateY(28px)); }
+  .mkt-reveal.is-in {
+    animation: mkt-reveal var(--mkt-reveal-dur, 0.7s) cubic-bezier(0.16, 1, 0.3, 1) var(--mkt-reveal-delay, 0s) both;
+  }
+  .mkt-stagger.is-armed > * { opacity: 0; transform: translateY(26px); }
+  .mkt-stagger.is-in > * { animation: mkt-reveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
+}
+
+/* delay สำหรับ stagger (hero load + JS fallback) */
+.mkt-stagger-load > *:nth-child(1),
+.mkt-stagger.is-in > *:nth-child(1) { animation-delay: 0.04s; }
+.mkt-stagger-load > *:nth-child(2),
+.mkt-stagger.is-in > *:nth-child(2) { animation-delay: 0.13s; }
+.mkt-stagger-load > *:nth-child(3),
+.mkt-stagger.is-in > *:nth-child(3) { animation-delay: 0.22s; }
+.mkt-stagger-load > *:nth-child(4),
+.mkt-stagger.is-in > *:nth-child(4) { animation-delay: 0.31s; }
+.mkt-stagger-load > *:nth-child(5),
+.mkt-stagger.is-in > *:nth-child(5) { animation-delay: 0.40s; }
+.mkt-stagger-load > *:nth-child(6),
+.mkt-stagger.is-in > *:nth-child(6) { animation-delay: 0.49s; }
+.mkt-stagger-load > *:nth-child(7),
+.mkt-stagger.is-in > *:nth-child(7) { animation-delay: 0.58s; }
+.mkt-stagger-load > *:nth-child(n + 8),
+.mkt-stagger.is-in > *:nth-child(n + 8) { animation-delay: 0.67s; }
 
 @media (prefers-reduced-motion: reduce) {
-  .mkt-reveal-play,
-  .mkt-stagger-play > * { animation: none; }
+  .mkt-reveal,
+  .mkt-reveal.is-in,
+  .mkt-stagger > *,
+  .mkt-stagger.is-in > *,
+  .mkt-stagger-load > * { animation: none !important; }
+  .mkt-reveal.is-armed,
+  .mkt-stagger.is-armed > * { opacity: 1 !important; transform: none !important; }
 }
 
 /* เมนู mobile เลื่อนลง + fade ตอนเปิด */

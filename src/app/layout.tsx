@@ -33,7 +33,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="th" className={prompt.variable}>
+    <html lang="th" className={prompt.variable} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: `(function(){var t=localStorage.getItem("lms-theme")||"light";document.documentElement.setAttribute("data-theme",t)})()` }} />
       </head>

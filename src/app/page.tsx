@@ -77,7 +77,7 @@ export default function HomePage() {
   // แกลเลอรีบรรยากาศคลาสจริง (3 รูป) — คำบรรยายบรรยากาศ
   const galleryItems = [
     { image: "/images/gallery-inside-bank.jpg", title: "เรียนสดกับผู้ประกอบการตัวจริง" },
-    { image: "/images/gallery-ibf.jpg", title: "บรรยากาศเข้มข้น ตั้งใจทุกคลาส" },
+    { image: "/images/gallery-ibf.jpg", title: "เข้มข้นทุกคลาส" },
     { image: "/images/gallery-workshop.jpg", title: "ลงมือใช้เครื่องมือจริง ไม่ใช่แค่ฟัง" },
   ];
 

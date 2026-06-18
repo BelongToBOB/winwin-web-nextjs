@@ -15,7 +15,7 @@ export default function SeminarShowcase({ items }: Props) {
         {items.map((item, i) => (
           <figure
             key={i}
-            className="group relative aspect-video w-full overflow-hidden border border-white/10 md:aspect-[21/9] md:w-[62%] md:shrink-0 md:snap-start xl:w-[34%]"
+            className="group relative aspect-[21/9] w-full overflow-hidden border border-white/10 md:w-[62%] md:shrink-0 md:snap-start xl:w-[34%]"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img

@@ -9,19 +9,10 @@ interface Props {
   imageAlt?: string;
   badgeLabel?: string;
   dateLabel?: string;
-  features?: string[];
   lineUrl?: string;
   seatNote?: string;
   ctaText?: string;
 }
-
-// ตรงกับการ์ด Pricing (canonical IBF course outline)
-const DEFAULT_FEATURES = [
-  "Owner Finance Thinking (100M Method)",
-  "Cashflow 4 ชั้น",
-  "Real Profit Framework",
-  "Bank POV Check",
-];
 
 // แบนเนอร์คลาสล่าสุดที่กำลังจะมาถึง — premium, static (CSS-only animation)
 export default function UpcomingClass({
@@ -32,7 +23,6 @@ export default function UpcomingClass({
   imageAlt = "คลาส Inside Business Finance รอบ 4 กรกฎาคม 2569",
   badgeLabel = "NEW",
   dateLabel = "4 กรกฎาคม 2569",
-  features = DEFAULT_FEATURES,
   lineUrl = "https://lin.ee/gGDzjTi",
   seatNote = "รับจำนวนจำกัด",
   ctaText = "สำรองที่นั่ง · ติดต่อ Line",
@@ -134,21 +124,6 @@ export default function UpcomingClass({
             </span>
           </div>
         </div>
-
-        {/* feature list — wrap, เห็นครบทุกข้อทุกขนาดจอ */}
-        <ul className="mx-auto mt-8 flex max-w-6xl flex-wrap justify-center gap-2.5">
-          {features.map((feature) => (
-            <li
-              key={feature}
-              className="flex items-center gap-2 rounded-pill border border-white/[0.07] bg-fg/[0.02] px-4 py-2 text-sm text-fg-2"
-            >
-              <span className="text-accent" aria-hidden="true">
-                ✓
-              </span>
-              {feature}
-            </li>
-          ))}
-        </ul>
       </div>
     </section>
   );

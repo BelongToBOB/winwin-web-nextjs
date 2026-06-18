@@ -76,8 +76,8 @@ export default function UpcomingClass({
               {badgeLabel}
             </span>
 
-            {/* date chip */}
-            <span className="absolute right-4 top-4 z-10 rounded-pill border border-white/15 bg-bg/80 px-3 py-1.5 text-xs font-semibold text-fg backdrop-blur-sm">
+            {/* date chip — ซ่อนบน mobile (จอแคบจะทับหน้าวิทยากร; วันที่มีในรูป + bar ด้านล่างแล้ว) */}
+            <span className="absolute right-4 top-4 z-10 hidden rounded-pill border border-white/15 bg-bg/80 px-3 py-1.5 text-xs font-semibold text-fg backdrop-blur-sm sm:block">
               {dateLabel}
             </span>
 

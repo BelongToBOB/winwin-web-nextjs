@@ -56,13 +56,11 @@ export default function UpcomingClass({
   seatNote = "รับจำนวนจำกัด",
   ctaText = "สำรองที่นั่ง · ติดต่อ Line",
 }: Props) {
+  // remaining = null ทั้งฝั่ง server และ client render แรก → กัน hydration mismatch
   const [remaining, setRemaining] = useState<Remaining>(null);
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const target = new Date(targetDate).getTime();
-    // clock ต้องคำนวณฝั่ง client เท่านั้น (กัน hydration mismatch)
-    setMounted(true);
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setRemaining(diff(target));
     const id = setInterval(() => setRemaining(diff(target)), 1000);
@@ -158,7 +156,7 @@ export default function UpcomingClass({
               {countdown.map((unit) => (
                 <div key={unit.label} className="flex flex-col items-center">
                   <span className="flex h-14 w-14 items-center justify-center rounded-xl border border-accent/20 bg-bg text-2xl font-bold tabular-nums text-accent sm:h-16 sm:w-16 sm:text-3xl">
-                    {mounted && unit.value != null
+                    {unit.value != null
                       ? String(unit.value).padStart(2, "0")
                       : "--"}
                   </span>

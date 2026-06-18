@@ -37,8 +37,6 @@ export default function UpcomingClass({
   seatNote = "รับจำนวนจำกัด",
   ctaText = "สำรองที่นั่ง · ติดต่อ Line",
 }: Props) {
-  const ticker = [...features, ...features];
-
   return (
     <section className="relative w-full overflow-hidden border-t border-accent/10 bg-bg-subtle py-section">
       {/* ambient glow */}
@@ -137,22 +135,20 @@ export default function UpcomingClass({
           </div>
         </div>
 
-        {/* feature ticker */}
-        <div className="group relative mx-auto mt-8 max-w-5xl overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
-          <div className="mkt-marquee flex w-max items-center gap-3">
-            {ticker.map((feature, i) => (
-              <span
-                key={i}
-                className="flex shrink-0 items-center gap-2 rounded-pill border border-white/[0.07] bg-fg/[0.02] px-4 py-1.5 text-sm text-fg-2"
-              >
-                <span className="text-accent" aria-hidden="true">
-                  ✓
-                </span>
-                {feature}
+        {/* feature list — wrap, เห็นครบทุกข้อทุกขนาดจอ */}
+        <ul className="mx-auto mt-8 flex max-w-5xl flex-wrap justify-center gap-2.5">
+          {features.map((feature) => (
+            <li
+              key={feature}
+              className="flex items-center gap-2 rounded-pill border border-white/[0.07] bg-fg/[0.02] px-4 py-2 text-sm text-fg-2"
+            >
+              <span className="text-accent" aria-hidden="true">
+                ✓
               </span>
-            ))}
-          </div>
-        </div>
+              {feature}
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

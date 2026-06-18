@@ -15,19 +15,19 @@ interface Props {
   ctaText?: string;
 }
 
+// ตรงกับการ์ด Pricing (canonical IBF course outline)
 const DEFAULT_FEATURES = [
-  "ระบบเงิน 5 ช่อง Monitor รายเดือน",
-  "Cashflow Layer 4 ชั้น เห็นเงินจริง",
-  "Business Health Check ฉบับคนแบงก์",
-  "โครงสร้างกำไรที่คุมได้",
-  "Template + Dashboard พร้อมใช้",
+  "Owner Finance Thinking (100M Method)",
+  "Cashflow 4 ชั้น",
+  "Real Profit Framework",
+  "Bank POV Check",
 ];
 
 // แบนเนอร์คลาสล่าสุดที่กำลังจะมาถึง — premium, static (CSS-only animation)
 export default function UpcomingClass({
   eyebrow = "เปิดรับสมัคร · รอบล่าสุด",
   heading = "คลาสที่กำลังจะมาถึง",
-  subtitle = "Inside Business Finance — รอบสด เรียนกับคนแบงก์ตัวจริง",
+  subtitle = "Inside Business Finance · การเงินธุรกิจและการวางแผนภายใน",
   image,
   imageAlt = "คลาส Inside Business Finance รอบ 4 กรกฎาคม 2569",
   badgeLabel = "NEW",
@@ -64,7 +64,7 @@ export default function UpcomingClass({
           href={lineUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="mkt-focus group relative mx-auto block max-w-5xl"
+          className="mkt-focus group relative mx-auto block max-w-6xl"
         >
           {/* gradient glow border */}
           <span
@@ -108,7 +108,7 @@ export default function UpcomingClass({
         </a>
 
         {/* date + CTA bar */}
-        <div className="mx-auto mt-8 flex max-w-5xl flex-col items-center justify-between gap-6 rounded-card border border-white/10 bg-surface/60 p-5 backdrop-blur-sm sm:flex-row sm:p-6">
+        <div className="mx-auto mt-8 flex max-w-6xl flex-col items-center justify-between gap-6 rounded-card border border-white/10 bg-surface/60 p-5 backdrop-blur-sm sm:flex-row sm:p-6">
           <div className="flex items-center gap-4">
             <span className="flex h-14 w-14 shrink-0 flex-col items-center justify-center rounded-xl border border-accent/20 bg-bg text-accent">
               <span className="text-xl font-bold leading-none tabular-nums">4</span>
@@ -136,7 +136,7 @@ export default function UpcomingClass({
         </div>
 
         {/* feature list — wrap, เห็นครบทุกข้อทุกขนาดจอ */}
-        <ul className="mx-auto mt-8 flex max-w-5xl flex-wrap justify-center gap-2.5">
+        <ul className="mx-auto mt-8 flex max-w-6xl flex-wrap justify-center gap-2.5">
           {features.map((feature) => (
             <li
               key={feature}

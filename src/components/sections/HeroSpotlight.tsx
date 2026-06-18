@@ -115,7 +115,7 @@ export default function HeroSpotlight({
           )}
 
           <StaggerItem>
-            <h1 className="text-display font-bold text-fg">
+            <h1 className="text-display font-semibold text-fg">
               {renderHeadline(headline, highlight, highlightItalic)}
             </h1>
           </StaggerItem>

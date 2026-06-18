@@ -22,7 +22,7 @@ export default function Transformation({
         <Reveal>
           <div className="mx-auto mb-14 flex max-w-2xl flex-col items-center gap-3 text-center">
             <Eyebrow mark>{eyebrow}</Eyebrow>
-            <h2 className="text-h2 font-bold leading-tight text-fg">{heading}</h2>
+            <h2 className="text-h2 font-semibold leading-tight text-fg">{heading}</h2>
             <p className="text-lead text-fg-2">{subtitle}</p>
           </div>
         </Reveal>

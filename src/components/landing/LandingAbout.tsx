@@ -7,7 +7,7 @@ export default function LandingAbout() {
     <section id="about" className="bg-bg border-t border-accent/10 py-section scroll-mt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12 md:mb-16">
-          <h2 className="text-h2 font-bold text-fg mb-4">
+          <h2 className="text-h2 font-semibold text-fg mb-4">
             {about.heading}
           </h2>
           <p className="text-fg-2 text-lg md:text-xl max-w-2xl mx-auto">

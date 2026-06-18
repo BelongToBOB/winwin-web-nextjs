@@ -66,7 +66,7 @@ export default function SectionHeading({
           {eyebrow}
         </Eyebrow>
       )}
-      <Tag className={`${sizeMap[size]} font-bold text-fg`}>
+      <Tag className={`${sizeMap[size]} font-semibold text-fg`}>
         {renderTitle(title, highlight, highlightToneMap[highlightTone])}
       </Tag>
       {lead && <p className="text-lead text-fg-2 max-w-2xl">{lead}</p>}

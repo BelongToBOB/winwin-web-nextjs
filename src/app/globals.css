@@ -34,11 +34,11 @@
   --color-fg-2: #b4b0a6;          /* ข้อความรอง (AA ผ่านบน bg) */
   --color-fg-muted: #8a857a;      /* eyebrow/caption (AA ผ่าน) */
 
-  /* ----- Accent หลัก (แบรนด์เหลืองทอง) ----- */
-  --color-accent: #facc15;
-  --color-accent-hover: #fde047;
-  --color-accent-pressed: #eab308;
-  --color-on-accent: #1a1205;     /* ข้อความบนปุ่มเหลือง */
+  /* ----- Accent หลัก (ทองแชมเปญด้าน — แบบ ref #d4af37) ----- */
+  --color-accent: #d4af37;
+  --color-accent-hover: #e3c668;
+  --color-accent-pressed: #b8932e;
+  --color-on-accent: #1a1205;     /* ข้อความบนปุ่มทอง */
 
   /* ----- Accent รอง (teal/มิ้นต์ แบบต้นแบบ) ----- */
   --color-teal: #5ec9a7;
@@ -53,12 +53,12 @@
   /* ----- Typography scale (responsive) ----- */
   --text-eyebrow: 0.8125rem;
   --text-eyebrow--line-height: 1.2;
-  --text-display: clamp(2.75rem, 1.2rem + 7vw, 6rem);
-  --text-display--line-height: 1.05;
-  --text-h1: clamp(2rem, 1.3rem + 3.5vw, 4rem);
-  --text-h1--line-height: 1.08;
-  --text-h2: clamp(1.6rem, 1.2rem + 2vw, 2.75rem);
-  --text-h2--line-height: 1.12;
+  --text-display: clamp(2.5rem, 1.4rem + 5vw, 5rem);
+  --text-display--line-height: 1.08;
+  --text-h1: clamp(1.85rem, 1.3rem + 2.6vw, 3.25rem);
+  --text-h1--line-height: 1.12;
+  --text-h2: clamp(1.5rem, 1.2rem + 1.5vw, 2.35rem);
+  --text-h2--line-height: 1.15;
   --text-h3: clamp(1.2rem, 1rem + 1vw, 1.6rem);
   --text-h3--line-height: 1.2;
   --text-lead: clamp(1.0625rem, 1rem + 0.4vw, 1.3rem);
@@ -67,11 +67,11 @@
   /* ----- Radius / Shadow / Motion ----- */
   --radius-card: 1.25rem;         /* มุมโค้งใหญ่แบบต้นแบบ */
   --radius-pill: 999px;
-  --shadow-glow: 0 0 40px -8px rgba(250, 204, 21, 0.35);
+  --shadow-glow: 0 0 28px -12px rgba(212, 175, 55, 0.30);  /* ฟุ้งน้อยลง คลีนขึ้น */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 
   /* ----- Semantic spacing ----- */
-  --spacing-section: 6rem;        /* py-section */
+  --spacing-section: 7rem;        /* py-section — หายใจขึ้น */
 
   /* ----- Container (คุม section width ให้นิ่ง) ----- */
   --container-marketing: 80rem;

@@ -11,7 +11,7 @@ export default function LandingHero() {
         <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-10 md:gap-16 items-center">
           <div className="order-2 md:order-1 space-y-5">
             <Eyebrow mark>แนะนำตัว</Eyebrow>
-            <h2 className="text-h2 font-bold text-fg leading-tight">
+            <h2 className="text-h2 font-semibold text-fg leading-tight">
               {hero.name}
             </h2>
             <p className="text-lead text-fg-2 leading-relaxed">

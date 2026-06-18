@@ -5,6 +5,7 @@ import JourneyTimeline, { type JourneyStep } from "@/components/sections/Journey
 import Transformation from "@/components/sections/Transformation";
 import PricingCards, { type PricingPackage } from "@/components/sections/PricingCards";
 import SeminarShowcase from "@/components/sections/SeminarShowcase";
+import FAQAccordion from "@/components/ui/FAQAccordion";
 import LandingCTA from "@/components/landing/LandingCTA";
 import Reveal from "@/components/ui/Reveal";
 import { landingData } from "@/data/landing";
@@ -77,6 +78,40 @@ export default function HomePage() {
     { image: "/images/gallery-inside-bank.jpg", title: "เรียนสดกับผู้ประกอบการตัวจริง" },
     { image: "/images/gallery-ibf.jpg", title: "บรรยากาศเข้มข้น ตั้งใจทุกคลาส" },
     { image: "/images/gallery-workshop.jpg", title: "ลงมือใช้เครื่องมือจริง ไม่ใช่แค่ฟัง" },
+  ];
+
+  // FAQ ทั่วไป (ปรับ/เพิ่มได้)
+  const faqs = [
+    {
+      question: "เหมาะกับใคร ต้องมีพื้นฐานบัญชีไหม?",
+      answer:
+        "เหมาะกับเจ้าของธุรกิจและผู้ประกอบการที่อยากเข้าใจการเงินและสินเชื่อแบบใช้ได้จริง ไม่ต้องมีพื้นฐานบัญชี เราสอนในมุม “เจ้าของธุรกิจ” เข้าใจง่าย ไม่ใช่ภาษานักบัญชี",
+    },
+    {
+      question: "คลาสออนไลน์กับ Onsite ต่างกันอย่างไร?",
+      answer:
+        "คลาสออนไลน์เรียนได้ทุกที่ทุกเวลา เหมาะกับการปูพื้น ส่วน Onsite คือเรียนสด ลงมือทำกับผู้เชี่ยวชาญแบบใกล้ชิด เจาะลึกเคสธุรกิจของคุณโดยตรง",
+    },
+    {
+      question: "เคยกู้ไม่ผ่าน หรือติดบูโร เรียนได้ไหม?",
+      answer:
+        "ได้ คลาสจะช่วยให้คุณรู้ว่าตัวเองเป็นเคสแบบไหน ธนาคารมองอย่างไร และมีทางไหนบ้างที่ยังไปต่อได้ เพื่อเตรียมตัวให้ถูกก่อนยื่นจริง",
+    },
+    {
+      question: "เรียนจบแล้วได้อะไรกลับไปใช้?",
+      answer:
+        "ได้เครื่องมือ Template และ Checklist ที่เอาไปใช้กับธุรกิจจริงได้ทันที พร้อมความเข้าใจมุมมองแบงก์ ที่ช่วยให้วางแผนการเงินและขอสินเชื่อได้แม่นขึ้น",
+    },
+    {
+      question: "สมัครและชำระเงินอย่างไร?",
+      answer:
+        "ทักไลน์ @win_win แจ้งคอร์ส/แพ็คเกจที่สนใจ ทีมงานจะแจ้งรอบเรียน ขั้นตอน และช่องทางชำระเงินให้ทันที",
+    },
+    {
+      question: "มีรอบเรียนเมื่อไหร่ จองอย่างไร?",
+      answer:
+        "รอบเรียนมีต่อเนื่องตลอดปี ดูรอบล่าสุดและจองที่นั่งได้ผ่าน LINE @win_win",
+    },
   ];
 
   // การ์ดราคา — ทุกใบติดต่อผ่าน LINE · จัดกลุ่ม ออนไลน์ → onsite → exclusive
@@ -228,6 +263,11 @@ export default function HomePage() {
         packages={pricingPackages}
         lineUrl={LINE_URL}
       />
+
+      {/* FAQ — ปิดข้อกังวลก่อนตัดสินใจ */}
+      <Reveal>
+        <FAQAccordion faqs={faqs} />
+      </Reveal>
 
       <Reveal>
         <LandingCTA />

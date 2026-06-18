@@ -8,23 +8,31 @@ interface FAQ {
 
 interface Props {
   faqs: FAQ[];
+  eyebrow?: string;
+  heading?: string;
+  subtitle?: string;
 }
 
-export default function FAQAccordion({ faqs }: Props) {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+export default function FAQAccordion({
+  faqs,
+  eyebrow = "FAQ",
+  heading = "คำถามที่พบบ่อย",
+  subtitle = "มีคำถามเพิ่มเติม ทักไลน์ @win_win ได้เลย",
+}: Props) {
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
-  const toggle = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
+  const toggle = (index: number) => setOpenIndex(openIndex === index ? null : index);
 
   return (
-    <section className="w-full bg-black py-16 md:py-24 border-t border-zinc-900">
+    <section className="w-full bg-bg-subtle py-section border-t border-accent/10">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
-            คำถามที่พบบ่อย
-          </h2>
-          <p className="text-gray-400">หากมีคำถาม แอดไลน์ @WIN_WIN</p>
+        <div className="text-center mb-12 flex flex-col items-center gap-3">
+          <p className="flex items-center gap-3 text-eyebrow font-semibold uppercase tracking-[0.18em] text-accent">
+            <span className="h-px w-8 bg-accent" aria-hidden="true" />
+            {eyebrow}
+          </p>
+          <h2 className="text-h2 font-semibold text-fg">{heading}</h2>
+          <p className="text-fg-2">{subtitle}</p>
         </div>
 
         <div className="space-y-3">
@@ -33,45 +41,37 @@ export default function FAQAccordion({ faqs }: Props) {
             return (
               <div
                 key={i}
-                className={`bg-zinc-900 border rounded-xl overflow-hidden transition-colors duration-200 ${
-                  isOpen ? "border-yellow-500/30" : "border-zinc-800"
+                className={`surface-card overflow-hidden rounded-card transition-colors duration-200 ${
+                  isOpen ? "border-accent/40" : ""
                 }`}
               >
                 <button
                   onClick={() => toggle(i)}
-                  className="flex items-center justify-between gap-4 px-5 py-4 w-full text-left select-none"
+                  aria-expanded={isOpen}
+                  className="mkt-focus flex w-full cursor-pointer select-none items-center justify-between gap-4 px-5 py-4 text-left"
                 >
-                  <span className="text-white font-medium text-base leading-snug">
-                    <span className="text-yellow-400/70 text-sm font-bold mr-2">
-                      Q{i + 1}
-                    </span>
+                  <span className="text-fg font-medium text-base leading-snug">
+                    <span className="text-accent/70 text-sm font-bold mr-2">Q{i + 1}</span>
                     {faq.question}
                   </span>
                   <svg
-                    className={`w-5 h-5 text-yellow-400 shrink-0 transition-transform duration-200 ${
+                    className={`w-5 h-5 text-accent shrink-0 transition-transform duration-200 ${
                       isOpen ? "rotate-180" : ""
                     }`}
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
+                    aria-hidden="true"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
                 <div
                   className="overflow-hidden transition-all duration-300 ease-in-out"
-                  style={{
-                    maxHeight: isOpen ? "500px" : "0px",
-                    opacity: isOpen ? 1 : 0,
-                  }}
+                  style={{ maxHeight: isOpen ? "500px" : "0px", opacity: isOpen ? 1 : 0 }}
                 >
                   <div className="px-5 pb-5 pt-1">
-                    <p className="text-gray-400 text-base leading-relaxed border-t border-zinc-800 pt-4">
+                    <p className="text-fg-2 text-base leading-relaxed border-t border-white/10 pt-4">
                       {faq.answer}
                     </p>
                   </div>

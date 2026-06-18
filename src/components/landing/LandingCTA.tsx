@@ -14,7 +14,7 @@ export default function LandingCTA() {
   const { cta } = landingData;
 
   return (
-    <section className="relative bg-bg-subtle border-t border-accent/10 py-section overflow-hidden">
+    <section className="relative bg-bg border-t border-accent/10 py-section overflow-hidden">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] bg-accent/10 rounded-full blur-[120px] pointer-events-none"></div>
       <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="flex justify-center mb-6">

@@ -107,7 +107,7 @@ export default function JourneyTimeline({ eyebrow, heading, highlight, subtitle,
                       {step.subCards.map((sc, si) => {
                         const inner = (
                           <>
-                            <div className="relative aspect-video bg-bg-subtle">
+                            <div className="relative w-2/5 shrink-0 self-stretch bg-bg-subtle sm:aspect-video sm:w-full sm:self-auto">
                               {sc.image ? (
                                 // eslint-disable-next-line @next/next/no-img-element
                                 <img
@@ -121,7 +121,7 @@ export default function JourneyTimeline({ eyebrow, heading, highlight, subtitle,
                                 <div className="absolute inset-0 bg-gradient-to-br from-surface-3 to-surface" aria-hidden="true" />
                               )}
                             </div>
-                            <div className="flex flex-1 flex-col gap-1 p-4">
+                            <div className="flex flex-1 flex-col justify-center gap-1 p-4">
                               <h4 className="font-bold text-fg">{sc.title}</h4>
                               {sc.subtitle && <p className="text-sm text-fg-2">{sc.subtitle}</p>}
                               {sc.href && (
@@ -143,7 +143,7 @@ export default function JourneyTimeline({ eyebrow, heading, highlight, subtitle,
                           </>
                         );
                         const cardClass =
-                          "group/sc flex flex-col overflow-hidden rounded-card border border-white/10 bg-surface-2";
+                          "group/sc flex flex-row overflow-hidden rounded-card border border-white/10 bg-surface-2 sm:flex-col";
                         return sc.href ? (
                           <a
                             key={si}

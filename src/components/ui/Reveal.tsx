@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion, type Variants } from "motion/react";
+import { useEffect, useRef } from "react";
 
 interface Props {
   children: React.ReactNode;
@@ -11,34 +11,52 @@ interface Props {
   from?: "up" | "down" | "left" | "right";
 }
 
-const OFFSET = 28;
+const FROM: Record<NonNullable<Props["from"]>, string> = {
+  up: "translateY(28px)",
+  down: "translateY(-28px)",
+  left: "translateX(28px)",
+  right: "translateX(-28px)",
+};
 
-// Scroll reveal ด้วย Framer Motion — fade + slide, spring-ish ease, เคารพ reduced-motion
+// Scroll reveal แบบ CSS — เนื้อหา "มองเห็นได้เสมอ" แม้ JS ไม่รัน (กันจอเปล่าบน webview เก่า)
+// JS เป็นแค่ของแถม: เพิ่มคลาส .mkt-reveal-play ตอนเลื่อนเจอเพื่อเล่น animation
 export default function Reveal({ children, className = "", delay = 0, from = "up" }: Props) {
-  const reduce = useReducedMotion();
+  const ref = useRef<HTMLDivElement>(null);
 
-  const axis = from === "left" || from === "right" ? "x" : "y";
-  const sign = from === "up" || from === "left" ? 1 : -1;
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+    if (!("IntersectionObserver" in window)) return;
 
-  const variants: Variants = {
-    hidden: { opacity: 0, [axis]: OFFSET * sign },
-    show: {
-      opacity: 1,
-      x: 0,
-      y: 0,
-      transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: delay / 1000 },
-    },
-  };
+    // อยู่ในจอตั้งแต่ mount แล้ว → ปล่อยให้แสดงเลย (ไม่ซ่อน ไม่ flash)
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.95 && rect.bottom > 0) return;
+
+    const play = () => {
+      el.style.setProperty("--mkt-reveal-from", FROM[from]);
+      if (delay) el.style.setProperty("--mkt-reveal-delay", `${delay}ms`);
+      el.classList.add("mkt-reveal-play");
+    };
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            play();
+            io.disconnect();
+          }
+        });
+      },
+      { rootMargin: "0px 0px -12% 0px" }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [delay, from]);
 
   return (
-    <motion.div
-      className={className}
-      variants={reduce ? undefined : variants}
-      initial={reduce ? false : "hidden"}
-      whileInView={reduce ? undefined : "show"}
-      viewport={{ once: true, margin: "0px 0px -12% 0px" }}
-    >
+    <div ref={ref} className={className}>
       {children}
-    </motion.div>
+    </div>
   );
 }

@@ -1,44 +1,56 @@
 "use client";
 
-import { motion, useReducedMotion, type Variants } from "motion/react";
+import { useEffect, useRef } from "react";
 
-const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
-
-const containerV: Variants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.09, delayChildren: 0.04 } },
-};
-
-const itemV: Variants = {
-  hidden: { opacity: 0, y: 26 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
-};
-
-const containerTags = { div: motion.div, ul: motion.ul, ol: motion.ol } as const;
-const itemTags = { div: motion.div, li: motion.li } as const;
+type ContainerTag = "div" | "ul" | "ol";
+type ItemTag = "div" | "li";
 
 interface ContainerProps {
   children: React.ReactNode;
   className?: string;
-  as?: keyof typeof containerTags;
+  as?: ContainerTag;
   /** true = เล่นตอน mount (above-fold เช่น hero), false = เล่นตอนเลื่อนเจอ */
   onMount?: boolean;
 }
 
-// container ที่ไล่ลูกทีละชิ้น (stagger)
+// container ที่ไล่ลูกทีละชิ้น (stagger) — CSS-only
+// เนื้อหา "มองเห็นได้เสมอ" แม้ JS ไม่รัน (กันจอเปล่าบน webview เก่า/in-app)
+// - onMount: ใส่คลาส play ตั้งแต่ SSR → เล่นตอนโหลดโดยไม่พึ่ง JS (เช่น hero)
+// - scroll: JS เพิ่มคลาส play ตอนเลื่อนเจอ; ถ้า JS ไม่รัน = แสดงเฉย ๆ
 export function Stagger({ children, className = "", as = "div", onMount = false }: ContainerProps) {
-  const reduce = useReducedMotion();
-  const Tag = containerTags[as];
-  const Plain = as;
-  if (reduce) return <Plain className={className}>{children}</Plain>;
+  const ref = useRef<HTMLElement>(null);
+  const Tag = as;
+
+  useEffect(() => {
+    if (onMount) return; // play อยู่ใน SSR แล้ว
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+    if (!("IntersectionObserver" in window)) return;
+
+    // อยู่ในจอตั้งแต่ mount แล้ว → ปล่อยให้แสดงเลย (ไม่ซ่อน ไม่ flash)
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.95 && rect.bottom > 0) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            el.classList.add("mkt-stagger-play");
+            io.disconnect();
+          }
+        });
+      },
+      { rootMargin: "0px 0px -10% 0px" }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [onMount]);
+
   return (
     <Tag
-      className={className}
-      variants={containerV}
-      initial="hidden"
-      {...(onMount
-        ? { animate: "show" }
-        : { whileInView: "show", viewport: { once: true, margin: "0px 0px -10% 0px" } })}
+      ref={ref as React.Ref<never>}
+      className={`${onMount ? "mkt-stagger-play" : ""} ${className}`.trim()}
     >
       {children}
     </Tag>
@@ -48,18 +60,11 @@ export function Stagger({ children, className = "", as = "div", onMount = false 
 interface ItemProps {
   children: React.ReactNode;
   className?: string;
-  as?: keyof typeof itemTags;
+  as?: ItemTag;
 }
 
-// ลูกแต่ละชิ้นใน Stagger
+// ลูกแต่ละชิ้นใน Stagger (delay มาจาก CSS :nth-child)
 export function StaggerItem({ children, className = "", as = "div" }: ItemProps) {
-  const reduce = useReducedMotion();
-  const Tag = itemTags[as];
-  const Plain = as;
-  if (reduce) return <Plain className={className}>{children}</Plain>;
-  return (
-    <Tag className={className} variants={itemV}>
-      {children}
-    </Tag>
-  );
+  const Tag = as;
+  return <Tag className={className}>{children}</Tag>;
 }

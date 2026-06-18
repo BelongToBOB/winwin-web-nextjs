@@ -140,6 +140,33 @@ body {
   animation: glass-shine 3s linear infinite;
 }
 
+/* แถบ feature วิ่ง (upcoming class ticker) */
+@keyframes mkt-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.mkt-marquee {
+  animation: mkt-marquee 26s linear infinite;
+  will-change: transform;
+}
+.group:hover .mkt-marquee {
+  animation-play-state: paused;
+}
+
+/* glow หายใจ รอบกรอบรูป */
+@keyframes mkt-breathe {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+.mkt-breathe {
+  animation: mkt-breathe 4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mkt-marquee,
+  .mkt-breathe { animation: none; }
+}
+
 /* Learn area theme variables */
 [data-theme="dark"] {
   --lms-bg: #000000;

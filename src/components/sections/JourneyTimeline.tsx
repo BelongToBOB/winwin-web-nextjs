@@ -77,13 +77,13 @@ export default function JourneyTimeline({ eyebrow, heading, highlight, subtitle,
           {steps.map((step, i) => {
             const n = i + 1;
             return (
-              <StaggerItem as="li" key={i} className="relative pb-10 last:pb-0 md:pl-24">
-                {/* เส้นเชื่อมแนวตั้ง + วงกลมเลข (เดสก์ท็อป) */}
+              <StaggerItem as="li" key={i} className="relative pb-10 pl-16 last:pb-0 md:pl-24">
+                {/* เส้นเชื่อมแนวตั้ง + วงกลมเลข (มือถือ + เดสก์ท็อป) */}
                 <span
-                  className="absolute left-6 top-0 hidden h-full w-px bg-accent/25 md:block"
+                  className="absolute left-5 top-0 h-full w-px bg-accent/25 md:left-6"
                   aria-hidden="true"
                 />
-                <span className="absolute left-0 top-0 hidden h-12 w-12 items-center justify-center rounded-full border border-accent/40 bg-bg text-lg font-bold text-accent md:flex">
+                <span className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-full border border-accent/40 bg-bg text-base font-bold text-accent md:h-12 md:w-12 md:text-lg">
                   {n}
                 </span>
 

@@ -143,7 +143,7 @@ export default function UpcomingClass({
             {ticker.map((feature, i) => (
               <span
                 key={i}
-                className="flex shrink-0 items-center gap-2 rounded-pill border border-white/10 bg-surface/50 px-4 py-2 text-sm text-fg-2"
+                className="flex shrink-0 items-center gap-2 rounded-pill border border-white/[0.07] bg-fg/[0.02] px-4 py-1.5 text-sm text-fg-2"
               >
                 <span className="text-accent" aria-hidden="true">
                   ✓

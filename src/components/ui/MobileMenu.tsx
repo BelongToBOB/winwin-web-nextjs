@@ -43,17 +43,18 @@ export default function MobileMenu({ navLinks, courseLinks, currentPath }: Props
   const overlay = isOpen ? (
     <div
       id="mobile-menu-panel"
-      className="fixed inset-0 top-16 z-[9999] bg-bg/95 backdrop-blur-md overflow-y-auto"
+      className="menu-panel-in fixed inset-0 top-16 z-[9999] bg-bg/95 backdrop-blur-md overflow-y-auto"
       onClick={(e) => {
         if (e.target === e.currentTarget) setIsOpen(false);
       }}
     >
-      <div className="px-4 py-6 space-y-1">
-        {navLinks.map((link) => (
+      <div className="menu-content-in px-4 py-6 space-y-1">
+        {navLinks.map((link, i) => (
           <a
             key={link.href}
             href={link.href}
-            className={`block px-4 py-3 rounded-lg text-base font-medium transition-colors ${
+            style={{ animationDelay: `${0.04 + i * 0.04}s` }}
+            className={`menu-item-in block px-4 py-3 rounded-lg text-base font-medium transition-colors ${
               currentPath === link.href
                 ? "text-accent bg-surface"
                 : "text-fg-2 hover:text-fg hover:bg-surface"
@@ -65,16 +66,20 @@ export default function MobileMenu({ navLinks, courseLinks, currentPath }: Props
         ))}
 
         {/* Courses section */}
-        <div className="pt-2 pb-1 px-4">
+        <div
+          className="menu-item-in pt-2 pb-1 px-4"
+          style={{ animationDelay: `${0.04 + navLinks.length * 0.04}s` }}
+        >
           <span className="text-xs font-semibold text-fg-muted uppercase tracking-wider">
             คลาสทั้งหมด
           </span>
         </div>
-        {courseLinks.map((link) => (
+        {courseLinks.map((link, i) => (
           <a
             key={link.href}
             href={link.href}
-            className={`block px-4 py-3 rounded-lg text-base font-medium transition-colors ${
+            style={{ animationDelay: `${0.08 + (navLinks.length + i) * 0.04}s` }}
+            className={`menu-item-in block px-4 py-3 rounded-lg text-base font-medium transition-colors ${
               currentPath === link.href
                 ? "text-accent bg-surface"
                 : "text-fg-2 hover:text-fg hover:bg-surface"
@@ -87,7 +92,8 @@ export default function MobileMenu({ navLinks, courseLinks, currentPath }: Props
 
         <a
           href="/#about"
-          className="block px-4 py-3 rounded-lg text-base font-medium text-fg-2 hover:text-fg hover:bg-surface transition-colors"
+          style={{ animationDelay: `${0.12 + (navLinks.length + courseLinks.length) * 0.04}s` }}
+          className="menu-item-in block px-4 py-3 rounded-lg text-base font-medium text-fg-2 hover:text-fg hover:bg-surface transition-colors"
           onClick={() => setIsOpen(false)}
         >
           เกี่ยวกับวิน
@@ -95,14 +101,18 @@ export default function MobileMenu({ navLinks, courseLinks, currentPath }: Props
 
         <a
           href="/learn"
-          className="block px-4 py-3 rounded-lg text-base font-medium text-accent hover:text-accent-hover hover:bg-surface transition-colors"
+          style={{ animationDelay: `${0.16 + (navLinks.length + courseLinks.length) * 0.04}s` }}
+          className="menu-item-in block px-4 py-3 rounded-lg text-base font-medium text-accent hover:text-accent-hover hover:bg-surface transition-colors"
           onClick={() => setIsOpen(false)}
         >
           เข้าเรียน
         </a>
 
         {/* LINE CTA */}
-        <div className="pt-4 px-4">
+        <div
+          className="menu-item-in pt-4 px-4"
+          style={{ animationDelay: `${0.2 + (navLinks.length + courseLinks.length) * 0.04}s` }}
+        >
           <a
             href="https://lin.ee/gGDzjTi"
             target="_blank"

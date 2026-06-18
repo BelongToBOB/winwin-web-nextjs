@@ -153,6 +153,29 @@ body {
   animation-play-state: paused;
 }
 
+/* เมนู mobile เลื่อนลง + fade ตอนเปิด */
+@keyframes menu-panel-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes menu-content-in {
+  from { opacity: 0; transform: translateY(-16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes menu-item-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.menu-panel-in { animation: menu-panel-in 0.25s ease-out both; }
+.menu-content-in { animation: menu-content-in 0.32s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.menu-item-in { animation: menu-item-in 0.3s ease-out both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-panel-in,
+  .menu-content-in,
+  .menu-item-in { animation: none; }
+}
+
 /* glow หายใจ รอบกรอบรูป */
 @keyframes mkt-breathe {
   0%, 100% { opacity: 0.55; }

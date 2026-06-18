@@ -34,7 +34,7 @@ export default function Navbar() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`mkt-focus px-5 py-2 rounded-lg text-sm font-semibold transition-colors ${
+                    className={`mkt-focus px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors ${
                       active
                         ? "bg-accent text-on-accent"
                         : "text-fg hover:bg-surface-2"
@@ -46,7 +46,7 @@ export default function Navbar() {
               })}
 
               <div className="relative group">
-                <button className="px-5 py-2 rounded-lg text-sm font-semibold text-fg hover:bg-surface-2 transition-colors flex items-center gap-1">
+                <button className="px-5 py-2.5 rounded-lg text-sm font-semibold text-fg hover:bg-surface-2 transition-colors flex items-center gap-1">
                   คลาสทั้งหมด
                   <svg className="w-4 h-4 transition-transform duration-200 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -75,7 +75,7 @@ export default function Navbar() {
 
               <Link
                 href="/#about"
-                className="mkt-focus px-5 py-2 rounded-lg text-sm font-semibold text-fg hover:bg-surface-2 transition-colors"
+                className="mkt-focus px-5 py-2.5 rounded-lg text-sm font-semibold text-fg hover:bg-surface-2 transition-colors"
               >
                 เกี่ยวกับวิน
               </Link>
@@ -97,7 +97,7 @@ export default function Navbar() {
                 href="https://lin.ee/gGDzjTi"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mkt-focus px-5 py-2 rounded-pill text-sm font-semibold bg-accent hover:bg-accent-hover text-on-accent transition-colors"
+                className="mkt-focus px-5 py-2.5 rounded-pill text-sm font-semibold bg-accent hover:bg-accent-hover text-on-accent transition-colors"
               >
                 ติดต่อ
               </a>

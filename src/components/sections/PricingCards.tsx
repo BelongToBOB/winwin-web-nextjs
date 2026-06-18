@@ -45,7 +45,7 @@ const ringTone = {
 
 export default function PricingCards({ eyebrow, heading, highlight, subtitle, packages, lineUrl }: Props) {
   return (
-    <section className="w-full bg-bg py-section">
+    <section className="w-full border-t border-accent/10 bg-bg py-section">
       <div className="mx-auto w-full max-w-[var(--container-marketing)] px-4 sm:px-6 lg:px-8">
         <Reveal>
           <SectionHeading
@@ -66,7 +66,7 @@ export default function PricingCards({ eyebrow, heading, highlight, subtitle, pa
               <StaggerItem key={i} className="h-full">
               <article
                 className={`surface-card relative flex h-full flex-col rounded-card transition-transform duration-200 ease-out hover:-translate-y-1 ${
-                  pkg.highlighted ? `border-2 ${ringTone[tone]}` : ""
+                  pkg.highlighted ? `border ${ringTone[tone]}` : ""
                 }`}
               >
                 {pkg.badge && (

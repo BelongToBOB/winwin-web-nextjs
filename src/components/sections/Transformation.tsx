@@ -36,7 +36,7 @@ export default function Transformation({
             >
               {/* ก่อน — หม่น */}
               <div className="flex flex-col justify-center gap-1.5 bg-negative/[0.06] p-5 text-left md:p-6 md:text-right">
-                <span className="text-xs font-semibold uppercase tracking-wide text-negative/90">
+                <span className="text-xs font-semibold uppercase tracking-wide text-negative/70">
                   ก่อน
                 </span>
                 <p className="text-fg-2">{row.before}</p>

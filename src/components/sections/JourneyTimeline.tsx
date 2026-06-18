@@ -58,7 +58,7 @@ function renderTitle(title: string, highlight: Props["highlight"]) {
 
 export default function JourneyTimeline({ eyebrow, heading, highlight, subtitle, steps }: Props) {
   return (
-    <section className="w-full bg-bg py-section">
+    <section className="w-full border-t border-accent/10 bg-bg py-section">
       <div className="mx-auto w-full max-w-[var(--container-marketing)] px-4 sm:px-6 lg:px-8">
         <Reveal>
           <SectionHeading

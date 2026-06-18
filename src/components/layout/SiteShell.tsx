@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import FloatingLine from "@/components/ui/FloatingLine";
 
 export default function SiteShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -15,6 +16,7 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
       <Navbar />
       {children}
       <Footer />
+      <FloatingLine />
     </div>
   );
 }

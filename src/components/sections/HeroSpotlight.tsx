@@ -84,7 +84,7 @@ export default function HeroSpotlight({
           className="absolute inset-0 -z-10 bg-bg-subtle"
           style={{
             backgroundImage:
-              "radial-gradient(60% 60% at 75% 35%, rgba(250,204,21,0.10), transparent 70%), linear-gradient(160deg, #1a1611, #14110d)",
+              "radial-gradient(60% 60% at 75% 35%, rgba(212,175,55,0.10), transparent 70%), linear-gradient(160deg, #1a1611, #14110d)",
           }}
           aria-hidden="true"
         />

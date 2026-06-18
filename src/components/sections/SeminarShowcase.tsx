@@ -16,7 +16,7 @@ interface Props {
 // แกลเลอรีบรรยากาศคลาสจริง — เลื่อนแนวนอน (ref-style) ชื่อทับมุมล่าง
 export default function SeminarShowcase({ eyebrow, heading, highlight, subtitle, items }: Props) {
   return (
-    <section className="w-full overflow-hidden bg-bg-subtle py-section">
+    <section className="w-full overflow-hidden border-t border-accent/10 bg-bg-subtle py-section">
       <div className="mx-auto w-full max-w-[var(--container-marketing)] px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow={eyebrow}

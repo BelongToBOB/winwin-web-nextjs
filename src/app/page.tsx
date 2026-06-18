@@ -244,15 +244,8 @@ export default function HomePage() {
         steps={journeySteps}
       />
 
-      {/* บรรยากาศคลาสจริง — แกลเลอรีเลื่อนแนวนอน */}
-      <Reveal>
-        <SeminarShowcase
-          eyebrow="บรรยากาศจริง"
-          heading="จากห้องเรียนจริง"
-          subtitle="เรียนแบบลงมือทำกับผู้ประกอบการตัวจริง ไม่ใช่แค่ทฤษฎี"
-          items={galleryItems}
-        />
-      </Reveal>
+      {/* แถบภาพคั่น — บรรยากาศคลาสจริง (ไม่มีหัวข้อ) */}
+      <SeminarShowcase items={galleryItems} />
 
       {/* Section การ์ดราคา — เลือกบริการ + สมัคร (มี stagger ในตัว) */}
       <PricingCards

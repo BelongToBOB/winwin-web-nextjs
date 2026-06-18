@@ -62,7 +62,6 @@ export default function UpcomingClass({
   useEffect(() => {
     const target = new Date(targetDate).getTime();
     // clock ต้องคำนวณฝั่ง client เท่านั้น (กัน hydration mismatch)
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setRemaining(diff(target));

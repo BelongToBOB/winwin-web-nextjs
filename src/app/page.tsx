@@ -5,6 +5,7 @@ import JourneyTimeline, { type JourneyStep } from "@/components/sections/Journey
 import Transformation from "@/components/sections/Transformation";
 import PricingCards, { type PricingPackage } from "@/components/sections/PricingCards";
 import SeminarShowcase from "@/components/sections/SeminarShowcase";
+import UpcomingClass from "@/components/sections/UpcomingClass";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import LandingCTA from "@/components/landing/LandingCTA";
 import Reveal from "@/components/ui/Reveal";
@@ -251,6 +252,11 @@ export default function HomePage() {
         subtitle={services.subtitle}
         steps={journeySteps}
       />
+
+      {/* คลาสล่าสุดที่กำลังจะมาถึง */}
+      <Reveal>
+        <UpcomingClass image="/images/upcoming-ibf-4jul.jpg" lineUrl={LINE_URL} />
+      </Reveal>
 
       {/* Section การ์ดราคา — เลือกบริการ + สมัคร (มี stagger ในตัว) */}
       <PricingCards

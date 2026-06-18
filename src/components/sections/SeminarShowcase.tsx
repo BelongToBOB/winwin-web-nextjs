@@ -29,12 +29,12 @@ export default function SeminarShowcase({ eyebrow, heading, highlight, subtitle,
         />
       </div>
 
-      {/* แถวเลื่อนแนวนอน — full-bleed ชิดขอบ, การ์ด wide banner แบบ ref */}
-      <div className="no-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto pb-1">
+      {/* แถวเลื่อนแนวนอน — รูปติดกัน + ขอบ (full-bleed แบบ ref) */}
+      <div className="no-scrollbar flex snap-x snap-mandatory overflow-x-auto pb-1">
         {items.map((item, i) => (
           <figure
             key={i}
-            className="group relative aspect-[21/9] w-[88vw] shrink-0 snap-start overflow-hidden md:w-[62%] xl:w-[34%]"
+            className="group relative aspect-[21/9] w-[88vw] shrink-0 snap-start overflow-hidden border border-white/10 md:w-[62%] xl:w-[34%]"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img

@@ -72,14 +72,11 @@ export default function HomePage() {
     },
   ];
 
-  // แกลเลอรีบรรยากาศคลาสจริง
+  // แกลเลอรีบรรยากาศคลาสจริง (3 รูป)
   const galleryItems = [
     { image: "/images/gallery-inside-bank.jpg", title: "Inside Bank Workshop" },
     { image: "/images/gallery-ibf.jpg", title: "Inside Business Finance" },
-    { image: "/images/gallery-workshop.jpg", title: "ลงมือใช้เครื่องมือจริงในคลาส" },
-    { image: "/images/ISBseminar.webp", title: "บรรยากาศคลาสสด" },
-    { image: "/images/seminar/ibf-inclass2.webp", title: "เรียนแบบลงมือทำ" },
-    { image: "/images/win-teaching-3.webp", title: "สอนใกล้ชิดตัวต่อตัว" },
+    { image: "/images/gallery-workshop.jpg", title: "ลงมือใช้เครื่องมือจริง" },
   ];
 
   // การ์ดราคา — ทุกใบติดต่อผ่าน LINE · จัดกลุ่ม ออนไลน์ → onsite → exclusive

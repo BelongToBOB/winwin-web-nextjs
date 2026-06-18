@@ -34,10 +34,10 @@
   --color-fg-2: #b4b0a6;          /* ข้อความรอง (AA ผ่านบน bg) */
   --color-fg-muted: #8a857a;      /* eyebrow/caption (AA ผ่าน) */
 
-  /* ----- Accent หลัก (ทองแชมเปญด้าน — แบบ ref #d4af37) ----- */
-  --color-accent: #d4af37;
-  --color-accent-hover: #e3c668;
-  --color-accent-pressed: #b8932e;
+  /* ----- Accent หลัก (ทองเข้มอิ่ม — มีชีวิต ไม่ซีด ไม่ตะโกน) ----- */
+  --color-accent: #eab308;
+  --color-accent-hover: #f5c518;
+  --color-accent-pressed: #c2920a;
   --color-on-accent: #1a1205;     /* ข้อความบนปุ่มทอง */
 
   /* ----- Accent รอง (teal/มิ้นต์ แบบต้นแบบ) ----- */
@@ -67,7 +67,7 @@
   /* ----- Radius / Shadow / Motion ----- */
   --radius-card: 1.25rem;         /* มุมโค้งใหญ่แบบต้นแบบ */
   --radius-pill: 999px;
-  --shadow-glow: 0 0 28px -12px rgba(212, 175, 55, 0.30);  /* ฟุ้งน้อยลง คลีนขึ้น */
+  --shadow-glow: 0 0 28px -12px rgba(234, 179, 8, 0.32);  /* ฟุ้งน้อย คลีน */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 
   /* ----- Semantic spacing ----- */

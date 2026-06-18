@@ -1,6 +1,3 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Eyebrow from "@/components/ui/Eyebrow";
 import CTAButton from "@/components/ui/CTAButton";
 
@@ -12,8 +9,6 @@ interface Props {
   imageAlt?: string;
   badgeLabel?: string;
   dateLabel?: string;
-  /** ISO วันเปิดเรียน สำหรับนับถอยหลัง */
-  targetDate?: string;
   features?: string[];
   lineUrl?: string;
   seatNote?: string;
@@ -28,20 +23,7 @@ const DEFAULT_FEATURES = [
   "Template + Dashboard พร้อมใช้",
 ];
 
-type Remaining = { days: number; hours: number; minutes: number; seconds: number } | null;
-
-function diff(target: number): Remaining {
-  const ms = target - Date.now();
-  if (ms <= 0) return null;
-  return {
-    days: Math.floor(ms / 86_400_000),
-    hours: Math.floor((ms / 3_600_000) % 24),
-    minutes: Math.floor((ms / 60_000) % 60),
-    seconds: Math.floor((ms / 1000) % 60),
-  };
-}
-
-// แบนเนอร์คลาสล่าสุดที่กำลังจะมาถึง — premium, นับถอยหลัง + ticker
+// แบนเนอร์คลาสล่าสุดที่กำลังจะมาถึง — premium, static (CSS-only animation)
 export default function UpcomingClass({
   eyebrow = "เปิดรับสมัคร · รอบล่าสุด",
   heading = "คลาสที่กำลังจะมาถึง",
@@ -50,30 +32,11 @@ export default function UpcomingClass({
   imageAlt = "คลาส Inside Business Finance รอบ 4 กรกฎาคม 2569",
   badgeLabel = "NEW",
   dateLabel = "4 กรกฎาคม 2569",
-  targetDate = "2026-07-04T00:00:00+07:00",
   features = DEFAULT_FEATURES,
   lineUrl = "https://lin.ee/gGDzjTi",
   seatNote = "รับจำนวนจำกัด",
   ctaText = "สำรองที่นั่ง · ติดต่อ Line",
 }: Props) {
-  // remaining = null ทั้งฝั่ง server และ client render แรก → กัน hydration mismatch
-  const [remaining, setRemaining] = useState<Remaining>(null);
-
-  useEffect(() => {
-    const target = new Date(targetDate).getTime();
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setRemaining(diff(target));
-    const id = setInterval(() => setRemaining(diff(target)), 1000);
-    return () => clearInterval(id);
-  }, [targetDate]);
-
-  const countdown = [
-    { value: remaining?.days, label: "วัน" },
-    { value: remaining?.hours, label: "ชม." },
-    { value: remaining?.minutes, label: "นาที" },
-    { value: remaining?.seconds, label: "วินาที" },
-  ];
-
   const ticker = [...features, ...features];
 
   return (
@@ -146,25 +109,20 @@ export default function UpcomingClass({
           </div>
         </a>
 
-        {/* countdown + CTA bar */}
+        {/* date + CTA bar */}
         <div className="mx-auto mt-8 flex max-w-5xl flex-col items-center justify-between gap-6 rounded-card border border-white/10 bg-surface/60 p-5 backdrop-blur-sm sm:flex-row sm:p-6">
-          <div className="flex flex-col items-center gap-3 sm:items-start">
-            <span className="text-xs font-semibold uppercase tracking-wider text-fg-muted">
-              เปิดเรียนอีก
+          <div className="flex items-center gap-4">
+            <span className="flex h-14 w-14 shrink-0 flex-col items-center justify-center rounded-xl border border-accent/20 bg-bg text-accent">
+              <span className="text-xl font-bold leading-none tabular-nums">4</span>
+              <span className="mt-0.5 text-[10px] font-medium uppercase tracking-wide text-fg-muted">
+                ก.ค.
+              </span>
             </span>
-            <div className="flex items-center gap-2.5">
-              {countdown.map((unit) => (
-                <div key={unit.label} className="flex flex-col items-center">
-                  <span className="flex h-14 w-14 items-center justify-center rounded-xl border border-accent/20 bg-bg text-2xl font-bold tabular-nums text-accent sm:h-16 sm:w-16 sm:text-3xl">
-                    {unit.value != null
-                      ? String(unit.value).padStart(2, "0")
-                      : "--"}
-                  </span>
-                  <span className="mt-1.5 text-[11px] font-medium uppercase tracking-wide text-fg-muted">
-                    {unit.label}
-                  </span>
-                </div>
-              ))}
+            <div className="flex flex-col">
+              <span className="text-xs font-semibold uppercase tracking-wider text-fg-muted">
+                เปิดเรียน
+              </span>
+              <span className="text-lg font-semibold text-fg">{dateLabel}</span>
             </div>
           </div>
 

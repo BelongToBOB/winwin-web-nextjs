@@ -236,6 +236,9 @@ export default function HomePage() {
         <LandingAbout />
       </Reveal>
 
+      {/* แถบภาพคั่น — บรรยากาศคลาสจริง (ไม่มีหัวข้อ) */}
+      <SeminarShowcase items={galleryItems} />
+
       {/* Section บริการ — ไทม์ไลน์เส้นทาง 3 ขั้น (มี stagger ในตัว) */}
       <JourneyTimeline
         eyebrow="เส้นทาง 3 ขั้น"
@@ -243,9 +246,6 @@ export default function HomePage() {
         subtitle={services.subtitle}
         steps={journeySteps}
       />
-
-      {/* แถบภาพคั่น — บรรยากาศคลาสจริง (ไม่มีหัวข้อ) */}
-      <SeminarShowcase items={galleryItems} />
 
       {/* Section การ์ดราคา — เลือกบริการ + สมัคร (มี stagger ในตัว) */}
       <PricingCards

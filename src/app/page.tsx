@@ -71,8 +71,8 @@ export default function HomePage() {
     },
   ];
 
-  // การ์ดราคา — ราคา/ส่วนลด/bullet จาก data จริงในไฟล์คอร์สแต่ละตัว
-  // (highlight "MOST POPULAR" = Inside Bank เป็นค่าเริ่ม ปรับได้)
+  // การ์ดราคา — ทุกใบติดต่อผ่าน LINE · จัดกลุ่ม ออนไลน์ → onsite → exclusive
+  const LINE_URL = "https://lin.ee/gGDzjTi";
   const pricingPackages: PricingPackage[] = [
     {
       eyebrow: "ออนไลน์",
@@ -87,7 +87,34 @@ export default function HomePage() {
       savings: "ประหยัด ฿8,000 · 50% off",
       price: "฿7,900",
       originalPrice: "฿15,900",
-      url: "/bank-uncensored",
+      detailUrl: "/bank-uncensored",
+    },
+    {
+      eyebrow: "ออนไลน์",
+      title: "Business Health Check",
+      description: "ตรวจสุขภาพการเงินธุรกิจ รู้จุดอ่อนก่อนแบงก์เจอ",
+      image: "/images/business-health-check.png",
+      features: [
+        "วิเคราะห์สุขภาพการเงินธุรกิจเจาะลึก",
+        "รู้จุดอ่อนที่ต้องแก้ก่อนแบงก์เจอ",
+        "มีเครื่องมือ + Checklist ใช้เองได้",
+      ],
+      price: "฿5,900",
+    },
+    {
+      eyebrow: "ออนไลน์ · Zoom",
+      title: "Owner Finance Check",
+      description: "อ่านงบก่อนเซ็น — รู้ตัวเลขที่ควรดู",
+      image: "/images/owner-finance-check.jpg",
+      features: [
+        'อ่านงบแบบ "เจ้าของ" ไม่ใช่ภาษานักบัญชี',
+        'แยก "กำไรจริง vs เงินสดจริง"',
+        "รู้ตัวเลขเตือนภัยก่อนธุรกิจมีปัญหา",
+        "มี Template + Checklist ใช้จริง",
+      ],
+      savings: "ประหยัด ฿4,000 · 68% off",
+      price: "฿1,900",
+      originalPrice: "฿5,900",
     },
     {
       badge: { label: "MOST POPULAR", tone: "accent" },
@@ -106,7 +133,7 @@ export default function HomePage() {
       originalPrice: "฿25,900",
       highlighted: true,
       highlightTone: "accent",
-      url: "/inside-business-finance",
+      detailUrl: "/inside-business-finance",
     },
     {
       eyebrow: "Workshop",
@@ -122,7 +149,7 @@ export default function HomePage() {
       savings: "ประหยัด ฿31,100 · 53% off",
       price: "฿27,900",
       originalPrice: "฿59,000",
-      url: "/inside-bank",
+      detailUrl: "/inside-bank",
     },
     {
       eyebrow: "ตัวต่อตัว",
@@ -136,7 +163,7 @@ export default function HomePage() {
         "เลือกสินเชื่อที่ใช่",
       ],
       price: "฿35,000",
-      url: "/private-consult",
+      detailUrl: "/private-consult",
     },
   ];
 
@@ -181,6 +208,7 @@ export default function HomePage() {
         highlight="ที่ใช่"
         subtitle={services.subtitle}
         packages={pricingPackages}
+        lineUrl={LINE_URL}
       />
 
       <Reveal>

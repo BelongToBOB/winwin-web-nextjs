@@ -18,8 +18,8 @@ export interface PricingPackage {
   originalPrice?: string;
   highlighted?: boolean;
   highlightTone?: "accent" | "teal";
-  url: string;
-  ctaText?: string;
+  /** หน้า sale page (ถ้ามี) — แสดงปุ่ม "ดูรายละเอียด" คู่กับ "ติดต่อ Line" */
+  detailUrl?: string;
 }
 
 interface Props {
@@ -28,6 +28,8 @@ interface Props {
   highlight?: string | string[];
   subtitle?: React.ReactNode;
   packages: PricingPackage[];
+  /** ลิงก์ LINE สำหรับปุ่ม "ติดต่อ Line" ทุกใบ */
+  lineUrl: string;
 }
 
 const toneText = { accent: "text-accent", teal: "text-teal" };
@@ -41,7 +43,7 @@ const ringTone = {
   teal: "border-teal/50",
 };
 
-export default function PricingCards({ eyebrow, heading, highlight, subtitle, packages }: Props) {
+export default function PricingCards({ eyebrow, heading, highlight, subtitle, packages, lineUrl }: Props) {
   return (
     <section className="w-full bg-bg py-section">
       <div className="mx-auto w-full max-w-[var(--container-marketing)] px-4 sm:px-6 lg:px-8">
@@ -57,7 +59,7 @@ export default function PricingCards({ eyebrow, heading, highlight, subtitle, pa
           />
         </Reveal>
 
-        <Stagger className="grid items-stretch gap-6 md:grid-cols-2 xl:grid-cols-4">
+        <Stagger className="grid items-stretch gap-6 md:grid-cols-2 xl:grid-cols-3">
           {packages.map((pkg, i) => {
             const tone = pkg.highlightTone ?? "accent";
             return (
@@ -120,13 +122,16 @@ export default function PricingCards({ eyebrow, heading, highlight, subtitle, pa
                       <span className="text-base text-fg-2 line-through">{pkg.originalPrice}</span>
                     )}
                   </p>
-                  <CTAButton
-                    href={pkg.url}
-                    variant={pkg.highlighted ? "yellow" : tone === "teal" ? "teal" : "outline"}
-                    className="mt-5 w-full"
-                  >
-                    {pkg.ctaText ?? "ดูรายละเอียด"}
-                  </CTAButton>
+                  <div className="mt-5 flex flex-col gap-3">
+                    {pkg.detailUrl && (
+                      <CTAButton href={pkg.detailUrl} variant="outline" className="w-full">
+                        ดูรายละเอียด
+                      </CTAButton>
+                    )}
+                    <CTAButton href={lineUrl} target="_blank" variant="line" className="w-full">
+                      ติดต่อ Line
+                    </CTAButton>
+                  </div>
                 </div>
                 </div>
               </article>

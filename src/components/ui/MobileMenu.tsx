@@ -120,21 +120,31 @@ export default function MobileMenu({ navLinks, courseLinks, currentPath }: Props
 
   return (
     <>
-      {/* Hamburger button */}
+      {/* Hamburger button — 3 ขีด morph เป็น X */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="p-2 text-fg-2 hover:text-fg transition-colors"
+        className="mkt-focus relative flex h-10 w-10 items-center justify-center text-fg-2 transition-colors hover:text-fg"
         aria-label={isOpen ? "ปิดเมนู" : "เปิดเมนู"}
+        aria-expanded={isOpen}
+        aria-controls="mobile-menu-panel"
       >
-        {isOpen ? (
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        ) : (
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        )}
+        <span className="relative block h-4 w-6" aria-hidden="true">
+          <span
+            className={`absolute left-0 block h-0.5 w-6 rounded-full bg-current transition-all duration-300 ease-out motion-reduce:transition-none ${
+              isOpen ? "top-1/2 -translate-y-1/2 rotate-45" : "top-0"
+            }`}
+          />
+          <span
+            className={`absolute left-0 top-1/2 block h-0.5 w-6 -translate-y-1/2 rounded-full bg-current transition-all duration-200 ease-out motion-reduce:transition-none ${
+              isOpen ? "opacity-0 scale-x-0" : "opacity-100 scale-x-100"
+            }`}
+          />
+          <span
+            className={`absolute left-0 block h-0.5 w-6 rounded-full bg-current transition-all duration-300 ease-out motion-reduce:transition-none ${
+              isOpen ? "bottom-1/2 translate-y-1/2 -rotate-45" : "bottom-0"
+            }`}
+          />
+        </span>
       </button>
 
       {/* Portal overlay to document.body — escapes navbar stacking context */}

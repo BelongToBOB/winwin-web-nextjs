@@ -64,7 +64,7 @@ export default function LandingHero() {
                   alt={hero.name}
                   loading="lazy"
                   decoding="async"
-                  className="absolute top-0 left-0 w-full h-auto -translate-x-[5%]"
+                  className="absolute inset-0 w-full h-full object-cover object-top"
                 />
                 <div className="absolute inset-0 pointer-events-none rounded-card shadow-[inset_0_0_30px_10px_rgba(0,0,0,0.5)]"></div>
                 <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-bg to-transparent pointer-events-none"></div>

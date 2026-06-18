@@ -220,7 +220,7 @@ export default function HomePage() {
         headline={hero.headline}
         highlight="เจ้าของธุรกิจ"
         lead={hero.subheadline}
-        subnote={`${hero.highlight} สไตล์วินวิน`}
+        subnote={`${hero.highlight}สไตล์วินวิน`}
         primaryCta={{ text: hero.ctaPrimary.text, url: hero.ctaPrimary.url, target: "_blank" }}
         secondaryCta={{ text: hero.ctaSecondary.text, url: hero.ctaSecondary.url }}
       />

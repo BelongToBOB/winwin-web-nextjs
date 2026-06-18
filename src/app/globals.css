@@ -83,6 +83,10 @@
   border: 1px solid rgba(255, 255, 255, 0.07);
 }
 
+/* ซ่อน scrollbar (แกลเลอรีเลื่อนแนวนอน) */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
 /* focus ring กลาง — ปิดช่อง a11y ทีเดียวทั้ง marketing */
 .mkt-focus:focus-visible {
   outline: 2px solid var(--color-accent);

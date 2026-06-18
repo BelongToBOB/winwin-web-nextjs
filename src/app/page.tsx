@@ -4,6 +4,7 @@ import LandingAbout from "@/components/landing/LandingAbout";
 import JourneyTimeline, { type JourneyStep } from "@/components/sections/JourneyTimeline";
 import Transformation from "@/components/sections/Transformation";
 import PricingCards, { type PricingPackage } from "@/components/sections/PricingCards";
+import SeminarShowcase from "@/components/sections/SeminarShowcase";
 import LandingCTA from "@/components/landing/LandingCTA";
 import Reveal from "@/components/ui/Reveal";
 import { landingData } from "@/data/landing";
@@ -69,6 +70,16 @@ export default function HomePage() {
       href: "/private-consult",
       ctaText: "ดูรายละเอียด",
     },
+  ];
+
+  // แกลเลอรีบรรยากาศคลาสจริง
+  const galleryItems = [
+    { image: "/images/gallery-inside-bank.jpg", title: "Inside Bank Workshop" },
+    { image: "/images/gallery-ibf.jpg", title: "Inside Business Finance" },
+    { image: "/images/gallery-workshop.jpg", title: "ลงมือใช้เครื่องมือจริงในคลาส" },
+    { image: "/images/ISBseminar.webp", title: "บรรยากาศคลาสสด" },
+    { image: "/images/seminar/ibf-inclass2.webp", title: "เรียนแบบลงมือทำ" },
+    { image: "/images/win-teaching-3.webp", title: "สอนใกล้ชิดตัวต่อตัว" },
   ];
 
   // การ์ดราคา — ทุกใบติดต่อผ่าน LINE · จัดกลุ่ม ออนไลน์ → onsite → exclusive
@@ -200,6 +211,16 @@ export default function HomePage() {
         subtitle={services.subtitle}
         steps={journeySteps}
       />
+
+      {/* บรรยากาศคลาสจริง — แกลเลอรีเลื่อนแนวนอน */}
+      <Reveal>
+        <SeminarShowcase
+          eyebrow="บรรยากาศจริง"
+          heading="จากห้องเรียนจริง"
+          subtitle="เรียนแบบลงมือทำกับผู้ประกอบการตัวจริง ไม่ใช่แค่ทฤษฎี"
+          items={galleryItems}
+        />
+      </Reveal>
 
       {/* Section การ์ดราคา — เลือกบริการ + สมัคร (มี stagger ในตัว) */}
       <PricingCards

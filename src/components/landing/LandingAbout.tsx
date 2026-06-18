@@ -10,7 +10,7 @@ export default function LandingAbout() {
           <h2 className="text-h2 font-semibold text-fg mb-4">
             {about.heading}
           </h2>
-          <p className="text-fg-2 text-lg md:text-xl max-w-2xl mx-auto">
+          <p className="text-fg/75 text-lg md:text-xl max-w-2xl mx-auto">
             {about.subtitle}
           </p>
         </div>
@@ -33,7 +33,7 @@ export default function LandingAbout() {
               </div>
             </div>
             <div className="surface-card rounded-card p-6">
-              <p className="text-fg-2 leading-relaxed">{about.bio}</p>
+              <p className="text-fg/80 leading-[1.85]">{about.bio}</p>
             </div>
           </div>
 
@@ -48,7 +48,7 @@ export default function LandingAbout() {
                     <svg className="w-5 h-5 text-accent mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    <span className="text-fg-2">{biz}</span>
+                    <span className="text-fg/85 leading-relaxed">{biz}</span>
                   </li>
                 ))}
               </ul>
@@ -58,7 +58,7 @@ export default function LandingAbout() {
                 ปรัชญาและแนวคิด
               </h3>
               {about.philosophy.map((para, i) => (
-                <p key={i} className="text-fg-2 leading-relaxed">{para}</p>
+                <p key={i} className="text-fg/80 leading-[1.85]">{para}</p>
               ))}
             </div>
             <div className="surface-card border-l-4 border-accent rounded-r-card p-6">

@@ -4,7 +4,7 @@ export default function LandingAbout() {
   const { about } = landingData;
 
   return (
-    <section id="about" className="bg-bg border-t border-accent/10 py-section scroll-mt-16">
+    <section id="about" className="bg-bg-subtle border-t border-accent/10 py-section scroll-mt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-h2 font-semibold text-fg mb-4">

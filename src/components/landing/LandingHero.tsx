@@ -6,7 +6,7 @@ export default function LandingHero() {
   const { hero } = landingData;
 
   return (
-    <section className="relative bg-bg-subtle overflow-hidden">
+    <section className="relative bg-bg overflow-hidden">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-section">
         <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-10 md:gap-16 items-center">
           <div className="order-2 md:order-1 space-y-5">

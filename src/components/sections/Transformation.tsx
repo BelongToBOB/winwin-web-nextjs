@@ -17,7 +17,7 @@ export default function Transformation({
   subtitle = "จากคำถามที่ค้างคาใจ สู่ความมั่นใจที่ลงมือได้จริง",
 }: Props) {
   return (
-    <section className="w-full border-t border-accent/10 bg-bg py-section">
+    <section className="w-full border-t border-accent/10 bg-bg-subtle py-section">
       <div className="mx-auto w-full max-w-4xl px-4 sm:px-6 lg:px-8">
         <Reveal>
           <div className="mx-auto mb-14 flex max-w-2xl flex-col items-center gap-3 text-center">

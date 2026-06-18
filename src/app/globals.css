@@ -24,7 +24,7 @@
 @theme {
   /* ----- Background / Surface (neutral charcoal — ตรงกับ ref #1a1a19) ----- */
   --color-bg: #1a1a19;            /* = --bg ของ ref */
-  --color-bg-subtle: #151514;     /* section สลับชั้น (เข้มกว่านิด) */
+  --color-bg-subtle: #100f0e;     /* section สลับชั้น — เข้มชัดขึ้นให้เห็นรอยแยก */
   --color-surface: #232220;       /* การ์ด */
   --color-surface-2: #2b2a27;     /* การ์ด hover / ยกระดับ */
   --color-surface-3: #34322d;     /* input / chip (= --dark-600 ของ ref) */

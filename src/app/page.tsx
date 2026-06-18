@@ -225,7 +225,7 @@ export default function HomePage() {
         secondaryCta={{ text: hero.ctaSecondary.text, url: hero.ctaSecondary.url }}
         stats={[
           { value: "1,000+", label: "เจ้าของธุรกิจที่ไว้ใจ" },
-          { value: "8+ ปี", label: "ในแวดวงสินเชื่อธุรกิจ" },
+          { value: "10 ปี", label: "ในแวดวงสินเชื่อธุรกิจ" },
           { value: "6", label: "คอร์ส & บริการ" },
         ]}
       />

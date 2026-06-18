@@ -99,7 +99,7 @@ export default function HomePage() {
         "รู้จุดอ่อนที่ต้องแก้ก่อนแบงก์เจอ",
         "มีเครื่องมือ + Checklist ใช้เองได้",
       ],
-      price: "฿5,900",
+      price: "฿7,900",
     },
     {
       eyebrow: "ออนไลน์ · Zoom",

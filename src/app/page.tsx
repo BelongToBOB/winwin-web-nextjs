@@ -223,6 +223,11 @@ export default function HomePage() {
         subnote={`${hero.highlight}สไตล์วินวิน`}
         primaryCta={{ text: hero.ctaPrimary.text, url: hero.ctaPrimary.url, target: "_blank" }}
         secondaryCta={{ text: hero.ctaSecondary.text, url: hero.ctaSecondary.url }}
+        stats={[
+          { value: "1,000+", label: "เจ้าของธุรกิจที่ไว้ใจ" },
+          { value: "8+ ปี", label: "ในแวดวงสินเชื่อธุรกิจ" },
+          { value: "6", label: "คอร์ส & บริการ" },
+        ]}
       />
 
       {/* Before / After — เลือกเฉพาะคำถามที่ trigger สุด 5 ข้อ (มี stagger ในตัว) */}

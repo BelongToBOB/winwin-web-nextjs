@@ -58,7 +58,7 @@ export default function LandingHero() {
           <div className="order-1 md:order-2 flex justify-center">
             <div className="relative">
               <div className="absolute -inset-4 bg-accent/10 rounded-card blur-2xl"></div>
-              <div className="relative w-64 md:w-80 lg:w-96 aspect-[3/4] rounded-card border-2 border-accent/30 overflow-hidden shadow-[0_20px_50px_-12px_rgba(212,175,55,0.15)] bg-gradient-to-b from-surface-2 via-surface to-bg">
+              <div className="relative w-56 md:w-64 lg:w-72 aspect-[3/4] rounded-card border-2 border-accent/30 overflow-hidden shadow-[0_20px_50px_-12px_rgba(212,175,55,0.15)] bg-gradient-to-b from-surface-2 via-surface to-bg">
                 <img
                   src={hero.profileImage}
                   alt={hero.name}

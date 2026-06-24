@@ -101,6 +101,9 @@ const caseNums = [
   { big: "×12", lab: "เงินสดในบัญชี", change: "2.8M → 34.6M" },
 ];
 
+// Vimeo: บรรยากาศในคลาส + สัมภาษณ์นักเรียนหลังเรียน
+const tourVideos = ["1204181751", "1204181749", "1204181748"];
+
 const compareRows = [
   { label: "สอนอะไร", other: "บันทึกบัญชี ยื่นภาษี ปิดงบ", us: "ออกแบบโครงสร้างเงินทุนเพื่อการเติบโต" },
   { label: "มองจากมุมไหน", other: "มุมการปฏิบัติตามกฎหมาย", us: "มุมเจ้าของธุรกิจ + มุมธนาคาร" },
@@ -462,6 +465,31 @@ export default function InsideBusinessFinancePage() {
       <PhotoTestimonials photos={d.photos} heading={d.photoHeading} eyebrow="เสียงจากนักเรียน" />
       {d.seminarImages && <SeminarGallery images={d.seminarImages} subheading='คลาสเรียน "Inside Business Finance" และการให้คำปรึกษากับผู้ประกอบการ SME' />}
 
+      {/* ═══ 12.5 IN-CLASS TOUR + STUDENT INTERVIEWS (Vimeo) ═══ */}
+      <section className="w-full bg-black py-16 md:py-24 border-t border-yellow-500/10">
+        <div className="mkt-reveal js-reveal max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <p className="text-center text-sm font-bold tracking-widest uppercase text-yellow-400/80 mb-3">บรรยากาศในคลาส</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-4 leading-tight">บรรยากาศจริงในคลาส และเสียงจากนักเรียน</h2>
+          <p className="text-base text-gray-400 text-center max-w-2xl mx-auto mb-12">ดูว่าในคลาสเป็นยังไง และฟังสิ่งที่นักเรียนได้กลับไปหลังเรียนจบ</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
+            {tourVideos.map((id, i) => (
+              <div key={i} className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden transition-transform duration-300 hover:-translate-y-1 hover:border-yellow-400/30">
+                <div className="relative aspect-[9/16] w-full bg-black">
+                  <iframe
+                    className="absolute inset-0 w-full h-full"
+                    src={`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0`}
+                    title="บรรยากาศในคลาสและสัมภาษณ์นักเรียน Inside Business Finance"
+                    allow="autoplay; fullscreen; picture-in-picture"
+                    allowFullScreen
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ═══ 13. WHO IS WIN ═══ */}
       <section className="w-full bg-black py-16 md:py-24 border-t border-yellow-500/10">
         <div className="mkt-reveal js-reveal max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -588,6 +616,9 @@ export default function InsideBusinessFinancePage() {
       <noscript>
         <style>{`.mkt-reveal{opacity:1!important;transform:none!important}`}</style>
       </noscript>
+
+      {/* ยกปุ่ม LINE ลอย (global) ขึ้นเหนือ sticky bar เฉพาะหน้านี้ (กันโดนบัง) */}
+      <style dangerouslySetInnerHTML={{ __html: ".fixed.bg-line.z-40{bottom:5.25rem!important}" }} />
 
       {/* ═══ STICKY CTA BAR ═══ */}
       <div className="fixed bottom-0 inset-x-0 z-50 bg-zinc-950/95 backdrop-blur border-t border-yellow-500/30 px-4 py-2.5 flex items-center justify-center gap-4 flex-wrap shadow-[0_-4px_18px_rgba(0,0,0,0.5)]">

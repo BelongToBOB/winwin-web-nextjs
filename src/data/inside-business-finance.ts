@@ -2,8 +2,9 @@ import type { SalePageData } from "./types";
 
 export const insideBusinessFinanceData: SalePageData = {
   meta: {
-    title: "Inside Business Finance | การเงินธุรกิจและการวางแผน — WinWin Wealth Creation",
-    description: "เข้าใจโครงสร้างการเงินธุรกิจอย่างแท้จริง และเข้าถึงแหล่งเงินทุนได้อย่างมืออาชีพ",
+    title: "Inside Business Finance — ระบบออกแบบโครงสร้างเงินทุนเพื่อการเติบโต | WinWin Wealth Creation",
+    description:
+      "คลาสสัมมนาสด 7 Sessions สำหรับเจ้าของธุรกิจ 30–100 ล้าน — ระบบ 100M Method ที่ทำให้คุณตัดสินใจเรื่องเงินก้อนใหญ่ของธุรกิจได้ด้วยตัวเอง สอนโดยวิน อดีต RM 7 ปี",
     slug: "inside-business-finance",
   },
 
@@ -107,6 +108,10 @@ export const insideBusinessFinanceData: SalePageData = {
     { img: "/images/ibf11.webp" },
     { img: "/images/ibf8.webp" },
     { img: "/images/ibf10.webp" },
+    { img: "/images/seminar/ibf-inclass13.webp" },
+    { img: "/images/seminar/ibf-inclass14.webp" },
+    { img: "/images/seminar/ibf-inclass15.webp" },
+    { img: "/images/seminar/ibf-inclass16.webp" },
   ],
 
   seminarImages: [
@@ -123,5 +128,10 @@ export const insideBusinessFinanceData: SalePageData = {
     "/images/seminar/ibf-inclass10.webp",
     "/images/seminar/ibf-inclass11.webp",
     "/images/seminar/ibf-inclass12.webp",
+    "/images/seminar/ibf-inclass17.webp",
+    "/images/seminar/ibf-inclass18.webp",
+    "/images/seminar/ibf-inclass19.webp",
+    "/images/seminar/ibf-inclass20.webp",
+    "/images/seminar/ibf-inclass21.webp",
   ],
 };

@@ -1,7 +1,10 @@
+import { CheckCircle2, XCircle, Target } from "lucide-react";
+
 interface Props {
   heading?: string;
   yesItems: string[];
   noItems: string[];
+  noFootnote?: string;
   outcomes?: string[];
   canvasImages?: string[];
 }
@@ -10,6 +13,7 @@ export default function WhoIsThisFor({
   heading = "คลาสนี้เหมาะกับคุณ ถ้า…",
   yesItems,
   noItems,
+  noFootnote,
   outcomes = [],
   canvasImages = [],
 }: Props) {
@@ -27,7 +31,7 @@ export default function WhoIsThisFor({
           <ul className="space-y-4">
             {yesItems.map((item, i) => (
               <li key={i} className="flex items-start text-gray-300">
-                <span className="mr-3 text-green-500 shrink-0 mt-0.5 text-lg">✅</span>
+                <CheckCircle2 className="mr-3 w-5 h-5 text-green-500 shrink-0 mt-0.5" />
                 <span
                   className="text-base md:text-lg leading-relaxed"
                   dangerouslySetInnerHTML={{ __html: item }}
@@ -43,21 +47,26 @@ export default function WhoIsThisFor({
           <ul className="space-y-3">
             {noItems.map((item, i) => (
               <li key={i} className="flex items-start text-gray-400">
-                <span className="mr-3 text-red-500 shrink-0 mt-0.5 text-lg">❌</span>
+                <XCircle className="mr-3 w-5 h-5 text-red-500 shrink-0 mt-0.5" />
                 <span className="text-base leading-relaxed">{item}</span>
               </li>
             ))}
           </ul>
+          {noFootnote && (
+            <p className="text-sm text-gray-500 mt-5 leading-relaxed border-t border-red-500/10 pt-4">
+              {noFootnote}
+            </p>
+          )}
         </div>
 
         {/* ผลลัพธ์หลังจบคลาส */}
         {outcomes.length > 0 && (
           <div className="bg-zinc-900/60 border border-zinc-800 rounded-2xl p-6 md:p-8 mt-6">
-            <p className="text-white font-bold mb-5">🎯 ผลลัพธ์หลังจบคลาส</p>
+            <p className="flex items-center gap-2 text-white font-bold mb-5"><Target className="w-5 h-5 text-yellow-400" /> ผลลัพธ์หลังจบคลาส</p>
             <ul className="space-y-3 mb-8">
               {outcomes.map((item, i) => (
                 <li key={i} className="flex items-start text-gray-300">
-                  <span className="mr-3 text-green-500 shrink-0 mt-0.5 text-lg">✅</span>
+                  <CheckCircle2 className="mr-3 w-5 h-5 text-green-500 shrink-0 mt-0.5" />
                   <span className="text-base leading-relaxed">{item}</span>
                 </li>
               ))}

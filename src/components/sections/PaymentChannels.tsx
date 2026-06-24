@@ -1,4 +1,12 @@
-export default function PaymentChannels() {
+interface Props {
+  ctaText?: string;
+  ctaHref?: string;
+}
+
+export default function PaymentChannels({
+  ctaText = "สมัครเรียนเลย — 7,900 บาท",
+  ctaHref = "/checkout",
+}: Props = {}) {
   return (
     <section className="payment-channels-section w-full bg-[#0a0a0a] py-16 md:py-24 border-t border-yellow-500/10">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -60,10 +68,10 @@ export default function PaymentChannels() {
         {/* CTA */}
         <div className="text-center">
           <a
-            href="/checkout"
+            href={ctaHref}
             className="inline-block bg-[#eab308] text-black font-bold text-base py-4 px-12 rounded-full hover:bg-yellow-400 hover:scale-[1.03] active:scale-[0.98] transition-all duration-200 shadow-[0_4px_20px_rgba(234,179,8,0.25)]"
           >
-            สมัครเรียนเลย — 7,900 บาท
+            {ctaText}
           </a>
           <p className="text-[#6b6b6b] text-sm mt-4">เลือกช่องทางชำระได้ในขั้นตอนถัดไป</p>
         </div>

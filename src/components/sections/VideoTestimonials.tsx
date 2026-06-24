@@ -5,6 +5,8 @@ interface Props {
   heading?: string;
   subheading?: string;
   eyebrow?: string;
+  /** true = YouTube Shorts แนวตั้ง 9:16 (default = แนวนอน 16:9) */
+  vertical?: boolean;
 }
 
 export default function VideoTestimonials({
@@ -12,6 +14,7 @@ export default function VideoTestimonials({
   eyebrow = "รีวิวจากผู้ประกอบการ",
   heading = 'ทำไมเจ้าของธุรกิจถึงประทับใจ <span class="text-accent">คุณวิน</span>',
   subheading = "ฟังเสียงตอบรับจากประสบการณ์ตรงของผู้ประกอบการ SME ที่ใช้เข้าร่วมเป็นที่ปรึกษากับเรา",
+  vertical = false,
 }: Props) {
   return (
     <section className="relative w-full overflow-hidden bg-bg py-section border-t border-accent/10">
@@ -25,13 +28,19 @@ export default function VideoTestimonials({
           />
           <p className="text-lg text-fg-2">{subheading}</p>
         </div>
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div
+          className={
+            vertical
+              ? "mx-auto grid max-w-5xl grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 lg:grid-cols-5"
+              : "grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
+          }
+        >
           {videos.map((vid, i) => (
             <div
               key={i}
               className="surface-card flex flex-col overflow-hidden rounded-card transition-transform duration-300 ease-out hover:-translate-y-2 hover:border-accent/30"
             >
-              <div className="relative aspect-video w-full">
+              <div className={`relative w-full ${vertical ? "aspect-[9/16]" : "aspect-video"}`}>
                 <iframe
                   className="absolute inset-0 h-full w-full"
                   src={`https://www.youtube.com/embed/${vid.videoId}?rel=0&modestbranding=1`}

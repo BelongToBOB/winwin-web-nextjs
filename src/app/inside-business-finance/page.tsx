@@ -458,7 +458,7 @@ export default function InsideBusinessFinancePage() {
       </section>
 
       {/* ═══ 12. SOCIAL PROOF (media untouched) ═══ */}
-      <VideoTestimonials videos={d.videos} heading={d.videoHeading} />
+      <VideoTestimonials videos={d.videos} heading={d.videoHeading} vertical />
       <PhotoTestimonials photos={d.photos} heading={d.photoHeading} />
       {d.seminarImages && <SeminarGallery images={d.seminarImages} />}
 

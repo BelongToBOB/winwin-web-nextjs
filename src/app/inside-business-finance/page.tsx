@@ -460,7 +460,7 @@ export default function InsideBusinessFinancePage() {
       {/* ═══ 12. SOCIAL PROOF (media untouched) ═══ */}
       <VideoTestimonials videos={d.videos} heading={d.videoHeading} vertical />
       <PhotoTestimonials photos={d.photos} heading={d.photoHeading} eyebrow="เสียงจากนักเรียน" />
-      {d.seminarImages && <SeminarGallery images={d.seminarImages} />}
+      {d.seminarImages && <SeminarGallery images={d.seminarImages} subheading='คลาสเรียน "Inside Business Finance" และการให้คำปรึกษากับผู้ประกอบการ SME' />}
 
       {/* ═══ 13. WHO IS WIN ═══ */}
       <section className="w-full bg-black py-16 md:py-24 border-t border-yellow-500/10">

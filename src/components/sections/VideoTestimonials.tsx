@@ -31,7 +31,7 @@ export default function VideoTestimonials({
         <div
           className={
             vertical
-              ? "mx-auto grid max-w-5xl grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 lg:grid-cols-5"
+              ? "mx-auto grid max-w-4xl grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6"
               : "grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
           }
         >

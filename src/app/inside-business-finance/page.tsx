@@ -438,9 +438,9 @@ export default function InsideBusinessFinancePage() {
         <div className="mkt-reveal js-reveal max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-center text-sm font-bold tracking-widest uppercase text-yellow-400/80 mb-3">ตัวอย่างวิธีคิดที่จะเดินในคลาส</p>
           <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-4 leading-tight">เคสจริง — ตัวเลข "ดูดี" แต่ใต้น้ำเป็นอีกเรื่อง</h2>
-          <p className="text-base text-gray-400 text-center max-w-2xl mx-auto mb-12">ในคลาสจะเดินงบจริง 2 เคส คู่กัน — เคสใหญ่ที่แสดงวิธีคิด + เคสขนาดใกล้คุณที่ relate ได้ทันที</p>
+          <p className="text-base text-gray-400 text-center max-w-2xl mx-auto mb-12">ในคลาสวินจะเดินงบจริงทีละบรรทัด ให้เห็นว่าตัวเลขที่ "ดูดี" ซ่อนอะไรไว้ใต้น้ำ</p>
           <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 md:p-8 mb-6">
-            <div className="text-xs font-bold tracking-widest uppercase text-yellow-400/80 mb-2">เคสที่ 1 · งบจริง 2 ปีติด · ยอดขาย 205 ล้าน</div>
+            <div className="text-xs font-bold tracking-widest uppercase text-yellow-400/80 mb-2">เคสจริง · งบการเงิน 2 ปีติด · ยอดขาย 205 ล้าน</div>
             <div className="grid grid-cols-3 gap-3 my-5">
               {caseNums.map((n, i) => (
                 <div key={i} className="bg-black/50 border border-zinc-800 rounded-xl p-4 text-center">
@@ -453,7 +453,7 @@ export default function InsideBusinessFinancePage() {
             <p className="text-sm md:text-base text-gray-300 leading-relaxed mb-3"><strong className="text-red-400">แต่ใต้น้ำ:</strong> CFO ติดลบ −5 ล้าน · สต็อกบวม +15.5 ล้าน · หนี้พุ่ง +42.7 ล้านในปีเดียว — เงินสด 34.6 ล้านส่วนใหญ่มาจาก "การกู้" ไม่ใช่จากธุรกิจ</p>
             <p className="text-sm md:text-base text-gray-300 leading-relaxed"><strong className="text-green-400">จุดหักมุม:</strong> หนี้ 70 ล้านส่วนใหญ่เป็นเงินกู้กรรมการ ไม่ใช่หนี้แบงก์ — บทเรียน "หนี้ไม่เท่ากันทุกก้อน" วินเดินทีละบรรทัด ตั้งแต่ EBITDA, ค่าเสื่อมที่ซ่อนในหมายเหตุ ไปจนถึง reconstruct Cash Flow</p>
           </div>
-          <p className="text-center text-base text-gray-400 leading-relaxed">และในคลาสจะมีเคสขนาดใกล้ธุรกิจคุณ (30–50 ล้าน) ให้เห็นภาพและใช้กับธุรกิจตัวเองได้ทันที</p>
+          <p className="text-center text-base text-gray-400 leading-relaxed">นี่คือวิธีคิดที่คุณจะได้เดินบนตัวเลขจริงในคลาส — เห็นสิ่งที่งบ "ไม่ได้บอก"</p>
         </div>
       </section>
 

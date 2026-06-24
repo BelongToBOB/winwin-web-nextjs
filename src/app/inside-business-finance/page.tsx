@@ -459,7 +459,7 @@ export default function InsideBusinessFinancePage() {
 
       {/* ═══ 12. SOCIAL PROOF (media untouched) ═══ */}
       <VideoTestimonials videos={d.videos} heading={d.videoHeading} vertical />
-      <PhotoTestimonials photos={d.photos} heading={d.photoHeading} />
+      <PhotoTestimonials photos={d.photos} heading={d.photoHeading} eyebrow="เสียงจากนักเรียน" />
       {d.seminarImages && <SeminarGallery images={d.seminarImages} />}
 
       {/* ═══ 13. WHO IS WIN ═══ */}

@@ -251,7 +251,7 @@ export default function InsideBusinessFinancePage() {
       <section className="w-full bg-[#0a0a0a] py-16 md:py-24 border-t border-yellow-500/10">
         <div className="mkt-reveal js-reveal max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-center text-sm font-bold tracking-widest uppercase text-yellow-400/80 mb-3">หลังเรียนจบ</p>
-          <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-4 leading-tight">5 อย่างที่คุณจะทำต่างไปจากเดิม</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-4 leading-tight">ผลลัพธ์ที่คุณจะได้รับ หลังจากได้เรียนคลาสนี้</h2>
           <p className="text-base text-gray-400 text-center mb-12">ไม่ใช่ความรู้ที่ต้องท่องจำ — แต่คือวิธีตัดสินใจใหม่ที่ใช้ทุกเดือน</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {outcomes.map((o, i) => (

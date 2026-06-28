@@ -4,6 +4,8 @@ interface Props {
   headline: string;
   description: string;
   instructor?: string;
+  /** true = แสดง cover แบบ banner 16:9 (เตี้ย+แคบลง) เหมาะกับ cover แนวนอน */
+  wide?: boolean;
 }
 
 export default function HeroKV({
@@ -12,11 +14,16 @@ export default function HeroKV({
   headline,
   description,
   instructor = "คุณวิน ที่ปรึกษาจาก WinWin Wealth Creation",
+  wide = false,
 }: Props) {
   return (
     <section className="w-full bg-bg py-8 md:py-12 mt-3 md:mt-4">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative w-full h-[56vw] md:h-[80vh] overflow-hidden rounded-card shadow-[0_20px_50px_-12px_rgba(250,204,21,0.15)] border border-accent/20">
+        <div
+          className={`relative w-full overflow-hidden rounded-card shadow-[0_20px_50px_-12px_rgba(250,204,21,0.15)] border border-accent/20 ${
+            wide ? "aspect-video max-w-5xl mx-auto" : "h-[56vw] md:h-[80vh]"
+          }`}
+        >
           <img
             src={heroImage}
             alt={heroAlt}

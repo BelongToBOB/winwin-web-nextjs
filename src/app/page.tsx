@@ -35,12 +35,12 @@ export default function HomePage() {
         {
           title: "Business Health Check",
           subtitle: "เช็กสุขภาพการเงินธุรกิจ รู้จุดอ่อนก่อนแบงก์เจอ",
-          image: "/images/business-health-check.png",
+          image: "/images/business-health-check.webp",
         },
         {
           title: "Owner Finance Check",
           subtitle: "อ่านงบก่อนเซ็น — รู้ตัวเลขที่ควรดู",
-          image: "/images/owner-finance-check.jpg",
+          image: "/images/owner-finance-check.webp",
         },
       ],
     },
@@ -139,7 +139,7 @@ export default function HomePage() {
       eyebrow: "ออนไลน์",
       title: "Business Health Check",
       description: "ตรวจสุขภาพการเงินธุรกิจ รู้จุดอ่อนก่อนแบงก์เจอ",
-      image: "/images/business-health-check.png",
+      image: "/images/business-health-check.webp",
       features: [
         "วิเคราะห์สุขภาพการเงินธุรกิจเจาะลึก",
         "รู้จุดอ่อนที่ต้องแก้ก่อนแบงก์เจอ",
@@ -152,7 +152,7 @@ export default function HomePage() {
       eyebrow: "ออนไลน์ · Zoom",
       title: "Owner Finance Check",
       description: "อ่านงบก่อนเซ็น — รู้ตัวเลขที่ควรดู",
-      image: "/images/owner-finance-check.jpg",
+      image: "/images/owner-finance-check.webp",
       features: [
         'อ่านงบแบบ "เจ้าของ" ไม่ใช่ภาษานักบัญชี',
         'แยก "กำไรจริง vs เงินสดจริง"',

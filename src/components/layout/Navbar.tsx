@@ -6,11 +6,27 @@ import MobileMenu from "@/components/ui/MobileMenu";
 
 const navLinks = [{ label: "หน้าแรก", href: "/" }];
 
-const courseLinks = [
-  { label: "Bank Uncensored", href: "/bank-uncensored" },
-  { label: "Inside Bank", href: "/inside-bank" },
-  { label: "Inside Business Finance", href: "/inside-business-finance" },
-  { label: "Private Consult", href: "/private-consult" },
+// จัดหมวดตามโครงเว็บ (Journey + Pricing หน้าแรก): ออนไลน์ → onsite → ตัวต่อตัว
+const courseGroups = [
+  {
+    label: "เรียนออนไลน์",
+    courses: [
+      { label: "Bank Uncensored", href: "/bank-uncensored" },
+      { label: "Business Health Check", href: "/business-health-check" },
+      { label: "Owner Finance Check", href: "/owner-finance-check" },
+    ],
+  },
+  {
+    label: "เรียนสด (Onsite)",
+    courses: [
+      { label: "Inside Bank", href: "/inside-bank" },
+      { label: "Inside Business Finance", href: "/inside-business-finance" },
+    ],
+  },
+  {
+    label: "ตัวต่อตัว",
+    courses: [{ label: "Private Consult", href: "/private-consult" }],
+  },
 ];
 
 export default function Navbar() {
@@ -52,21 +68,31 @@ export default function Navbar() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
-                <div className="absolute top-full left-1/2 -translate-x-1/2 w-full min-w-[220px] opacity-0 invisible pointer-events-none group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto transition-all duration-200">
+                <div className="absolute top-full left-1/2 -translate-x-1/2 w-max min-w-[240px] opacity-0 invisible pointer-events-none group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto transition-all duration-200">
                   <div className="pt-2">
                     <div className="bg-surface border border-white/10 rounded-card py-2 shadow-xl">
-                      {courseLinks.map((link) => (
-                        <Link
-                          key={link.href}
-                          href={link.href}
-                          className={`block px-4 py-2.5 text-sm transition-colors ${
-                            currentPath === link.href
-                              ? "text-accent bg-surface-3"
-                              : "text-fg-2 hover:text-fg hover:bg-surface-2"
-                          }`}
+                      {courseGroups.map((group, gi) => (
+                        <div
+                          key={group.label}
+                          className={gi > 0 ? "mt-1 border-t border-white/10 pt-1" : ""}
                         >
-                          {link.label}
-                        </Link>
+                          <p className="px-4 pb-1 pt-2 font-mono text-[11px] uppercase tracking-wider text-fg-muted">
+                            {group.label}
+                          </p>
+                          {group.courses.map((link) => (
+                            <Link
+                              key={link.href}
+                              href={link.href}
+                              className={`block px-4 py-2 text-sm transition-colors ${
+                                currentPath === link.href
+                                  ? "text-accent bg-surface-3"
+                                  : "text-fg-2 hover:text-fg hover:bg-surface-2"
+                              }`}
+                            >
+                              {link.label}
+                            </Link>
+                          ))}
+                        </div>
                       ))}
                     </div>
                   </div>
@@ -106,7 +132,7 @@ export default function Navbar() {
             <div className="md:hidden">
               <MobileMenu
                 navLinks={navLinks}
-                courseLinks={courseLinks}
+                courseGroups={courseGroups}
                 currentPath={currentPath}
               />
             </div>

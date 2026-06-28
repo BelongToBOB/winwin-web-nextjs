@@ -2,6 +2,7 @@
 
 @theme {
   --font-sans: "Prompt", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Prompt", monospace;
   --color-yellow-accent: #facc15;
   --color-yellow-glow: rgba(250, 204, 21, 0.3);
   --color-yellow-glow-soft: rgba(250, 204, 21, 0.15);

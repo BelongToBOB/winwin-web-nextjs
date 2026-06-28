@@ -42,3 +42,5 @@ next-env.d.ts
 deploy.sh
 .open-next
 .wrangler
+deploy-preview.sh
+.impeccable/

@@ -6,13 +6,20 @@ interface NavLink {
   href: string;
 }
 
+interface CourseGroup {
+  label: string;
+  courses: NavLink[];
+}
+
 interface Props {
   navLinks: NavLink[];
-  courseLinks: NavLink[];
+  courseGroups: CourseGroup[];
   currentPath: string;
 }
 
-export default function MobileMenu({ navLinks, courseLinks, currentPath }: Props) {
+export default function MobileMenu({ navLinks, courseGroups, currentPath }: Props) {
+  // นับ header + คอร์สทั้งหมด เพื่อคำนวณ stagger ของรายการถัดไป
+  const courseItemCount = courseGroups.reduce((n, g) => n + 1 + g.courses.length, 0);
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -65,34 +72,41 @@ export default function MobileMenu({ navLinks, courseLinks, currentPath }: Props
           </a>
         ))}
 
-        {/* Courses section */}
-        <div
-          className="menu-item-in pt-2 pb-1 px-4"
-          style={{ animationDelay: `${0.04 + navLinks.length * 0.04}s` }}
-        >
-          <span className="text-xs font-semibold text-fg-muted uppercase tracking-wider">
-            คลาสทั้งหมด
-          </span>
-        </div>
-        {courseLinks.map((link, i) => (
-          <a
-            key={link.href}
-            href={link.href}
-            style={{ animationDelay: `${0.08 + (navLinks.length + i) * 0.04}s` }}
-            className={`menu-item-in block px-4 py-3 rounded-lg text-base font-medium transition-colors ${
-              currentPath === link.href
-                ? "text-accent bg-surface"
-                : "text-fg-2 hover:text-fg hover:bg-surface"
-            }`}
-            onClick={() => setIsOpen(false)}
-          >
-            {link.label}
-          </a>
-        ))}
+        {/* Courses — จัดกลุ่มตามหมวด */}
+        {(() => {
+          let n = navLinks.length;
+          return courseGroups.map((group) => (
+            <div key={group.label}>
+              <div
+                className="menu-item-in px-4 pb-1 pt-3"
+                style={{ animationDelay: `${0.04 + n++ * 0.04}s` }}
+              >
+                <span className="text-xs font-semibold uppercase tracking-wider text-fg-muted">
+                  {group.label}
+                </span>
+              </div>
+              {group.courses.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  style={{ animationDelay: `${0.04 + n++ * 0.04}s` }}
+                  className={`menu-item-in block rounded-lg px-4 py-3 text-base font-medium transition-colors ${
+                    currentPath === link.href
+                      ? "text-accent bg-surface"
+                      : "text-fg-2 hover:text-fg hover:bg-surface"
+                  }`}
+                  onClick={() => setIsOpen(false)}
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          ));
+        })()}
 
         <a
           href="/#about"
-          style={{ animationDelay: `${0.12 + (navLinks.length + courseLinks.length) * 0.04}s` }}
+          style={{ animationDelay: `${0.12 + (navLinks.length + courseItemCount) * 0.04}s` }}
           className="menu-item-in block px-4 py-3 rounded-lg text-base font-medium text-fg-2 hover:text-fg hover:bg-surface transition-colors"
           onClick={() => setIsOpen(false)}
         >
@@ -101,7 +115,7 @@ export default function MobileMenu({ navLinks, courseLinks, currentPath }: Props
 
         <a
           href="/learn"
-          style={{ animationDelay: `${0.16 + (navLinks.length + courseLinks.length) * 0.04}s` }}
+          style={{ animationDelay: `${0.16 + (navLinks.length + courseItemCount) * 0.04}s` }}
           className="menu-item-in block px-4 py-3 rounded-lg text-base font-medium text-accent hover:text-accent-hover hover:bg-surface transition-colors"
           onClick={() => setIsOpen(false)}
         >
@@ -111,7 +125,7 @@ export default function MobileMenu({ navLinks, courseLinks, currentPath }: Props
         {/* LINE CTA */}
         <div
           className="menu-item-in pt-4 px-4"
-          style={{ animationDelay: `${0.2 + (navLinks.length + courseLinks.length) * 0.04}s` }}
+          style={{ animationDelay: `${0.2 + (navLinks.length + courseItemCount) * 0.04}s` }}
         >
           <a
             href="https://lin.ee/gGDzjTi"

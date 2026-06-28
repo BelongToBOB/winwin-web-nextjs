@@ -2,7 +2,7 @@
 
 @theme {
   --font-sans: "Prompt", sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Prompt", monospace;
+  --font-mono: "MonoNum", "Prompt", sans-serif;
   --color-yellow-accent: #facc15;
   --color-yellow-glow: rgba(250, 204, 21, 0.3);
   --color-yellow-glow-soft: rgba(250, 204, 21, 0.15);
@@ -14,6 +14,16 @@
   --color-instagram-via: #dd2a7b;
   --color-instagram-to: #8134af;
   --color-tiktok: #010101;
+}
+
+/* font-mono: monospace เฉพาะตัวเลข/สัญลักษณ์ตัวเลข — ตัวอักษร(ไทย/อังกฤษ)ตกไป Prompt
+   ใช้ฟอนต์ mono ของระบบ map เฉพาะช่วง 0-9 , . % + - / : ฿ */
+@font-face {
+  font-family: "MonoNum";
+  src: local("SF Mono"), local("SFMono-Regular"), local("Menlo"), local("Monaco"),
+    local("Consolas"), local("Liberation Mono"), local("DejaVu Sans Mono"), local("Courier New");
+  unicode-range: U+0030-0039, U+002B-002F, U+003A, U+0025;
+  font-display: swap;
 }
 
 /* ============================================================

@@ -60,7 +60,7 @@ export default function OwnerFinanceCheckPage() {
           <div className="mx-auto mt-10 max-w-3xl text-center">
             <h1 className="text-[clamp(1.9rem,1.2rem+3vw,3.4rem)] font-bold leading-[1.12] text-fg [text-wrap:balance]">
               เซ็นอนุมัติงบทุกปี แต่{" "}
-              <span className="text-negative">“อ่านงบของตัวเองไม่ออก”</span>?
+              <span className="text-negative">“อ่านงบของตัวเองได้ครบไหม”</span>?
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-lead text-fg-2">
               คลาสออนไลน์ (Zoom) ที่ทำให้เจ้าของ <span className="text-fg">อ่านงบของธุรกิจตัวเองเป็น</span>{" "}

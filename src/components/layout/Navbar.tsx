@@ -27,6 +27,10 @@ const courseGroups = [
     label: "ตัวต่อตัว",
     courses: [{ label: "Private Consult", href: "/private-consult" }],
   },
+  {
+    label: "เครื่องมือ/สมาชิก",
+    courses: [{ label: "Monthly Finance OS", href: "/monthly-finance-os" }],
+  },
 ];
 
 export default function Navbar() {

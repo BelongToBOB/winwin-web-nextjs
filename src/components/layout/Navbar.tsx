@@ -113,6 +113,7 @@ export default function Navbar() {
 
             {/* ขวา — บัญชี + CTA */}
             <div className="hidden md:flex items-center gap-3">
+              {/* เข้าเรียน — ซ่อนไว้ก่อน /learn ยังไม่เปิดใช้ (2026-07-11)
               <Link
                 href="/learn"
                 className="mkt-focus flex items-center gap-1.5 text-sm font-medium text-fg-2 hover:text-fg transition-colors"
@@ -122,6 +123,7 @@ export default function Navbar() {
                 </svg>
                 เข้าเรียน
               </Link>
+              */}
 
               <a
                 href="https://lin.ee/gGDzjTi"

@@ -113,6 +113,7 @@ export default function MobileMenu({ navLinks, courseGroups, currentPath }: Prop
           เกี่ยวกับวิน
         </a>
 
+        {/* เข้าเรียน — ซ่อนไว้ก่อน /learn ยังไม่เปิดใช้ (2026-07-11)
         <a
           href="/learn"
           style={{ animationDelay: `${0.16 + (navLinks.length + courseItemCount) * 0.04}s` }}
@@ -121,6 +122,7 @@ export default function MobileMenu({ navLinks, courseGroups, currentPath }: Prop
         >
           เข้าเรียน
         </a>
+        */}
 
         {/* LINE CTA */}
         <div

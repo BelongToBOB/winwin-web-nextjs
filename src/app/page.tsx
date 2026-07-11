@@ -261,7 +261,7 @@ export default function HomePage() {
 
       {/* คลาสล่าสุดที่กำลังจะมาถึง */}
       <Reveal>
-        <UpcomingClass image="/images/upcoming-ibf-4jul.jpg" lineUrl={LINE_URL} />
+        <UpcomingClass image="/images/upcoming-ibf.jpg" lineUrl={LINE_URL} />
       </Reveal>
 
       {/* Section การ์ดราคา — เลือกบริการ + สมัคร (มี stagger ในตัว) */}

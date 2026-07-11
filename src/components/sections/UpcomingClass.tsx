@@ -20,9 +20,9 @@ export default function UpcomingClass({
   heading = "คลาสที่กำลังจะมาถึง",
   subtitle = "Inside Business Finance · การเงินธุรกิจและการวางแผนภายใน",
   image,
-  imageAlt = "คลาส Inside Business Finance รอบ 4 กรกฎาคม 2569",
+  imageAlt = "คลาส Inside Business Finance รอบ 8 สิงหาคม 2569",
   badgeLabel = "NEW",
-  dateLabel = "4 กรกฎาคม 2569",
+  dateLabel = "8 สิงหาคม 2569",
   lineUrl = "https://lin.ee/gGDzjTi",
   seatNote = "รับจำนวนจำกัด",
   ctaText = "สำรองที่นั่ง · ติดต่อ Line",
@@ -101,9 +101,9 @@ export default function UpcomingClass({
         <div className="mx-auto mt-8 flex max-w-6xl flex-col items-center justify-between gap-6 rounded-card border border-white/10 bg-surface/60 p-5 backdrop-blur-sm sm:flex-row sm:p-6">
           <div className="flex items-center gap-4">
             <span className="flex h-14 w-14 shrink-0 flex-col items-center justify-center rounded-xl border border-accent/20 bg-bg text-accent">
-              <span className="text-xl font-bold leading-none tabular-nums">4</span>
+              <span className="text-xl font-bold leading-none tabular-nums">8</span>
               <span className="mt-0.5 text-[10px] font-medium uppercase tracking-wide text-fg-muted">
-                ก.ค.
+                ส.ค.
               </span>
             </span>
             <div className="flex flex-col">

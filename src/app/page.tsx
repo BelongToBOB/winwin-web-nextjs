@@ -2,7 +2,7 @@ import HeroSpotlight from "@/components/sections/HeroSpotlight";
 import LandingHero from "@/components/landing/LandingHero";
 import LandingAbout from "@/components/landing/LandingAbout";
 import JourneyTimeline, { type JourneyStep } from "@/components/sections/JourneyTimeline";
-import Transformation from "@/components/sections/Transformation";
+// import Transformation from "@/components/sections/Transformation"; // ซ่อนไว้ก่อน
 import PricingCards, { type PricingPackage } from "@/components/sections/PricingCards";
 import SeminarShowcase from "@/components/sections/SeminarShowcase";
 import UpcomingClass from "@/components/sections/UpcomingClass";
@@ -10,7 +10,7 @@ import FAQAccordion from "@/components/ui/FAQAccordion";
 import LandingCTA from "@/components/landing/LandingCTA";
 import Reveal from "@/components/ui/Reveal";
 import { landingData } from "@/data/landing";
-import { bucBeforeAfterRows } from "@/data/bank-uncensored";
+// import { bucBeforeAfterRows } from "@/data/bank-uncensored"; // ซ่อนไว้ก่อน (Transformation)
 
 export const metadata = {
   title: "WinWin Consult - ที่ปรึกษาการเงินสำหรับเจ้าของธุรกิจ | สร้างธุรกิจโดยไม่ใช้เงินตัวเอง",
@@ -238,7 +238,9 @@ export default function HomePage() {
       />
 
       {/* Before / After — เลือกเฉพาะคำถามที่ trigger สุด 5 ข้อ (มี stagger ในตัว) */}
+      {/* ซ่อนไว้ก่อน
       <Transformation rows={[0, 5, 1, 2, 6].map((i) => bucBeforeAfterRows[i])} />
+      */}
 
       {/* Section 2 — แนะนำตัวสั้น */}
       <Reveal>

@@ -20,7 +20,7 @@ export default function ContactCTA() {
           เริ่มปรึกษาธุรกิจของคุณวันนี้
         </h2>
         <p className="text-xl md:text-2xl text-gray-400 mb-12 max-w-2xl mx-auto font-light leading-relaxed">
-          ติดต่อทีมที่ปรึกษาของ WinWin Wealth Creation เพื่อประเมินความเป็นไปได้และวางแผนกลยุทธ์การเงินฟรี ไม่มีค่าใช้จ่ายเบื้องต้น
+          ติดต่อทีมที่ปรึกษาของ WinWin Wealth Creation เพื่อประเมินความเป็นไปได้และออกแบบโครงสร้างการเงินฟรี ไม่มีค่าใช้จ่ายเบื้องต้น
         </p>
 
         <div className="flex flex-col gap-5 w-full sm:w-auto">

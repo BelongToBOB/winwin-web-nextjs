@@ -82,7 +82,7 @@ const jsonLd = {
       "@type": "Person",
       "@id": "https://www.winwinwealth.co/#founder",
       name: "วิน กวินทร์รัศม์ นิธิกรภาคย์",
-      jobTitle: "ที่ปรึกษาการเงินธุรกิจ / นักวางแผนกลยุทธ์การเงิน",
+      jobTitle: "ที่ปรึกษาการเงินธุรกิจ / ออกแบบโครงสร้างการเงิน",
       worksFor: { "@id": "https://www.winwinwealth.co/#organization" },
     },
     {

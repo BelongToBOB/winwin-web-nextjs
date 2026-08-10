@@ -13,7 +13,7 @@ import { landingData } from "@/data/landing";
 // import { bucBeforeAfterRows } from "@/data/bank-uncensored"; // ซ่อนไว้ก่อน (Transformation)
 
 export const metadata = {
-  title: "WinWin Consult - ที่ปรึกษาการเงินสำหรับเจ้าของธุรกิจ | สร้างธุรกิจโดยไม่ใช้เงินตัวเอง",
+  title: "WinWin Consult - ที่ปรึกษาการเงินสำหรับเจ้าของธุรกิจ | Scale Up With Win",
 };
 
 export default function HomePage() {
@@ -227,7 +227,7 @@ export default function HomePage() {
         headline={hero.headline}
         highlight="เจ้าของธุรกิจ"
         lead={hero.subheadline}
-        subnote={`${hero.highlight}สไตล์วินวิน`}
+        subnote="Scale Up With Win"
         primaryCta={{ text: hero.ctaPrimary.text, url: hero.ctaPrimary.url, target: "_blank" }}
         secondaryCta={{ text: hero.ctaSecondary.text, url: hero.ctaSecondary.url }}
         stats={[

@@ -39,8 +39,8 @@ export default function ContactCTA() {
             rel="noopener noreferrer"
             className="group relative inline-flex items-center justify-center gap-4 px-8 py-5 md:px-12 text-xl md:text-2xl font-bold rounded-full bg-[#1877F1] text-white transition-all hover:scale-105 hover:bg-[#0e65d0] hover:shadow-[0_0_30px_-5px_rgba(24,119,242,0.5)] shadow-xl w-full sm:w-auto"
           >
-            <span className="hidden sm:inline">สร้างธุรกิจโดยไม่ใช้เงินตัวเอง สไตล์วินวิน</span>
-            <span className="sm:hidden">Facebook WinWin Consult</span>
+            <span className="hidden sm:inline">Scale Up With Win</span>
+            <span className="sm:hidden">Facebook Scale Up With Win</span>
             <img src="/images/Facebook.webp" alt="Facebook Logo" className="w-8 h-8 transition-transform group-hover:rotate-12 object-contain shadow-sm" />
           </a>
           <a

@@ -105,7 +105,7 @@ export const landingData: LandingPageData = {
     body: "ติดต่อวินวินเพื่อปรึกษาเรื่องการวางแผนการเงิน สินเชื่อธนาคาร และออกแบบโครงสร้างการเงินเพื่อขยายธุรกิจ ไม่มีค่าใช้จ่ายเบื้องต้น",
     buttons: [
       {
-        text: "Facebook Messenger",
+        text: "Facebook: Scale Up With Win",
         url: "https://m.me/105859671508979",
       },
       {

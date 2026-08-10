@@ -1,12 +1,12 @@
 import { landingData } from "@/data/landing";
 
 const buttonStyles: Record<string, string> = {
-  "Facebook Messenger": "bg-[#1877F1] hover:bg-[#0e65d0] text-white",
+  "Facebook: Scale Up With Win": "bg-[#1877F1] hover:bg-[#0e65d0] text-white",
   "Line: @win_win": "bg-[#00B900] hover:bg-[#009b00] text-white",
 };
 
 const buttonIcons: Record<string, string> = {
-  "Facebook Messenger": "messenger",
+  "Facebook: Scale Up With Win": "messenger",
   "Line: @win_win": "line",
 };
 

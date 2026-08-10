@@ -12,7 +12,7 @@ const prompt = Prompt({
 
 export const metadata: Metadata = {
   title: {
-    default: "WinWin Consult - ที่ปรึกษาการเงินสำหรับเจ้าของธุรกิจ",
+    default: "WinWin Consult - ออกแบบโครงสร้างทางการเงินสำหรับเจ้าของธุรกิจ",
     template: "%s | WinWin Wealth",
   },
   description:
@@ -40,14 +40,14 @@ export const metadata: Metadata = {
     locale: "th_TH",
     url: "https://www.winwinwealth.co",
     siteName: "WinWin Wealth Creation",
-    title: "WinWin Consult - ที่ปรึกษาการเงินสำหรับเจ้าของธุรกิจ",
+    title: "WinWin Consult - ออกแบบโครงสร้างทางการเงินสำหรับเจ้าของธุรกิจ",
     description:
       "ที่ปรึกษาการเงินธุรกิจ SME — วางโครงสร้างการเงิน ยื่นขอสินเชื่อให้ผ่านง่ายขึ้น สร้างธุรกิจโดยไม่ใช้เงินตัวเอง",
     images: [{ url: "/images/winwinlogo.webp" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "WinWin Consult - ที่ปรึกษาการเงินสำหรับเจ้าของธุรกิจ",
+    title: "WinWin Consult - ออกแบบโครงสร้างทางการเงินสำหรับเจ้าของธุรกิจ",
     description:
       "ที่ปรึกษาการเงินธุรกิจ SME — วางโครงสร้างการเงิน ยื่นขอสินเชื่อให้ผ่านง่ายขึ้น สร้างธุรกิจโดยไม่ใช้เงินตัวเอง",
     images: ["/images/winwinlogo.webp"],

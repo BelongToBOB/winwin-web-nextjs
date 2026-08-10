@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="text-center space-y-2">
           <p className="text-fg-2 text-sm font-medium">WinWin Wealth Creation</p>
           <p className="text-fg-muted text-xs">
-            ที่ปรึกษาการเงินสำหรับเจ้าของธุรกิจ | Scale Up With Win
+            ออกแบบโครงสร้างทางการเงินสำหรับเจ้าของธุรกิจ | Scale Up With Win
           </p>
           <p className="text-fg-muted text-xs">
             &copy; {year} WinWin Wealth Creation. สงวนลิขสิทธิ์.

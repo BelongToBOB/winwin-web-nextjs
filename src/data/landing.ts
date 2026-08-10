@@ -4,10 +4,10 @@ export const landingData: LandingPageData = {
   hero: {
     name: "วินวิน กวินทร์รัศม์ นิธิกรภาคย์",
     badge: "ที่ปรึกษาการเงิน",
-    headline: "ที่ปรึกษาการเงินสำหรับเจ้าของธุรกิจ",
+    headline: "ออกแบบโครงสร้างทางการเงินสำหรับเจ้าของธุรกิจ",
     subheadline:
       "ออกแบบโครงสร้างการเงิน เพื่อขยายธุรกิจ ด้วยสินเชื่อจากธนาคาร",
-    highlight: "สร้างธุรกิจโดยไม่ใช้เงินตัวเอง",
+    highlight: "ขยายธุรกิจด้วยโครงสร้างการเงิน",
     profileImage: "/images/profile.webp",
     ctaPrimary: {
       text: "ติดต่อปรึกษา",
@@ -118,7 +118,7 @@ export const landingData: LandingPageData = {
   footer: {
     brand: "WinWin Consult",
     tagline:
-      "ที่ปรึกษาการเงินสำหรับเจ้าของธุรกิจ | Scale Up With Win",
+      "ออกแบบโครงสร้างทางการเงินสำหรับเจ้าของธุรกิจ | Scale Up With Win",
     copyright: "© 2026 WinWin Consult. สงวนลิขสิทธิ์.",
   },
 };

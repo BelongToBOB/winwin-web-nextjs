@@ -13,7 +13,7 @@ import { landingData } from "@/data/landing";
 // import { bucBeforeAfterRows } from "@/data/bank-uncensored"; // ซ่อนไว้ก่อน (Transformation)
 
 export const metadata = {
-  title: "WinWin Consult - ที่ปรึกษาการเงินสำหรับเจ้าของธุรกิจ | Scale Up With Win",
+  title: "WinWin Consult - ออกแบบโครงสร้างทางการเงินสำหรับเจ้าของธุรกิจ | Scale Up With Win",
 };
 
 export default function HomePage() {
@@ -263,7 +263,7 @@ export default function HomePage() {
 
       {/* คลาสล่าสุดที่กำลังจะมาถึง */}
       <Reveal>
-        <UpcomingClass image="/images/upcoming-ibf.jpg" lineUrl={LINE_URL} />
+        <UpcomingClass image="/images/KVIBF2.webp" lineUrl={LINE_URL} />
       </Reveal>
 
       {/* Section การ์ดราคา — เลือกบริการ + สมัคร (มี stagger ในตัว) */}

@@ -87,7 +87,7 @@ export default function UpcomingClass({
               alt={imageAlt}
               loading="lazy"
               decoding="async"
-              className="aspect-[2059/764] w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+              className="aspect-[16/9] w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
             />
             {/* hover sheen */}
             <span

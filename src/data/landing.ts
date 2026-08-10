@@ -7,7 +7,7 @@ export const landingData: LandingPageData = {
     headline: "ออกแบบโครงสร้างทางการเงินสำหรับเจ้าของธุรกิจ",
     subheadline:
       "ออกแบบโครงสร้างการเงิน เพื่อขยายธุรกิจ ด้วยสินเชื่อจากธนาคาร",
-    highlight: "ขยายธุรกิจด้วยโครงสร้างการเงิน",
+    highlight: "ขยายธุรกิจด้วยโครงสร้างทางการเงิน",
     profileImage: "/images/profile.webp",
     ctaPrimary: {
       text: "ติดต่อปรึกษา",

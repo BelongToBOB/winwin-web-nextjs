@@ -136,6 +136,11 @@ export interface ClosingCTA {
 
 export interface VideoItem {
   videoId: string;
+  provider?: "youtube" | "vimeo";
+  aspectRatio?: "video" | "portrait" | "four-five";
+  sourceAspectRatio?: "video" | "portrait" | "four-five";
+  thumbnailUrl?: string;
+  title?: string;
 }
 
 export interface PhotoItem {

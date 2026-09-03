@@ -18,9 +18,7 @@ export const scaleReadyData: Omit<SalePageData, "instructor"> = {
   },
 
   hero: {
-    // ใส่ "/images/scale-ready-hero.png" เมื่อได้ไฟล์คัตเอาต์ผู้สอน (พื้นหลังโปร่ง ไม่มีตัวหนังสือ/พื้นน้ำเงิน) แล้ว
-    // ว่าง = ฮีโร่แสดงเฉพาะข้อความ (หน้าไม่โชว์ไอคอนรูปแตกตอนไฟล์ยังไม่มา)
-    heroImage: "",
+    heroImage: "/images/scale-ready.webp", // KV คอร์ส (ดีไซน์เต็ม) — วาง cover banner แบบหน้าคลาสพี่น้อง
     heroAlt: "คลาส Scale Ready Manufacturing — เห็นภาพการเงินให้ชัด เตรียมธุรกิจให้พร้อมโต โดย Scale Up With Win",
     badge: "SCALE READY · MANUFACTURING",
     headline:
@@ -90,6 +88,27 @@ export const srHeroChips: string[] = [
   "4 ต.ค. 2569",
   "ดูย้อนหลัง 1 ปี",
 ];
+
+// ครีเอทีฟคู่กับแต่ละ section (พื้นหลังน้ำเงินเป็น "เนื้อภาพ" ของ KV — ไม่ใช่สีธีมของหน้า)
+// วางเป็นภาพเต็ม object-contain (มีตัวหนังสือชิดขอบ ห้าม crop)
+export const srSectionImages = {
+  steps: {
+    src: "/images/scale-ready-steps.webp",
+    alt: "อินโฟกราฟิก MAP → GAP → MOVE — มองธุรกิจผ่าน 3 ขั้นตอน เห็นภาพ เห็นจุด เห็นทาง",
+  },
+  learn: {
+    src: "/images/scale-ready-learn.webp",
+    alt: "สรุปสิ่งที่จะได้เรียนในคลาส Scale Ready 7 ข้อ — โครงสร้างต้นทุน กำไร และเงินสด",
+  },
+  audience: {
+    src: "/images/scale-ready-audience.webp",
+    alt: "คลาส Scale Ready เหมาะกับเจ้าของธุรกิจผลิตแบบไหน — 8 กลุ่มเป้าหมาย",
+  },
+  pricing: {
+    src: "/images/scale-ready-pricing.webp",
+    alt: "ราคาเปิดตัว Scale Ready 2,900 บาท จากราคาเต็ม 7,900 บาท เรียนสด Zoom 4 ต.ค. 2569 ดูย้อนหลัง 1 ปี",
+  },
+} as const;
 
 // "ก่อนเรียน คุณอาจรู้เพียงว่า…" (สะพานเข้าสู่ MAP/GAP/MOVE)
 export const srBeforeKnow: string[] = [

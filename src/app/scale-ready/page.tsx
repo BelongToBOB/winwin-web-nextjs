@@ -11,6 +11,7 @@ import {
   srLearnItems,
   srTransformation,
   srWhoIsThisFor as who,
+  srSectionImages,
 } from "@/data/scale-ready";
 
 export const metadata: Metadata = {
@@ -21,9 +22,34 @@ export const metadata: Metadata = {
 const LINE_URL = "https://lin.ee/gGDzjTi";
 const CTA_LABEL = "สมัครเรียน SCALE READY MANUFACTURING";
 
-export default function ScaleReadyPage() {
-  const hasHero = Boolean(d.hero.heroImage);
+/* ครีเอทีฟคู่ section — ภาพเต็ม (object-contain, ไม่ crop) · สลับซ้าย/ขวาเพื่อจังหวะสายตา
+   มือถือ: ภาพอยู่บนข้อความเสมอ (ภาพเป็น DOM ตัวแรก) */
+function PairImage({
+  src,
+  alt,
+  side,
+}: {
+  src: string;
+  alt: string;
+  side: "left" | "right";
+}) {
+  return (
+    <div className={side === "right" ? "order-1 md:order-2" : "order-1"}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={src}
+        alt={alt}
+        width={1254}
+        height={1254}
+        loading="lazy"
+        decoding="async"
+        className="h-auto w-full rounded-[var(--radius-card)] border border-white/10 object-contain"
+      />
+    </div>
+  );
+}
 
+export default function ScaleReadyPage() {
   return (
     <main className="bg-bg text-fg">
       {/* ══════════ HERO ══════════ */}
@@ -39,13 +65,24 @@ export default function ScaleReadyPage() {
           }}
         />
 
-        <div
-          className={`relative mx-auto grid w-full items-center gap-10 px-4 sm:px-6 lg:px-8 ${
-            hasHero ? "max-w-6xl md:grid-cols-[1.15fr_1fr]" : "max-w-3xl"
-          }`}
-        >
-          {/* ข้อความ */}
-          <div className={hasHero ? "order-2 text-center md:order-1 md:text-left" : "text-center"}>
+        <div className="relative mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+          {/* cover banner (KV) — วางแบบเดียวกับหน้าคลาสพี่น้อง (business-health-check) */}
+          <div className="relative mx-auto max-w-lg overflow-hidden rounded-card border border-accent/25 shadow-[0_28px_70px_-30px_rgba(234,179,8,0.5)]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={d.hero.heroImage}
+              alt={d.hero.heroAlt}
+              width={1080}
+              height={1080}
+              className="block w-full object-cover"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+            />
+          </div>
+
+          {/* ข้อความ — ตรงกลางใต้ภาพ */}
+          <div className="mx-auto mt-10 max-w-3xl text-center">
             <span className="inline-flex items-center gap-2 rounded-pill border border-accent/30 bg-accent/[0.08] px-3 py-1.5 font-mono text-[11px] tracking-wider text-accent">
               <span className="inline-block h-2 w-2 rounded-full bg-accent" />
               {d.hero.badge}
@@ -55,12 +92,10 @@ export default function ScaleReadyPage() {
               ผลิตมากขึ้น ยอดขายมากขึ้น แต่ทำไม{" "}
               <span className="text-negative">เงินสดในธุรกิจกลับไม่ได้เพิ่มตาม</span>?
             </h1>
-            <p className={`mt-5 max-w-xl text-lead text-fg-2 ${hasHero ? "mx-auto md:mx-0" : "mx-auto"}`}>
-              {d.hero.description}
-            </p>
+            <p className="mx-auto mt-5 max-w-2xl text-lead text-fg-2">{d.hero.description}</p>
 
             {/* meta chips */}
-            <div className={`mt-7 flex flex-wrap gap-2 ${hasHero ? "justify-center md:justify-start" : "justify-center"}`}>
+            <div className="mt-7 flex flex-wrap justify-center gap-2">
               {srHeroChips.map((chip) => (
                 <span
                   key={chip}
@@ -72,7 +107,7 @@ export default function ScaleReadyPage() {
             </div>
 
             {/* price teaser */}
-            <div className={`mt-7 flex flex-wrap items-baseline gap-x-3 gap-y-1 ${hasHero ? "justify-center md:justify-start" : "justify-center"}`}>
+            <div className="mt-7 flex flex-wrap items-baseline justify-center gap-x-3 gap-y-1">
               <span className="font-mono text-xs uppercase tracking-wider text-accent">
                 {d.pricing[0]?.label}
               </span>
@@ -84,7 +119,7 @@ export default function ScaleReadyPage() {
               )}
             </div>
 
-            <div className={`mt-8 flex ${hasHero ? "justify-center md:justify-start" : "justify-center"}`}>
+            <div className="mt-8 flex justify-center">
               <a
                 href={LINE_URL}
                 target="_blank"
@@ -102,25 +137,6 @@ export default function ScaleReadyPage() {
               ปรึกษาทีมที่ปรึกษาฟรีก่อนตัดสินใจ
             </p>
           </div>
-
-          {/* ผู้สอน (คัตเอาต์ พื้นหลังโปร่ง) — แสดงเมื่อมีไฟล์ hero เท่านั้น กันรูปแตกก่อนไฟล์มา */}
-          {hasHero && (
-            <div className="relative order-1 mx-auto w-full max-w-sm md:order-2 md:max-w-none">
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-x-6 bottom-6 top-10 rounded-card bg-accent/[0.06] blur-2xl"
-              />
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={d.hero.heroImage}
-                alt={d.hero.heroAlt}
-                className="relative z-10 mx-auto block w-full max-w-[420px] object-contain"
-                loading="eager"
-                fetchPriority="high"
-                decoding="async"
-              />
-            </div>
-          )}
         </div>
       </section>
 
@@ -166,21 +182,24 @@ export default function ScaleReadyPage() {
         </div>
       </section>
 
-      {/* ══════════ MAP → GAP → MOVE ══════════ */}
+      {/* ══════════ MAP → GAP → MOVE (หัวข้อเต็มความกว้าง · bridge+ภาพ คอลัมน์ขวา) ══════════ */}
       <section className="mx-auto w-full max-w-[var(--container-marketing)] px-4 py-section sm:px-6 lg:px-8">
-        <header className="max-w-2xl">
+        <header className="max-w-4xl">
           <p className="flex items-center gap-2 font-mono text-xs text-accent">
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
             หลังเรียน คุณจะมองธุรกิจผ่าน 3 ขั้นตอน
           </p>
-          <h2 className="mt-3 text-h2 font-bold [text-wrap:balance]">
-            <span className="text-teal">MAP</span> → <span className="text-teal">GAP</span> →{" "}
-            <span className="text-teal">MOVE</span> — เห็นภาพ · เห็นจุด · เห็นทาง
+          <h2 className="mt-3 text-h2 font-bold">
+            <span className="text-teal">MAP → GAP → MOVE</span>{" "}
+            <span className="text-fg">— เห็นภาพ · เห็นจุด · เห็นทาง</span>
           </h2>
         </header>
 
-        {/* ก่อนเรียน: รู้เพียงว่า… */}
-        <div className="mt-8 rounded-card border border-white/10 bg-surface px-6 py-5">
+        <div className="mt-10 grid gap-8 md:grid-cols-2 md:items-start md:gap-10">
+          {/* คอลัมน์ขวา: กล่อง "ก่อนเรียน" + ภาพขั้นตอน (มือถือขึ้นก่อน) */}
+          <div className="order-1 md:order-2">
+            {/* ก่อนเรียน: รู้เพียงว่า… */}
+            <div className="rounded-card border border-white/10 bg-surface px-6 py-5">
           <p className="font-mono text-xs uppercase tracking-wider text-fg-muted">ก่อนเรียน คุณอาจรู้เพียงว่า…</p>
           <div className="mt-3 flex flex-wrap gap-2">
             {srBeforeKnow.map((b) => (
@@ -193,9 +212,22 @@ export default function ScaleReadyPage() {
             ข้อมูลเหล่านี้บอกว่า “ธุรกิจกำลังเป็นอย่างไร” แต่ยังไม่ชัดพอที่จะตัดสินใจว่า{" "}
             <span className="text-fg">ควรกลับไปจัดการเรื่องใดก่อน</span>
           </p>
-        </div>
+            </div>
+            {/* ภาพขั้นตอน MAP → GAP → MOVE */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={srSectionImages.steps.src}
+              alt={srSectionImages.steps.alt}
+              width={1254}
+              height={1254}
+              loading="lazy"
+              decoding="async"
+              className="mt-6 h-auto w-full rounded-[var(--radius-card)] border border-white/10 object-contain"
+            />
+          </div>
 
-        <ol className="mt-8 space-y-4">
+          {/* คอลัมน์ซ้าย: การ์ด 3 ขั้นตอน */}
+          <ol className="order-2 space-y-4 md:order-1">
           {srSteps.map((step, i) => (
             <li
               key={step.code}
@@ -236,23 +268,29 @@ export default function ScaleReadyPage() {
               {step.body && <p className="mt-4 text-sm leading-relaxed text-fg-2">{step.body}</p>}
             </li>
           ))}
-        </ol>
+          </ol>
+        </div>
       </section>
 
-      {/* ══════════ สิ่งที่คุณจะได้เรียน (7 ✓) ══════════ */}
+      {/* ══════════ สิ่งที่คุณจะได้เรียน (7 ✓) (ภาพซ้าย) ══════════ */}
       <section className="border-y border-white/10 bg-bg-subtle">
         <div className="mx-auto w-full max-w-[var(--container-marketing)] px-4 py-section sm:px-6 lg:px-8">
-          <header className="max-w-2xl">
-            <h2 className="text-h2 font-bold [text-wrap:balance]">สิ่งที่คุณจะได้รับจากคลาสนี้</h2>
-          </header>
-          <ul className="mt-10 grid gap-x-10 gap-y-5 sm:grid-cols-2">
-            {srLearnItems.map((item) => (
-              <li key={item} className="flex gap-3 border-t border-white/10 pt-4">
-                <span className="mt-0.5 shrink-0 font-bold text-teal">✓</span>
-                <p className="leading-relaxed text-fg">{item}</p>
-              </li>
-            ))}
-          </ul>
+          <div className="grid items-center gap-8 md:grid-cols-2 md:gap-10">
+            <PairImage src={srSectionImages.learn.src} alt={srSectionImages.learn.alt} side="left" />
+            <div className="order-2">
+              <header className="max-w-2xl">
+                <h2 className="text-h2 font-bold [text-wrap:balance]">สิ่งที่คุณจะได้รับจากคลาสนี้</h2>
+              </header>
+              <ul className="mt-10 grid gap-x-10 gap-y-5">
+                {srLearnItems.map((item) => (
+                  <li key={item} className="flex gap-3 border-t border-white/10 pt-4">
+                    <span className="mt-0.5 shrink-0 font-bold text-teal">✓</span>
+                    <p className="leading-relaxed text-fg">{item}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -274,13 +312,16 @@ export default function ScaleReadyPage() {
         </div>
       </section>
 
-      {/* ══════════ เหมาะ / ไม่เหมาะ กับใคร ══════════ */}
+      {/* ══════════ เหมาะ / ไม่เหมาะ กับใคร (ภาพขวา) ══════════ */}
       <section className="border-y border-white/10 bg-bg-subtle">
         <div className="mx-auto w-full max-w-[var(--container-marketing)] px-4 py-section sm:px-6 lg:px-8">
+          <div className="grid items-center gap-8 md:grid-cols-2 md:gap-10">
+            <PairImage src={srSectionImages.audience.src} alt={srSectionImages.audience.alt} side="right" />
+            <div className="order-2 md:order-1">
           <header className="max-w-2xl">
             <h2 className="text-h2 font-bold [text-wrap:balance]">{who.heading}</h2>
           </header>
-          <div className="mt-10 grid gap-6 md:grid-cols-2">
+          <div className="mt-10 grid gap-6">
             {/* เหมาะ */}
             <div className="rounded-card border border-teal/25 bg-bg p-6 md:p-7">
               <p className="flex items-center gap-2 font-mono text-xs text-teal">
@@ -312,49 +353,56 @@ export default function ScaleReadyPage() {
               </ul>
             </div>
           </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* ══════════ PRICING ══════════ */}
+      {/* ══════════ PRICING (ภาพซ้าย) ══════════ */}
       <section className="border-y border-white/10 bg-bg-subtle">
-        <div className="mx-auto w-full max-w-3xl px-4 py-section text-center sm:px-6 lg:px-8">
-          <h2 className="text-h2 font-bold [text-wrap:balance]">
-            เห็นภาพการเงินให้ชัด <span className="text-accent">เตรียมธุรกิจให้พร้อมโต</span>
-          </h2>
-          <p className="mt-3 text-fg-2">{d.pricingTag}</p>
+        <div className="mx-auto w-full max-w-[var(--container-marketing)] px-4 py-section sm:px-6 lg:px-8">
+          <div className="grid items-center gap-8 md:grid-cols-2 md:gap-10">
+            <PairImage src={srSectionImages.pricing.src} alt={srSectionImages.pricing.alt} side="left" />
+            <div className="order-2">
+              <h2 className="text-h2 font-bold [text-wrap:balance]">
+                เห็นภาพการเงินให้ชัด <span className="text-accent">เตรียมธุรกิจให้พร้อมโต</span>
+              </h2>
+              <p className="mt-3 text-fg-2">{d.pricingTag}</p>
 
-          <div className="mt-8 rounded-card border border-accent/30 bg-bg p-7 text-left shadow-glow md:p-9">
-            <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-              <span className="font-mono text-xs uppercase tracking-wider text-accent">
-                {d.pricing[0]?.label}
-              </span>
-              <span className="text-4xl font-bold tabular-nums text-fg">{d.pricing[0]?.price}</span>
-              {d.pricing[0]?.originalPrice && (
-                <span className="text-lg text-fg-muted line-through tabular-nums">
-                  {d.pricing[0].originalPrice}
-                </span>
-              )}
-            </div>
-
-            <ul className="mt-6 space-y-2.5 border-t border-white/10 pt-6">
-              {srSchedule.map((s) => (
-                <li key={s.label} className="flex items-start gap-3 text-sm">
-                  <span className="mt-1 text-teal">＋</span>
-                  <span className="text-fg-2">
-                    <span className="font-medium text-fg">{s.label}:</span> {s.value}
+              <div className="mt-8 rounded-card border border-accent/30 bg-bg p-7 text-left shadow-glow md:p-9">
+                <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                  <span className="font-mono text-xs uppercase tracking-wider text-accent">
+                    {d.pricing[0]?.label}
                   </span>
-                </li>
-              ))}
-            </ul>
+                  <span className="text-4xl font-bold tabular-nums text-fg">{d.pricing[0]?.price}</span>
+                  {d.pricing[0]?.originalPrice && (
+                    <span className="text-lg text-fg-muted line-through tabular-nums">
+                      {d.pricing[0].originalPrice}
+                    </span>
+                  )}
+                </div>
 
-            <a
-              href={LINE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mkt-focus mt-7 flex w-full items-center justify-center rounded-pill bg-accent px-8 py-4 text-base font-bold text-on-accent transition-transform hover:-translate-y-0.5 hover:bg-accent-hover"
-            >
-              {CTA_LABEL}
-            </a>
+                <ul className="mt-6 space-y-2.5 border-t border-white/10 pt-6">
+                  {srSchedule.map((s) => (
+                    <li key={s.label} className="flex items-start gap-3 text-sm">
+                      <span className="mt-1 text-teal">＋</span>
+                      <span className="text-fg-2">
+                        <span className="font-medium text-fg">{s.label}:</span> {s.value}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+
+                <a
+                  href={LINE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mkt-focus mt-7 flex w-full items-center justify-center rounded-pill bg-accent px-8 py-4 text-base font-bold text-on-accent transition-transform hover:-translate-y-0.5 hover:bg-accent-hover"
+                >
+                  {CTA_LABEL}
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>

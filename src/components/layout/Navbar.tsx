@@ -14,6 +14,7 @@ const courseGroups = [
       { label: "Bank Uncensored", href: "/bank-uncensored" },
       { label: "Business Health Check", href: "/business-health-check" },
       { label: "Owner Finance Check", href: "/owner-finance-check" },
+      { label: "Scale Ready", href: "/scale-ready" },
     ],
   },
   {

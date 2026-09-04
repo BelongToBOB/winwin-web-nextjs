@@ -272,25 +272,20 @@ export default function ScaleReadyPage() {
         </div>
       </section>
 
-      {/* ══════════ สิ่งที่คุณจะได้เรียน (7 ✓) (ภาพซ้าย) ══════════ */}
+      {/* ══════════ สิ่งที่คุณจะได้เรียน (7 ✓) ══════════ */}
       <section className="border-y border-white/10 bg-bg-subtle">
         <div className="mx-auto w-full max-w-[var(--container-marketing)] px-4 py-section sm:px-6 lg:px-8">
-          <div className="grid items-center gap-8 md:grid-cols-2 md:gap-10">
-            <PairImage src={srSectionImages.learn.src} alt={srSectionImages.learn.alt} side="left" />
-            <div className="order-2">
-              <header className="max-w-2xl">
-                <h2 className="text-h2 font-bold [text-wrap:balance]">สิ่งที่คุณจะได้รับจากคลาสนี้</h2>
-              </header>
-              <ul className="mt-10 grid gap-x-10 gap-y-5">
-                {srLearnItems.map((item) => (
-                  <li key={item} className="flex gap-3 border-t border-white/10 pt-4">
-                    <span className="mt-0.5 shrink-0 font-bold text-teal">✓</span>
-                    <p className="leading-relaxed text-fg">{item}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
+          <header className="max-w-2xl">
+            <h2 className="text-h2 font-bold [text-wrap:balance]">สิ่งที่คุณจะได้รับจากคลาสนี้</h2>
+          </header>
+          <ul className="mt-10 grid gap-x-10 gap-y-5 sm:grid-cols-2">
+            {srLearnItems.map((item) => (
+              <li key={item} className="flex gap-3 border-t border-white/10 pt-4">
+                <span className="mt-0.5 shrink-0 font-bold text-teal">✓</span>
+                <p className="leading-relaxed text-fg">{item}</p>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 

@@ -35,8 +35,6 @@ export default function ContactCTA() {
           </a>
           <a
             href="https://www.facebook.com/consultantwinwin?locale=th_TH"
-            target="_blank"
-            rel="noopener noreferrer"
             className="group relative inline-flex items-center justify-center gap-4 px-8 py-5 md:px-12 text-xl md:text-2xl font-bold rounded-full bg-[#1877F1] text-white transition-all hover:scale-105 hover:bg-[#0e65d0] hover:shadow-[0_0_30px_-5px_rgba(24,119,242,0.5)] shadow-xl w-full sm:w-auto"
           >
             <span className="hidden sm:inline">Scale Up With Win</span>
@@ -45,20 +43,16 @@ export default function ContactCTA() {
           </a>
           <a
             href="https://www.instagram.com/winwin_consult/"
-            target="_blank"
-            rel="noopener noreferrer"
             className="group relative inline-flex items-center justify-center gap-4 px-8 py-5 md:px-12 text-xl md:text-2xl font-bold rounded-full bg-gradient-to-br from-[#F58529] via-[#DD2A7B] to-[#8134AF] text-white transition-all hover:scale-105 hover:brightness-110 hover:shadow-[0_0_30px_-5px_rgba(221,42,123,0.5)] shadow-xl w-full sm:w-auto"
           >
-            <span>winwin_consult</span>
+            <span>SCALEUPWITHWIN</span>
             <img src="/images/instagram.webp" alt="Instagram Logo" className="w-8 h-8 transition-transform group-hover:rotate-12 object-contain" />
           </a>
           <a
             href="https://www.tiktok.com/@winwin_business"
-            target="_blank"
-            rel="noopener noreferrer"
             className="group relative inline-flex items-center justify-center gap-4 px-8 py-5 md:px-12 text-xl md:text-2xl font-bold rounded-full bg-[#010101] text-white transition-all hover:scale-105 hover:bg-[#1a1a1a] hover:shadow-[0_0_30px_-5px_rgba(105,201,208,0.5)] shadow-sm shadow-white w-full sm:w-auto"
           >
-            <span>สร้างธุรกิจแบบวินวิน</span>
+            <span>SCALEUPWITHWIN</span>
             <img src="/images/tiktok.webp" alt="TikTok Logo" className="w-8 h-8 transition-transform group-hover:rotate-12 object-contain" />
           </a>
         </div>

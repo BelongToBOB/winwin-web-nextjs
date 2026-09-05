@@ -28,6 +28,8 @@ export interface JourneyStep {
     title: string;
     subtitle?: string;
     image?: string;
+    /** true = crop รูปจากด้านบน (object-top) แทน center — ใช้กับรูปสี่เหลี่ยมที่หัวข้อ/หัวอยู่ด้านบน */
+    imageTop?: boolean;
     /** ถ้าไม่ใส่ = การ์ดโชว์เฉย ๆ (ไม่มีปุ่ม/ไม่เป็นลิงก์) สำหรับคอร์สที่ยังไม่มี sale page */
     href?: string;
     ctaText?: string;
@@ -73,7 +75,7 @@ function renderSubCard(sc: JourneySubCard, si: number) {
             alt={sc.title}
             loading="lazy"
             decoding="async"
-            className="absolute inset-0 h-full w-full object-cover"
+            className={`absolute inset-0 h-full w-full object-cover${sc.imageTop ? " object-top" : ""}`}
           />
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-surface-3 to-surface" aria-hidden="true" />

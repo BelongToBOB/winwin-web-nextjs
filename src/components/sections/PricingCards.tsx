@@ -12,6 +12,8 @@ export interface PricingPackage {
   title: string;
   description?: string;
   image?: string;
+  /** true = crop รูปจากด้านบน (object-top) แทน center — ใช้กับรูปสี่เหลี่ยมที่หัวข้อ/หัวอยู่ด้านบน */
+  imageTop?: boolean;
   features: string[];
   /** บรรทัดประหยัด เช่น "ประหยัด ฿8,000 · 50% off" */
   savings?: string;
@@ -70,7 +72,7 @@ export default function PricingCards({ eyebrow, heading, highlight, subtitle, pa
                     alt={pkg.title}
                     loading="lazy"
                     decoding="async"
-                    className="aspect-video w-full rounded-t-card object-cover"
+                    className={`aspect-video w-full rounded-t-card object-cover${pkg.imageTop ? " object-top" : ""}`}
                   />
                 )}
 

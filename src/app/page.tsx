@@ -25,6 +25,7 @@ export default function HomePage() {
       eyebrow: "ขั้นที่ 1 · ออนไลน์",
       title: "คลาสออนไลน์",
       lead: "เริ่มปูพื้นความเข้าใจการเงินธุรกิจและมุมมองแบงก์ — เรียนออนไลน์ได้ทุกที่ทุกเวลา",
+      carousel: true,
       subCards: [
         {
           title: "Bank Uncensored",
@@ -41,6 +42,12 @@ export default function HomePage() {
           title: "Owner Finance Check",
           subtitle: "อ่านงบก่อนเซ็น — รู้ตัวเลขที่ควรดู",
           image: "/images/owner-finance-check.webp",
+        },
+        {
+          title: "Scale Ready Manufacturing",
+          subtitle: "เห็นภาพการเงินให้ชัด เตรียมธุรกิจให้พร้อมโต",
+          image: "/images/scale-ready.webp",
+          href: "/scale-ready",
         },
       ],
     },
@@ -146,6 +153,7 @@ export default function HomePage() {
         "มีเครื่องมือ + Checklist ใช้เองได้",
       ],
       price: "฿7,900",
+      detailUrl: "/business-health-check",
     },
     {
       group: "เรียนออนไลน์",
@@ -162,6 +170,24 @@ export default function HomePage() {
       savings: "ประหยัด ฿4,000 · 68% off",
       price: "฿1,900",
       originalPrice: "฿5,900",
+      detailUrl: "/owner-finance-check",
+    },
+    {
+      group: "เรียนออนไลน์",
+      eyebrow: "ออนไลน์ · ZOOM",
+      title: "Scale Ready Manufacturing",
+      description: "เห็นภาพการเงินให้ชัด เตรียมธุรกิจให้พร้อมโต",
+      image: "/images/scale-ready.webp",
+      features: [
+        "เห็นเส้นทางเงินทั้งโรงงาน (เข้า–ออก–ค้าง)",
+        "รู้สินค้าตัวไหนขายดีแต่กินเงินสด",
+        "รู้ต้องใช้เงินเพิ่มเท่าไรก่อนเพิ่มยอดขาย",
+        "MAP → GAP → MOVE ใช้จริงกับธุรกิจตัวเอง",
+      ],
+      savings: "ประหยัด ฿5,000 · 63% off",
+      price: "฿2,900",
+      originalPrice: "฿7,900",
+      detailUrl: "/scale-ready",
     },
     {
       group: "เรียนสด (Onsite)",

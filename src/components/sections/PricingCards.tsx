@@ -2,6 +2,7 @@ import CTAButton from "@/components/ui/CTAButton";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
 import { Stagger, StaggerItem } from "@/components/ui/Stagger";
+import CardCarousel from "@/components/ui/CardCarousel";
 
 export interface PricingPackage {
   /** ป้ายบนการ์ด เช่น MOST POPULAR / ทุกอย่างครบ */
@@ -46,10 +47,10 @@ const ringTone = {
 };
 
 export default function PricingCards({ eyebrow, heading, highlight, subtitle, packages, lineUrl }: Props) {
-  const renderCard = (pkg: PricingPackage, i: number) => {
+  // เนื้อการ์ด (ไม่มี Stagger wrapper) — ใช้ร่วมทั้ง grid และ carousel
+  const renderCardBody = (pkg: PricingPackage) => {
     const tone = pkg.highlightTone ?? "accent";
     return (
-      <StaggerItem key={i} className="h-full">
               <article
                 className={`surface-card relative flex h-full flex-col rounded-card transition-transform duration-200 ease-out hover:-translate-y-1 ${
                   pkg.highlighted ? `border ${ringTone[tone]}` : ""
@@ -121,9 +122,14 @@ export default function PricingCards({ eyebrow, heading, highlight, subtitle, pa
                 </div>
                 </div>
               </article>
-      </StaggerItem>
     );
   };
+
+  const renderCard = (pkg: PricingPackage, i: number) => (
+    <StaggerItem key={i} className="h-full">
+      {renderCardBody(pkg)}
+    </StaggerItem>
+  );
 
   // จัดกลุ่มตาม field group (เรียงตามลำดับที่พบครั้งแรก)
   const groups: { label: string; items: { pkg: PricingPackage; index: number }[] }[] = [];
@@ -167,9 +173,19 @@ export default function PricingCards({ eyebrow, heading, highlight, subtitle, pa
                     <span className="h-px flex-1 bg-white/10" aria-hidden="true" />
                   </div>
                 </Reveal>
-                <Stagger className={gridClass}>
-                  {g.items.map(({ pkg, index }) => renderCard(pkg, index))}
-                </Stagger>
+                {g.items.length > 3 ? (
+                  <CardCarousel
+                    gapClass="gap-6"
+                    basisClass="basis-full md:basis-[calc((100%-1.5rem)/2)] xl:basis-[calc((100%-3rem)/3)]"
+                    ariaLabel={g.label}
+                  >
+                    {g.items.map(({ pkg }) => renderCardBody(pkg))}
+                  </CardCarousel>
+                ) : (
+                  <Stagger className={gridClass}>
+                    {g.items.map(({ pkg, index }) => renderCard(pkg, index))}
+                  </Stagger>
+                )}
               </div>
             ))}
           </div>

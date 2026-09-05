@@ -4,6 +4,7 @@ import Badge from "@/components/ui/Badge";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
 import { Stagger, StaggerItem } from "@/components/ui/Stagger";
+import CardCarousel from "@/components/ui/CardCarousel";
 
 export interface JourneyStep {
   /** ป้ายขั้น เช่น "ขั้นที่ 1 · ออนไลน์" */
@@ -20,6 +21,8 @@ export interface JourneyStep {
   badge?: string;
   href?: string;
   ctaText?: string;
+  /** true = แสดง subCards เป็น carousel (เลื่อนได้) แทน grid — ใช้เมื่อการ์ดเกินจำนวนต่อแถว */
+  carousel?: boolean;
   /** ถ้ามี = render เป็นการ์ดย่อยหลายคอร์สแทน layout รูปข้าง (เช่น Onsite รวม 2 คอร์ส) */
   subCards?: {
     title: string;
@@ -53,6 +56,64 @@ function renderTitle(title: string, highlight: Props["highlight"]) {
     ) : (
       part
     )
+  );
+}
+
+type JourneySubCard = NonNullable<JourneyStep["subCards"]>[number];
+
+// การ์ดย่อยหนึ่งใบ (รูป + หัวข้อ + subtitle + ปุ่ม) — ใช้ร่วมทั้ง grid และ carousel
+function renderSubCard(sc: JourneySubCard, si: number) {
+  const inner = (
+    <>
+      <div className="relative aspect-video w-full bg-bg-subtle">
+        {sc.image ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={sc.image}
+            alt={sc.title}
+            loading="lazy"
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        ) : (
+          <div className="absolute inset-0 bg-gradient-to-br from-surface-3 to-surface" aria-hidden="true" />
+        )}
+      </div>
+      <div className="flex flex-1 flex-col justify-center gap-1 p-4">
+        <h4 className="font-bold text-fg">{sc.title}</h4>
+        {sc.subtitle && <p className="text-sm text-fg-2">{sc.subtitle}</p>}
+        {sc.href && (
+          <span className="mt-3 inline-flex items-center gap-1.5 self-start rounded-pill border border-accent/40 px-4 py-2 text-sm font-semibold text-accent transition-colors group-hover/sc:border-accent group-hover/sc:bg-accent group-hover/sc:text-on-accent">
+            {sc.ctaText ?? "ดูรายละเอียด"}
+            <svg
+              className="h-4 w-4 transition-transform group-hover/sc:translate-x-1"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </span>
+        )}
+      </div>
+    </>
+  );
+  const cardClass =
+    "group/sc flex h-full flex-col overflow-hidden rounded-card border border-white/10 bg-surface-2";
+  return sc.href ? (
+    <a
+      key={si}
+      href={sc.href}
+      className={`mkt-focus ${cardClass} transition-all duration-200 ease-out hover:-translate-y-1 hover:border-accent/40`}
+    >
+      {inner}
+    </a>
+  ) : (
+    <div key={si} className={cardClass}>
+      {inner}
+    </div>
   );
 }
 
@@ -99,66 +160,24 @@ export default function JourneyTimeline({ eyebrow, heading, highlight, subtitle,
                         <p className="border-l-2 border-accent pl-4 text-fg-2">{step.lead}</p>
                       )}
                     </div>
-                    <div
-                      className={`mt-6 grid gap-4 sm:grid-cols-2 ${
-                        step.subCards.length >= 3 ? "lg:grid-cols-3" : ""
-                      }`}
-                    >
-                      {step.subCards.map((sc, si) => {
-                        const inner = (
-                          <>
-                            <div className="relative aspect-video w-full bg-bg-subtle">
-                              {sc.image ? (
-                                // eslint-disable-next-line @next/next/no-img-element
-                                <img
-                                  src={sc.image}
-                                  alt={sc.title}
-                                  loading="lazy"
-                                  decoding="async"
-                                  className="absolute inset-0 h-full w-full object-cover"
-                                />
-                              ) : (
-                                <div className="absolute inset-0 bg-gradient-to-br from-surface-3 to-surface" aria-hidden="true" />
-                              )}
-                            </div>
-                            <div className="flex flex-1 flex-col justify-center gap-1 p-4">
-                              <h4 className="font-bold text-fg">{sc.title}</h4>
-                              {sc.subtitle && <p className="text-sm text-fg-2">{sc.subtitle}</p>}
-                              {sc.href && (
-                                <span className="mt-3 inline-flex items-center gap-1.5 self-start rounded-pill border border-accent/40 px-4 py-2 text-sm font-semibold text-accent transition-colors group-hover/sc:border-accent group-hover/sc:bg-accent group-hover/sc:text-on-accent">
-                                  {sc.ctaText ?? "ดูรายละเอียด"}
-                                  <svg
-                                    className="h-4 w-4 transition-transform group-hover/sc:translate-x-1"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                    viewBox="0 0 24 24"
-                                    aria-hidden="true"
-                                  >
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M13 6l6 6-6 6" />
-                                  </svg>
-                                </span>
-                              )}
-                            </div>
-                          </>
-                        );
-                        const cardClass =
-                          "group/sc flex flex-col overflow-hidden rounded-card border border-white/10 bg-surface-2";
-                        return sc.href ? (
-                          <a
-                            key={si}
-                            href={sc.href}
-                            className={`mkt-focus ${cardClass} transition-all duration-200 ease-out hover:-translate-y-1 hover:border-accent/40`}
-                          >
-                            {inner}
-                          </a>
-                        ) : (
-                          <div key={si} className={cardClass}>
-                            {inner}
-                          </div>
-                        );
-                      })}
-                    </div>
+                    {step.carousel ? (
+                      <CardCarousel
+                        className="mt-6"
+                        gapClass="gap-4"
+                        basisClass="basis-full sm:basis-[calc((100%-1rem)/2)] lg:basis-[calc((100%-2rem)/3)]"
+                        ariaLabel={step.title}
+                      >
+                        {step.subCards.map((sc, si) => renderSubCard(sc, si))}
+                      </CardCarousel>
+                    ) : (
+                      <div
+                        className={`mt-6 grid gap-4 sm:grid-cols-2 ${
+                          step.subCards.length >= 3 ? "lg:grid-cols-3" : ""
+                        }`}
+                      >
+                        {step.subCards.map((sc, si) => renderSubCard(sc, si))}
+                      </div>
+                    )}
                   </article>
                 ) : (
                 /* Side card: รูป | เนื้อหา */

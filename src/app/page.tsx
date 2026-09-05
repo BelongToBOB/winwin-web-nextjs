@@ -47,6 +47,7 @@ export default function HomePage() {
           title: "Scale Ready Manufacturing",
           subtitle: "เห็นภาพการเงินให้ชัด เตรียมธุรกิจให้พร้อมโต",
           image: "/images/scale-ready.webp",
+          imageTop: true,
           href: "/scale-ready",
         },
       ],
@@ -178,6 +179,7 @@ export default function HomePage() {
       title: "Scale Ready Manufacturing",
       description: "เห็นภาพการเงินให้ชัด เตรียมธุรกิจให้พร้อมโต",
       image: "/images/scale-ready.webp",
+      imageTop: true,
       features: [
         "เห็นเส้นทางเงินทั้งโรงงาน (เข้า–ออก–ค้าง)",
         "รู้สินค้าตัวไหนขายดีแต่กินเงินสด",
